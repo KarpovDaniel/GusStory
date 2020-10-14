@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<form action="" method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    <p>
+        {{ form.title.label }} <br>
+        {{ form.title(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.price.label }} <br>
+        {{ form.price(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.main_characteristics.label }} <br>
+        {{ form.main_characteristics(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.content.label }} <br>
+        {{ form.content(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.display.label }} <br>
+        {{ form.display(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.processor.label }} <br>
+        {{ form.processor(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.videoadapter.label }} <br>
+        {{ form.videoadapter(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.ram.label }} <br>
+        {{ form.ram(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.battery.label }} <br>
+        {{ form.battery(class="form-control") }} <br>
+    </p>
+    <p>
+        {{ form.count.label }} <br>
+        {{ form.count(class="form-control") }} <br>
+    </p>
+    <div class="form-group">
+        <input type="file" class="form-control-file" id="photo" name="file">
+    </div>
+    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    {{ message }}
+</form>
+{% endblock %}
