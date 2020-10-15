@@ -23,19 +23,14 @@
         <ul class="navbar-nav mr-auto"> </ul>
         <ul class="navbar-nav">
             <li class="nav-item mr-2">
-                <form action="/index" method="get">
+                <form action="/" method="get">
                     <input name="s" placeholder="Искать здесь..." type="search"
                            style="width:400px; height: 40px; border: 5px solid #ffffff;
                     border-radius:30px; padding: 6px;">
                     <button class="btn btn-light" type="submit">Поиск </button>
                 </form>
             </li>
-            {% if current_user.is_authenticated %}
-            <li class="nav-item">
-                <a style="color: #ffffff;" class="navbar-brand nav-link mt-1"
-                   href="/basket"> Корзина </a>
-            </li>
-            {% else %}
+            {% if not current_user.is_authenticated %}
             <li class="nav-item">
                 <a class="btn btn-success mt-1 mr-1" href="/register"> Зарегистрироваться </a>
             </li>

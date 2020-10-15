@@ -42,19 +42,12 @@ class ItemsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     main_characteristics = TextAreaField('Главные характеристики')
     content = TextAreaField('Описание товара')
-    price = StringField('Цена')
-    display = TextAreaField('Экран')
-    processor = TextAreaField('Процессор')
-    videoadapter = TextAreaField('Видеокарта')
-    ram = TextAreaField('ОЗУ')
-    battery = TextAreaField('Батарея и автономность')
     count = IntegerField('Количество')
     submit = SubmitField('Применить')
 
 
 class EditForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    price = StringField('Цена')
     count = IntegerField('Количество')
     submit = SubmitField('Применить')
 
@@ -77,8 +70,7 @@ class DigitError(Exception):
 
 @app.route('/logout')
 def logout():
-    logout_user()
-    return redirect('/')
+    return render_template("profile.html", item='item')
 
 
 def reformat(s):
@@ -158,13 +150,7 @@ def add_items():
         item.title = form.title.data
         item.content = form.content.data
         item.count = form.count.data
-        item.display = reformat(form.display.data.split('\n'))
-        item.processor = reformat(form.processor.data.split('\n'))
-        item.ram = reformat(form.ram.data.split('\n'))
-        item.videoadapter = reformat(form.videoadapter.data.split('\n'))
-        item.battery = reformat(form.battery.data.split('\n'))
         item.main_characteristics = form.main_characteristics.data
-        item.price = form.price.data
         f = request.files['file']
         if f:
             f.save('static/images/image' + str(count_items) + '.png')
@@ -198,13 +184,11 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
-        form.price.data = item.price
         form.count.data = item.count
     if form.validate_on_submit():
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
-        item.price = form.price.data
         item.count = form.count.data
         sessions.commit()
         return redirect('/')
@@ -225,7 +209,6 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/<type_item>')
 @app.route('/')
 def index():
     sessions = db_session.create_session()
