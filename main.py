@@ -24,14 +24,14 @@ def load_user(user_id):
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Почта", validators=[DataRequired()])
+    email = StringField("Логин", validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('Почта', validators=[DataRequired()])
+    email = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
@@ -68,9 +68,15 @@ class DigitError(Exception):
     error = 'В пароле должна быть хотя бы одна цифра!'
 
 
+@app.route('/profile')
+def profile():
+    return render_template("profile.html")
+
+
 @app.route('/logout')
 def logout():
-    return render_template("profile.html", item='item')
+    logout_user()
+    return redirect('/')
 
 
 def reformat(s):
@@ -213,10 +219,7 @@ def login():
 def index():
     sessions = db_session.create_session()
     item = sessions.query(items.Items)
-    search = request.args.get('s', default="", type=str).lower()
-    if search:
-        return render_template("index.html", items=item, search=search)
-    return render_template("index.html", items=item, search="")
+    return render_template("index.html", items=item)
 
 
 @app.route('/about_item/<int:id>', methods=['GET', 'POST'])
