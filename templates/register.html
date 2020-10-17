@@ -7,6 +7,14 @@
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
         <p>
+            {{ form.name.label }}<br>
+            {{ form.name(class="form-control") }}<br>
+        </p>
+        <p>
+            {{ form.surname.label }}<br>
+            {{ form.surname(class="form-control") }}<br>
+        </p>
+        <p>
             {{ form.login.label }}<br>
             {{ form.login(class="form-control", type="login") }}<br>
             {% for error in form.login.errors %}
@@ -33,18 +41,6 @@
         <p class="alert alert-danger" role="alert">{{ again_password_error }}</p>
         {% endif %}
         </p>
-
-
-        <p>
-            {{ form.name.label }}<br>
-            {{ form.name(class="form-control") }}<br>
-            {% for error in form.name.errors %}
-        <p class="alert alert-danger" role="alert">
-            {{ error }}
-        </p>
-        {% endfor %}
-        </p>
-
         <p>{{ form.submit(type="submit", class="btn btn-outline-dark") }}</p>
     </form>
 </main>

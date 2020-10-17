@@ -28,10 +28,11 @@ class LoginForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
+    name = StringField('Имя', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
-    name = StringField('Имя пользователя', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -50,11 +51,15 @@ class EditForm(FlaskForm):
 
 
 class LengthError(Exception):
-    error = 'Пароль должен содержать от 8 до 15 символов!'
+    error = 'Пароль должен состоять не менее чем из 8 символов!'
+
+
+class SymbolError(Exception):
+    error = 'В пароле должен быть хотя бы один символ!'
 
 
 class LetterError(Exception):
-    error = 'В пароле должна быть хотя бы одна буква!'
+    error = 'В пароле должна быть хотя бы одна большая и маленькая буква!'
 
 
 class DigitError(Exception):
@@ -96,8 +101,9 @@ def register():
                                    password_error="OK", again_password_error="OK",
                                    email_error="Такой пользователь уже есть")
         user = users.User()
-        user.name = form.name.data
         user.login = form.login.data
+        user.name = form.name.data
+        user.surname = form.surname.data
         user.set_password(form.password.data)
         sessions.add(user)
         sessions.commit()
