@@ -51,7 +51,7 @@ class EditForm(FlaskForm):
 
 
 class LengthError(Exception):
-    error = 'Пароль должен состоять не менее чем из 8 символов!'
+    error = 'Пароль должен от 8 до 15 символов!'
 
 
 class SymbolError(Exception):
@@ -59,7 +59,7 @@ class SymbolError(Exception):
 
 
 class LetterError(Exception):
-    error = 'В пароле должна быть хотя бы одна большая и маленькая буква!'
+    error = 'В пароле должна быть хотя бы одна буква!'
 
 
 class DigitError(Exception):

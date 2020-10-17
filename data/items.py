@@ -14,6 +14,5 @@ class Items(SqlAlchemyBase, SerializerMixin, UserMixin):
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     main_characteristics = sqlalchemy.Column(sqlalchemy.TEXT, nullable=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     photo = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')

@@ -2,40 +2,35 @@
 {% block content %}
 {% set vars = {'flag': True} %}
 {% if current_user.is_authenticated %}
-    <h2> Товары в нашем магазине: </h2>
+<h2> Товары в нашем магазине: </h2>
 {% else %}
-     <h2 class="mt-5"> Товары в нашем магазине: </h2>
+<h2 class="mt-5"> Товары в нашем магазине: </h2>
 {% endif %}
 {% for item in items %}
-<div>
+<div class="container">
+  <div class="row">
+    {% for item in items %}
     {% if vars.update({'flag': False}) %} {% endif %}
-    <table style="margin-top: 30px;" border="0" width="100%" cellpadding="0" class="outline">
-        <tr>
-            <th><img style="width:220px; height: 150px; margin-top:10px;" src={{item.photo}}></th>
-            <th>
-                <h3 style="margin-left:20px;"><a href="/about_item/{{ item.id }}">
-                    {{ item.title }} </a>
-                </h3>
-                <br>
-                <h6 style="margin-left:20px">{{ item.main_characteristics }}</h6>
-            </th>
-        </tr>
-        <tr>
-            <td>
-                <div>
-                    {% if current_user.id in (1, 2) %}
-                    <a href="/items/{{ item.id }}" class="btn btn-primary"
-                       style="margin-top:15px">Изменить
-                    </a>
-                    <a class="btn btn-primary"
-                       href="/items_delete/{{ item.id }} " style="margin-top:15px">Удалить</a>
-                    {% endif %}
-                </div>
-            </td>
-            <td><p style="margin-left:120px; margin-top:-30px;">Количество товара: {{ item.count }}
-            </p></td>
-        </tr>
-    </table>
+    <div class="col-sm-100">
+      <div class="card mb-4" style="width: 30rem; border-radius: 10px;">
+        <img class="img-fluid" style="border-radius: 10px;" src={{item.photo}}>
+        <div class="card-body">
+          <h5 class="card-title">{{item.title}}</h5>
+          <div class="prokrutka mb-2" style="border-radius: 10px;">
+            <p class="card-text">{{item.content}}</p>
+          </div>
+          <a href="/about_item/{{ item.id }}" class="btn btn-outline-info">Узнать больше</a>
+          <a href="/items/{{ item.id }}" class="btn btn-outline-warning">Изменить</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% if vars.flag %}
+        <h1 align="center">
+        Ничего не найдено!
+        </h1>
+    {% endif %}
+    </div>
 </div>
 {% endfor %}
 {% if vars.flag %}
