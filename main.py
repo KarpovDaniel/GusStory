@@ -50,15 +50,11 @@ class EditForm(FlaskForm):
 
 
 class LengthError(Exception):
-    error = 'Пароль должен состоять не менее чем из 8 символов!'
-
-
-class SymbolError(Exception):
-    error = 'В пароле должен быть хотя бы один символ!'
+    error = 'Пароль должен содержать от 8 до 15 символов!'
 
 
 class LetterError(Exception):
-    error = 'В пароле должна быть хотя бы одна большая и маленькая буква!'
+    error = 'В пароле должна быть хотя бы одна буква!'
 
 
 class DigitError(Exception):
@@ -99,10 +95,9 @@ def register():
             return render_template('register.html', title='Регистрация', form=form,
                                    password_error="OK", again_password_error="OK",
                                    email_error="Такой пользователь уже есть")
-        user = users.User(
-            name=form.name.data,
-            login=form.login.data,
-        )
+        user = users.User()
+        user.name = form.name.data
+        user.login = form.login.data
         user.set_password(form.password.data)
         sessions.add(user)
         sessions.commit()
@@ -111,34 +106,22 @@ def register():
                            password_error="OK", again_password_error="OK")
 
 
-def test_password(password):
-    flagki = [0, 0, 0, 0]
+def check_password(password):
+    flags = [0, 0]
     for element in password:
         if element.isdigit():
-            flagki[0] = 1
+            flags[0] = 1
         elif element.isalpha():
-            if element.isupper():
-                flagki[1] = 1
-            else:
-                flagki[2] = 1
-        else:
-            flagki[3] = 1
-    if flagki[2] * flagki[1] == 0:
-        raise LetterError
-    if flagki[0] == 0:
-        raise DigitError
-    if flagki[3] == 0:
-        raise SymbolError
-    return 'ok'
-
-
-def check_password(password):
+            flags[1] = 1
     try:
-        if len(password) < 8:
+        if flags[1] == 0:
+            raise LetterError
+        if flags[0] == 0:
+            raise DigitError
+        if len(password) < 8 or len(password) > 15:
             raise LengthError
-        test_password(password)
         return 'OK'
-    except (LengthError, SymbolError, LetterError, DigitError) as ex:
+    except (LengthError, LetterError, DigitError) as ex:
         return ex.error
 
 
