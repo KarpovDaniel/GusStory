@@ -1,15 +1,12 @@
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required
-from flask_restful import Api
 from flask_wtf import FlaskForm
-from wtforms import IntegerField
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
 
 from data import db_session, items, users
 
 app = Flask(__name__)
-api = Api(app)
 app.config['SECRET_KEY'] = 'GusStory.ru'
 db_session.global_init("db/blogs.sqlite")
 login_manager = LoginManager()
@@ -24,14 +21,14 @@ def load_user(user_id):
 
 
 class LoginForm(FlaskForm):
-    email = StringField("Логин", validators=[DataRequired()])
+    login = StringField("Логин", validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class RegisterForm(FlaskForm):
-    email = StringField('Логин', validators=[DataRequired()])
+    login = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     name = StringField('Имя пользователя', validators=[DataRequired()])
@@ -98,13 +95,13 @@ def register():
                                    form=form, email_error="OK", password_error="OK",
                                    again_password_error="Пароли не совпадают")
         sessions = db_session.create_session()
-        if sessions.query(users.User).filter(users.User.email == form.email.data).first():
+        if sessions.query(users.User).filter(users.User.login == form.login.data).first():
             return render_template('register.html', title='Регистрация', form=form,
                                    password_error="OK", again_password_error="OK",
                                    email_error="Такой пользователь уже есть")
         user = users.User(
             name=form.name.data,
-            email=form.email.data,
+            login=form.login.data,
         )
         user.set_password(form.password.data)
         sessions.add(user)
@@ -206,8 +203,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
-        user = sessions.query(users.User).filter(users.User.email ==
-                                                 form.email.data).first()
+        user = sessions.query(users.User).filter(users.User.login ==
+                                                 form.login.data).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
