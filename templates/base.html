@@ -3,34 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="/static/images/logo.png">
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
           crossorigin="anonymous">
-    <title> GusShop.AN </title>
+    <title> GusStory </title>
     <style>
-    .prokrutka {
+        .prokrutka {
         height: 150px; /* высота нашего блока */
         width: 27.5rem; /* ширина нашего блока */
         background: #fff; /* цвет фона, белый */
         border: 1px solid #C1C1C1; /* размер и цвет границы блока */
         overflow-y: scroll; /* прокрутка по вертикали */
         }
-    body {
-    display: flex;
-    flex-direction: column;
-    }
-
-
-
-
     </style>
 </head>
 <body>
 <link rel="stylesheet" href="/static/css/style.css">
-<nav class="navbar navbar-expand-lg navbar-light bg-primary sticky-top">
-    <a class="navbar-brand" href="/"> GusShop.AN </a>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="/"><h2>GusStory</h2></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -47,27 +38,20 @@
                 <a class="btn btn-success mt-1 " href="/login"> Войти </a>
             </li>
             {% else %}
-            <h6 align="right">
-                <a style="background-color: #ffffff; border: 5px solid #ffffff;
-                    border-radius:5px; padding: 4px; color: #000000;"
-                   class="navbar-brand nav-link mr-4 mt-2"
-                   href="/profile"><h5 align="center"> {{current_user.name}} {{current_user.surname}} </h5>
-                </a>
-            </h6>
+            <h1 align="right"><a class="navbar-brand nav-link mr-4 mt-2"
+                                 href="/profile"><h2 align="center" style="color: #ffffff">
+                {{current_user.name[0]}}{{current_user.surname[0]}} </h2>
+            </a>
+            </h1>
             {% endif %}
         </ul>
     </div>
 </nav>
-<div class="content">
-{% block content %}
-{% endblock %}
+<div class="content container">
+    {% block content %}
+    {% endblock %}
 </div>
 
-<footer id="sticky-footer" class="footer py-4 bg-primary text-white-50 mt-1">
-    <div class="text-center">
-        <small> Copyright &copy; Gus-shop.AN </small>
-    </div>
-</footer>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

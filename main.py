@@ -38,24 +38,19 @@ class RegisterForm(FlaskForm):
 
 class ItemsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    main_characteristics = TextAreaField('Главные характеристики')
-    content = TextAreaField('Описание товара')
-    count = IntegerField('Количество')
+    main_characteristics = TextAreaField('Краткое описание достопримечательности')
+    content = TextAreaField('Описание достопримечательности')
     submit = SubmitField('Применить')
 
 
 class EditForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    count = IntegerField('Количество')
+    main_characteristics = TextAreaField('Краткое описание достопримечательности')
     submit = SubmitField('Применить')
 
 
 class LengthError(Exception):
     error = 'Пароль должен от 8 до 15 символов!'
-
-
-class SymbolError(Exception):
-    error = 'В пароле должен быть хотя бы один символ!'
 
 
 class LetterError(Exception):
@@ -141,7 +136,6 @@ def add_items():
         item = items.Items()
         item.title = form.title.data
         item.content = form.content.data
-        item.count = form.count.data
         item.main_characteristics = form.main_characteristics.data
         f = request.files['file']
         if f:
@@ -176,12 +170,12 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
-        form.count.data = item.count
+        form.main_characteristics.data = item.main_characteristics
     if form.validate_on_submit():
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
-        item.count = form.count.data
+        item.main_characteristics = form.main_characteristics.data
         sessions.commit()
         return redirect('/')
     return render_template('editor.html', title='Редактирование товара', form=form)
@@ -218,6 +212,7 @@ def about_item(id):
 def main():
     global count_items
     sessions = db_session.create_session()
+    count_items += len(list(sessions.query(items.Items)))
     sessions.close()
     app.run()
 

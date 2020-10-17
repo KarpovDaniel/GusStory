@@ -1,32 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
-{% set vars = {'flag': True} %}
-{% for item in items %}
-{% if vars.update({'flag': False}) %} {% endif %}
-<div class="col-sm-6">
-    <div class="card mb-4" style="width: 100%; border-radius: 10px;">
-        <a href="info_cars/{{ item.id }}">
-            <img class="img-fluid" style="border-radius: 10px;" src={{item.photo}}>
-        </a>
-        <div class="card-body">
-            <h5 class="card-title">{{item.title}}</h5>
-            <div class="prokrutka mb-2" style="border-radius: 10px;">
-                <p class="card-text">{{item.content}}</p>
+<div class="container; mt-4">
+    <div class="row">
+        {% for item in items %}
+        <div class="col-sm-6">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <a href="about_item/{{ item.id }}">
+                    <img class="img-fluid" style="border-radius: 10px;" src={{item.photo}}>
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{item.title}}</h5>
+                    <div class="prokrutka mb-2" style="border-radius: 10px; width: auto">
+                        <p class="card-text">{{item.main_characteristics}}</p>
+                    </div>
+                    <a href="/about_item/{{item.id}}" class="btn btn-outline-info">Узнать
+                        больше</a>
+                    {% if current_user.id == 1 %}
+                    <a href="/items/{{item.id}}" class="btn btn-outline-warning">Изменить</a>
+                    {% endif %}
+                </div>
             </div>
-            <a href="/about_item/{{ item.id }}" class="btn btn-outline-info">Узнать
-                больше</a>
-            {% if current_user.id == 1 %}
-            <a href="/items/{{ item.id }}" class="btn btn-outline-warning">Изменить</a>
-            {% endif %}
         </div>
+        {% endfor %}
     </div>
 </div>
-{% endfor %}
-{% if vars.flag %}
-<h1 align="center">
-    Ничего не найдено!
-</h1>
-{% endif %}
 {% if current_user.id in (1, 2) %}
 <a href="/items" style="margin-top: 10px; background-color: #0a4761;
      border: 1px solid #0a4761;" class="btn btn-primary">Добавить товар</a>
