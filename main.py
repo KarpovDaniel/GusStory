@@ -3,7 +3,6 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
-
 from data import db_session, items, users
 
 app = Flask(__name__)

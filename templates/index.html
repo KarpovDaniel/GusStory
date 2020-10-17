@@ -13,10 +13,8 @@
                     <div class="prokrutka mb-2" style="border-radius: 10px; width: auto">
                         <p class="card-text">{{item.main_characteristics}}</p>
                     </div>
-                    <a href="/about_item/{{item.id}}" class="btn btn-outline-info">Узнать
-                        больше</a>
                     {% if current_user.id == 1 %}
-                    <a href="/items/{{item.id}}" class="btn btn-outline-warning">Изменить</a>
+                    <a href="/items/{{item.id}}" class="btn btn-outline-dark">Изменить</a>
                     {% endif %}
                 </div>
             </div>
