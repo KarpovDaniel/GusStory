@@ -15,12 +15,18 @@
         background: #fff; /* цвет фона, белый */
         border: 1px solid #C1C1C1; /* размер и цвет границы блока */
         }
+
     </style>
 </head>
 <body>
 <link rel="stylesheet" href="/static/css/style.css">
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <a class="navbar-brand" href="/"><h2>GusStory</h2></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto"></ul>
         <ul class="navbar-nav">
             {% if not current_user.is_authenticated %}
@@ -38,6 +44,7 @@
             </h1>
             {% endif %}
         </ul>
+    </div>
 </nav>
 <div class="content container">
     {% block content %}
