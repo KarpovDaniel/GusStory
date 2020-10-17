@@ -1,35 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 {% set vars = {'flag': True} %}
-{% if current_user.is_authenticated %}
-<h2> Товары в нашем магазине: </h2>
-{% else %}
-<h2 class="mt-5"> Товары в нашем магазине: </h2>
-{% endif %}
 {% for item in items %}
-<div class="container">
-  <div class="row">
-    {% for item in items %}
-    {% if vars.update({'flag': False}) %} {% endif %}
-    <div class="col-sm-100">
-      <div class="card mb-4" style="width: 30rem; border-radius: 10px;">
-        <img class="img-fluid" style="border-radius: 10px;" src={{item.photo}}>
+{% if vars.update({'flag': False}) %} {% endif %}
+<div class="col-sm-6">
+    <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+        <a href="info_cars/{{ item.id }}">
+            <img class="img-fluid" style="border-radius: 10px;" src={{item.photo}}>
+        </a>
         <div class="card-body">
-          <h5 class="card-title">{{item.title}}</h5>
-          <div class="prokrutka mb-2" style="border-radius: 10px;">
-            <p class="card-text">{{item.content}}</p>
-          </div>
-          <a href="/about_item/{{ item.id }}" class="btn btn-outline-info">Узнать больше</a>
-          <a href="/items/{{ item.id }}" class="btn btn-outline-warning">Изменить</a>
+            <h5 class="card-title">{{item.title}}</h5>
+            <div class="prokrutka mb-2" style="border-radius: 10px;">
+                <p class="card-text">{{item.content}}</p>
+            </div>
+            <a href="/about_item/{{ item.id }}" class="btn btn-outline-info">Узнать
+                больше</a>
+            {% if current_user.id == 1 %}
+            <a href="/items/{{ item.id }}" class="btn btn-outline-warning">Изменить</a>
+            {% endif %}
         </div>
-      </div>
-    </div>
-    {% endfor %}
-    {% if vars.flag %}
-        <h1 align="center">
-        Ничего не найдено!
-        </h1>
-    {% endif %}
     </div>
 </div>
 {% endfor %}
