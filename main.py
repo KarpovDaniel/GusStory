@@ -139,6 +139,7 @@ def add_items():
         f = request.files['file']
         f1 = request.files['file1']
         if f:
+            print(count_items)
             f1.save('static/images/image' + str(count_items) + '.png')
             item.image = '/static/images/image' + str(count_items) + '.png'
             count_items += 1
@@ -215,7 +216,7 @@ def about_item(id):
 def main():
     global count_items
     sessions = db_session.create_session()
-    count_items += len(list(sessions.query(items.Items)))
+    count_items += len(list(sessions.query(items.Items))) * 2
     sessions.close()
     app.run()
 
