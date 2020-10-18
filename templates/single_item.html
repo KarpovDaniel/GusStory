@@ -1,23 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <h3 style="margin-top:20px;"> {{ item.title }} <br></h3>
-    <table style="margin-top: 20px;" border="0" width="100%" cellpadding="0">
-        <tr class="outline">
-            <th><img style="width: 300px; height: auto;" src={{item.photo}}></th>
-            <th>
-                <h6 style="margin-top:50px;"></h6>
-            </th>
-        </tr>
-    </table>
-    <table style="margin-top: 20px;" border="0" width="100%" cellpadding="0">
-        <tr class="outline">
-            <th>
-                <h2 align="center" style="margin-top:10px;"></h2> <br>
-                <h6 style="margin-left:15px;"> {{ item.content }} </h6> <br> <br>
-            </th>
-        </tr>
-    </table>
+<div class="container; mt-4">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <img class="img-fluid" style="border-radius: 10px; height: 290px;" src={{item.photo}}>
+            </div>
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <img class="img-fluid" style="border-radius: 10px; height: 290px;" src={{item.photo}}>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    <h2 class="card-title" align="center">{{item.title}}</h2>
+                    <div class="prokrutka" style="border-radius: 10px; width: auto; height: 530px;">
+                        <p class="card-text">{{item.content}}</p>
+                    </div>
+                    {% if current_user.id == 1 %}
+                    <a href="/items/{{item.id}}" class="btn btn-outline-dark">Изменить</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
