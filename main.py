@@ -95,7 +95,7 @@ def register():
                                    password_error="OK", again_password_error="OK",
                                    email_error="Такой пользователь уже есть")
         user = users.User()
-        user.login = form.login.data
+        user.login = form.login.data.lower()
         user.name = form.name.data
         user.surname = form.surname.data
         user.set_password(form.password.data)
@@ -185,8 +185,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
+        string = form.login.data
         user = sessions.query(users.User).filter(users.User.login ==
-                                                 form.login.data).first()
+                                                 string.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
