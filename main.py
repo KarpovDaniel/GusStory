@@ -185,9 +185,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
-        string = form.login.data
+        login = form.login.data
         user = sessions.query(users.User).filter(users.User.login ==
-                                                 string.lower()).first()
+                                                 login.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
