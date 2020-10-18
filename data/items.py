@@ -15,3 +15,4 @@ class Items(SqlAlchemyBase, SerializerMixin, UserMixin):
     main_characteristics = sqlalchemy.Column(sqlalchemy.TEXT, nullable=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     photo = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')
+    image = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')

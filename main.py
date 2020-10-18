@@ -137,7 +137,11 @@ def add_items():
         item.content = form.content.data
         item.main_characteristics = form.main_characteristics.data
         f = request.files['file']
+        f1 = request.files['file1']
         if f:
+            f1.save('static/images/image' + str(count_items) + '.png')
+            item.image = '/static/images/image' + str(count_items) + '.png'
+            count_items += 1
             f.save('static/images/image' + str(count_items) + '.png')
             item.photo = '/static/images/image' + str(count_items) + '.png'
         sessions.add(item)
@@ -185,9 +189,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
-        login = form.login.data
         user = sessions.query(users.User).filter(users.User.login ==
-                                                 login.lower()).first()
+                                                 form.login.data.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
