@@ -16,18 +16,6 @@
         border: 1px solid #C1C1C1; /* размер и цвет границы блока */
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -54,8 +42,8 @@
     {% else %}
     <ul class="navbar-nav mr-auto"></ul>
     <h1 align="right"><a class="navbar-brand nav-link mr-4 mt-2"
-                         href="/profile"><h2 align="center" style="color: #ffffff">
-        {{current_user.name[0]}}{{current_user.surname[0]}} </h2>
+                         href="/profile"><h4 align="center" style="color: #ffffff">
+        {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
     </a>
     </h1>
     {% endif %}
