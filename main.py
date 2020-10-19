@@ -137,14 +137,12 @@ def add_items():
         item.content = form.content.data
         item.main_characteristics = form.main_characteristics.data
         f = request.files['file']
-        f1 = request.files['file1']
-        if f:
-            print(count_items)
-            f1.save('static/images/image' + str(count_items) + '.png')
-            item.image = '/static/images/image' + str(count_items) + '.png'
-            count_items += 1
-            f.save('static/images/image' + str(count_items) + '.png')
-            item.photo = '/static/images/image' + str(count_items) + '.png'
+        print(f)
+        count_photo = 0
+        for x in f:
+            x.save('static/images/item' + str(count_items) + '/' + str(count_photo) + '.png')
+            item.photo = '/static/images/item' + str(count_items) + '/' + str(count_photo) + '.png'
+            count_photo += 1
         sessions.add(item)
         sessions.commit()
         count_items += 1
