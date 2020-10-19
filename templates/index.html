@@ -13,7 +13,7 @@
                     <div class="prokrutka mb-2" style="border-radius: 10px; width: auto">
                         <p class="card-text">{{item.main_characteristics}}</p>
                     </div>
-                    {% if current_user.id == 1 %}
+                    {% if current_user.id in [1, 2] %}
                     <a href="/items/{{item.id}}" class="btn btn-outline-dark">Изменить</a>
                     {% endif %}
                 </div>
