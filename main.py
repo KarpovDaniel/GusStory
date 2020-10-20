@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
 from data import db_session, items, users
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
@@ -136,13 +137,14 @@ def add_items():
         item.title = form.title.data
         item.content = form.content.data
         item.main_characteristics = form.main_characteristics.data
-        f = request.files['file']
-        print(f)
+        f = request.files.getlist("file")
+        os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
         for x in f:
             x.save('static/images/item' + str(count_items) + '/' + str(count_photo) + '.png')
-            item.photo = '/static/images/item' + str(count_items) + '/' + str(count_photo) + '.png'
+            item.photo = '/static/images/item/' + str(count_items)
             count_photo += 1
+        item.count_photo = count_photo
         sessions.add(item)
         sessions.commit()
         count_items += 1
@@ -214,7 +216,7 @@ def about_item(id):
 def main():
     global count_items
     sessions = db_session.create_session()
-    count_items += len(list(sessions.query(items.Items))) * 2
+    count_items += len(list(sessions.query(items.Items)))
     sessions.close()
     app.run()
 
