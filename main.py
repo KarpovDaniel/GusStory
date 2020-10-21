@@ -1,10 +1,12 @@
+import os
+
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
-from data import db_session, items, users
-import os
+
+from data import db_session, items, users, quests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
@@ -207,6 +209,13 @@ def index():
     sessions = db_session.create_session()
     item = sessions.query(items.Items)
     return render_template("index.html", items=item)
+
+
+@app.route('/quests')
+def quests():
+    sessions = db_session.create_session()
+    quest = sessions.query(quests.Quests)
+    return render_template("quests.html", quests=quest)
 
 
 @app.route('/about_item/<int:id>', methods=['GET', 'POST'])

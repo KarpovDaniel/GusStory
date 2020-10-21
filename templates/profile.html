@@ -1,23 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div>
-    <h3 style="margin-top:20px;"> {{ current_user.name }} <br></h3>
-    <table style="margin-top: 20px;" border="0" width="100%" cellpadding="0">
-        <tr class="outline">
-            <th>
-                <h6 style="margin-top:50px;"> {{ current_user.name }} </h6>
-            </th>
-        </tr>
-    </table>
-    <table style="margin-top: 20px;" border="0" width="100%" cellpadding="0">
-        <tr class="outline">
-            <th>
-                <h2 align="center" style="margin-top:10px;"> Описание товара: </h2> <br>
-                <h6 style="margin-left:15px;"> {{ current_user.name }} </h6> <br> <br>
-            </th>
-        </tr>
-    </table>
-    <a class="btn btn-success mt-1 " href="/logout"> Выйти </a>
+<div class="container; mt-4">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <h1 align="center" style="background: blue; color: red; border-radius: 20px; padding: 20px;">
+                    {{current_user.name[0]}}{{current_user.surname[0]}}</h1>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    <h2 class="card-title" align="center">{{current_user.name}}</h2>
+                    <div class="prokrutka" style="border-radius: 10px; width: auto; height: 150px;">
+                        <p class="card-text">{{current_user.name}}</p>
+                    </div>
+                    {% if current_user.id in [1, 2] %}
+                    <a class="btn btn-success mt-1 " href="/logout"> Выйти </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
