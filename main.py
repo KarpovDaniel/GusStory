@@ -140,9 +140,12 @@ def add_items():
         f = request.files.getlist("file")
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
+        photo = request.files['file']
+        photo.save('static/img/image' + str(count_items) + '.png')
+        item.photo = '/static/img/image' + str(count_items) + '.png'
         for x in f:
-            x.save('static/images/item' + str(count_items) + '/' + str(count_photo) + '.png')
-            item.photo = '/static/images/item/' + str(count_items)
+            x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.png')
+            item.image = 'static/images/item' + str(count_items + 1)
             count_photo += 1
         item.count_photo = count_photo
         sessions.add(item)

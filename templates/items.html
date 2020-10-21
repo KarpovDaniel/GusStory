@@ -21,7 +21,9 @@
         <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
             <input type="submit" value="Отправить"></p>
     </form>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+    <div class="form-group">
+        <input type="file" class="form-control-file" id="photo" name="file1">
+    </div>
     {{ message }}
 </form>
 {% endblock %}
