@@ -51,6 +51,12 @@ class EditForm(FlaskForm):
     submit = SubmitField('Применить')
 
 
+class QuestsForm(FlaskForm):
+    name = StringField('Название квеста', validators=[DataRequired()])
+    points = TextAreaField('Описание квеста')
+    submit = SubmitField('Применить')
+
+
 class LengthError(Exception):
     error = 'Пароль должен от 8 до 15 символов!'
 
@@ -211,8 +217,23 @@ def index():
     return render_template("index.html", items=item)
 
 
+@app.route('/add_quests', methods=['GET', 'POST'])
+@login_required
+def add_quest():
+    form = QuestsForm()
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        quest = quests.Quests()
+        quest.name = form.name.data
+        quest.points = form.points.data
+        sessions.add(quest)
+        sessions.commit()
+        return redirect('/')
+    return render_template('add_quests.html', title='Добавление квеста', form=form)
+
+
 @app.route('/quests')
-def quests():
+def gus_quests():
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests)
     return render_template("quests.html", quests=quest)

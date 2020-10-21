@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{quest.name}}</h5>
                     <div class="prokrutka mb-2" style="width: auto; height: 100px;">
-                        {% for point in quest.points.split(\n)%}
+                        {% for point in quest.points.split('\n')%}
                         <p class="card-text">{{point}}</p>
                         {% endfor %}
                     </div>
