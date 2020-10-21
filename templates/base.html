@@ -19,46 +19,51 @@
         $('.carousel').carousel({
         interval: 20
         })
-
-
-
+        body {
+        height: 100%;
+        background: url('static/img/fon.jpg') no-repeat;
+        background-size: 100%; /* Современные браузеры */
+   }
     </style>
 </head>
-<body>
-<link rel="stylesheet" href="/static/css/style.css">
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
-    <a class="navbar-brand" href="/"> GusStory </a>
-    {% if not current_user.is_authenticated %}
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-            aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+<body background="../static/img/fon.jpg">
+<div>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+        <a class="navbar-brand" href="/"> GusStory </a>
+        {% if not current_user.is_authenticated %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto"></ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="btn btn-dark mt-1 mr-1" href="/register"> Зарегистрироваться </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-dark mt-1 " href="/login"> Войти </a>
+                </li>
+            </ul>
+        </div>
+        {% else %}
         <ul class="navbar-nav mr-auto"></ul>
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="btn btn-dark mt-1 mr-1" href="/register"> Зарегистрироваться </a>
-            </li>
-            <li class="nav-item">
-                <a class="btn btn-dark mt-1 " href="/login"> Войти </a>
-            </li>
-        </ul>
-    </div>
-    {% else %}
-    <ul class="navbar-nav mr-auto"></ul>
-    <h1 align="right"><a class="navbar-brand nav-link mr-4 mt-2"
-                         href="/profile"><h4 align="center" style="color: #ffffff">
-        {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
-    </a>
-    </h1>
-    {% endif %}
+        <h1 align="right"><a class="navbar-brand nav-link mr-4 mt-2"
+                             href="/profile"><h4 align="center" style="color: #ffffff">
+            {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
+        </a>
+        </h1>
+        {% endif %}
 
-</nav>
-<div class="content container">
-    {% block content %}
-    {% endblock %}
+    </nav>
+    <div class="content container">
+        {% block content %}
+        {% endblock %}
+    </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
         crossorigin="anonymous"></script>
@@ -68,5 +73,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
 </body>
 </html>

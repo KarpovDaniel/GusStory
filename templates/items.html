@@ -17,13 +17,13 @@
         {{ form.content.label }} <br>
         {{ form.content(class="form-control") }} <br>
     </p>
+    <div class="form-group">
+        <input type="file" class="form-control-file" id="photo" name="file1">
+    </div>
     <form enctype="multipart/form-data" method="post">
         <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
             <input type="submit" value="Отправить"></p>
     </form>
-    <div class="form-group">
-        <input type="file" class="form-control-file" id="photo" name="file1">
-    </div>
     {{ message }}
 </form>
 {% endblock %}
