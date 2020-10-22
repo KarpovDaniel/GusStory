@@ -41,6 +41,7 @@ class RegisterForm(FlaskForm):
 class ItemsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField('Описание достопримечательности')
+    year = StringField('Год открытия достопримечательности')
     submit = SubmitField('Применить')
 
 
@@ -142,7 +143,7 @@ def add_items():
         sessions = db_session.create_session()
         item = items.Items()
         item.title = form.title.data
-        item.content = reformat(form.content.data)
+        item.content = form.content.data
         f = request.files.getlist("file")
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
@@ -153,6 +154,7 @@ def add_items():
             x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.png')
             item.image = 'static/images/item' + str(count_items + 1)
             count_photo += 1
+        item.year = form.year.data
         item.count_photo = count_photo
         sessions.add(item)
         sessions.commit()

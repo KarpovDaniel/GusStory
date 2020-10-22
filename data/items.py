@@ -13,4 +13,5 @@ class Items(SqlAlchemyBase, SerializerMixin, UserMixin):
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     photo = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')
     image = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')
+    year = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     count_photo = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
