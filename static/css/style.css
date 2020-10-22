@@ -6,7 +6,7 @@ flex-direction: column;
 height: 100%;
 }
 .outline {
-background: #ffffff;
+background: #fff;
 border-radius: 15px;
 border: 0px solid white;
 padding: 0 0px;
@@ -23,7 +23,7 @@ flex-shrink: 0;
 .prokrutka {
 height: 220px;
 width: auto;
-background: #fff; /* цвет фона, белый */
-border: 1px solid #C1C1C1; /* размер и цвет границы блока */
+background: #fff;
+border: 1px solid #C1C1C1;
 overflow-y: scroll;
 }
