@@ -144,11 +144,10 @@ def add_items():
         item = items.Items()
         item.title = form.title.data
         item.content = form.content.data
-        item.main_characteristics = form.main_characteristics.data
         f = request.files.getlist("file")
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
-        photo = request.files['file']
+        photo = request.files['file1']
         photo.save('static/img/image' + str(count_items) + '.png')
         item.photo = '/static/img/image' + str(count_items) + '.png'
         for x in f:
@@ -163,20 +162,6 @@ def add_items():
     return render_template('items.html', title='Добавление товара', form=form)
 
 
-@app.route('/items_delete/<int:id>', methods=['GET', 'POST'])
-@login_required
-def items_delete(id):
-    global count_items
-    sessions = db_session.create_session()
-    item = sessions.query(items.Items).filter(items.Items.id == id).first()
-    if item:
-        sessions.delete(item)
-        sessions.commit()
-    else:
-        abort(404)
-    return redirect('/')
-
-
 @app.route('/items/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_items(id):
@@ -185,12 +170,12 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
-        form.main_characteristics.data = item.main_characteristics
+        form.content.data = item.content
     if form.validate_on_submit():
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
-        item.main_characteristics = form.main_characteristics.data
+        item.content = form.content
         sessions.commit()
         return redirect('/')
     return render_template('editor.html', title='Редактирование товара', form=form)

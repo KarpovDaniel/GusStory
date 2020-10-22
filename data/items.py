@@ -10,7 +10,6 @@ class Items(SqlAlchemyBase, SerializerMixin, UserMixin):
 
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     title = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    main_characteristics = sqlalchemy.Column(sqlalchemy.TEXT, nullable=True)
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     photo = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')
     image = sqlalchemy.Column(sqlalchemy.VARCHAR, default='/static/images/old.png')
