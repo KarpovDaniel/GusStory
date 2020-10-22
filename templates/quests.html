@@ -3,14 +3,16 @@
 <div class="container; mt-4">
     <div class="row">
         {% for quest in quests %}
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body">
-                    <h5 class="card-title">{{quest.name}}</h5>
-                    <div class="prokrutka mb-2" style="width: auto; height: 100px;">
-                        {% for point in quest.points.split('\n')%}
-                        <p class="card-text">{{point}}</p>
-                        {% endfor %}
+                    <h5 class="card-title" align="center">{{quest.name}}</h5>
+                    <div style="height: 200px;">
+                        <ul>
+                            {% for point in quest.points.split('\n')%}
+                            <li>{{point}}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
             </div>
