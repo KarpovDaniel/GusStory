@@ -80,7 +80,7 @@ def logout():
 
 
 def reformat(s):
-    return '\n'.join([s[i].strip() + ': ' + s[i + 1].strip() for i in range(0, len(s) - 1, 2)])
+    return '\n'.join(s.split('\n'))
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -142,12 +142,11 @@ def add_items():
         sessions = db_session.create_session()
         item = items.Items()
         item.title = form.title.data
-        item.content = form.content.data
-        item.main_characteristics = form.main_characteristics.data
+        item.content = reformat(form.content.data)
         f = request.files.getlist("file")
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
-        photo = request.files['file']
+        photo = request.files['file1']
         photo.save('static/img/image' + str(count_items) + '.png')
         item.photo = '/static/img/image' + str(count_items) + '.png'
         for x in f:
@@ -160,7 +159,6 @@ def add_items():
         count_items += 1
         return redirect('/')
     return render_template('items.html', title='Добавление товара', form=form)
-
 
 
 @app.route('/items/<int:id>', methods=['GET', 'POST'])

@@ -5,20 +5,20 @@
 <form action="" method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.csrf_token }}
-    <p>
+    <a>
         {{ form.title.label }} <br>
         {{ form.title(class="form-control") }} <br>
-    </p>
-    <p>
+    </a>
+    <a>
         {{ form.content.label }} <br>
         {{ form.content(class="form-control") }} <br>
-    </p>
+    </a>
     <div class="form-group">
         <input type="file" class="form-control-file" id="photo" name="file1">
     </div>
     <form enctype="multipart/form-data" method="post">
-        <p><input type="file" name="file" multiple accept="image/*,image/jpeg">
-            <input type="submit" value="Отправить"></p>
+        <a><input type="file" name="file" multiple accept="image/*,image/jpeg">
+            <input type="submit" value="Отправить"></a>
     </form>
     {{ message }}
 </form>
