@@ -40,14 +40,13 @@ class RegisterForm(FlaskForm):
 
 class ItemsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    main_characteristics = TextAreaField('Краткое описание достопримечательности')
     content = TextAreaField('Описание достопримечательности')
     submit = SubmitField('Применить')
 
 
 class EditForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
-    main_characteristics = TextAreaField('Краткое описание достопримечательности')
+    content = TextAreaField('Описание достопримечательности')
     submit = SubmitField('Применить')
 
 
@@ -144,10 +143,11 @@ def add_items():
         item = items.Items()
         item.title = form.title.data
         item.content = form.content.data
+        item.main_characteristics = form.main_characteristics.data
         f = request.files.getlist("file")
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
-        photo = request.files['file1']
+        photo = request.files['file']
         photo.save('static/img/image' + str(count_items) + '.png')
         item.photo = '/static/img/image' + str(count_items) + '.png'
         for x in f:
@@ -160,6 +160,7 @@ def add_items():
         count_items += 1
         return redirect('/')
     return render_template('items.html', title='Добавление товара', form=form)
+
 
 
 @app.route('/items/<int:id>', methods=['GET', 'POST'])
@@ -175,7 +176,7 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
-        item.content = form.content
+        item.content = form.content.data
         sessions.commit()
         return redirect('/')
     return render_template('editor.html', title='Редактирование товара', form=form)
