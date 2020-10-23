@@ -5,21 +5,23 @@
     <div class="row">
         <div class="col-sm-6">
             <h1 align="center">{{item.title}}</h1>
-            <h3 align="center" class="mt-1">{{item.year}}</h3>
+            <h3 align="center" class="mt-2">{{item.year}}</h3>
             <div id="carouselExampleIndicators" class="carousel slide mt-4" data-ride="carousel">
                 <ol class="carousel-indicators">
                     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                     {% for i in range(1, item.count_photo) %}
-                        <li data-target="#carouselExampleIndicators" data-slide-to="{{i}}"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="{{i}}"></li>
                     {% endfor %}
                 </ol>
                 <div class="carousel-inner" style="border-radius: 10px;">
                     <div class="carousel-item active">
-                        <img style="auto; width: auto; border-radius: 10px;" src="/static/images/item{{item.id}}/image0.png" class="d-block w-100">
+                        <img style="auto; width: auto; border-radius: 10px;"
+                             src="/static/images/item{{item.id}}/image0.png" class="d-block w-100">
                     </div>
                     {% for i in range(1, item.count_photo) %}
                     <div class="carousel-item">
-                        <img style="height: auto; width: auto; border-radius: 10px;" src="/static/images/item{{item.id}}/image{{i}}.png"
+                        <img style="height: auto; width: auto; border-radius: 10px;"
+                             src="/static/images/item{{item.id}}/image{{i}}.png"
                              class="d-block w-100">
                     </div>
                     {% endfor %}
@@ -37,7 +39,7 @@
         <div class="col-sm-6">
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body">
-                    <div class="prokrutka" style="width: auto; height: 530px;">
+                    <div class="prokrutka" style="width: auto; height: 500px;">
                         <p class="card-text">{{item.content}}</p>
                     </div>
                 </div>
