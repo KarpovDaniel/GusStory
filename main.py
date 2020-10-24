@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template, redirect, request, abort
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
@@ -71,7 +71,9 @@ class DigitError(Exception):
 
 @app.route('/profile')
 def profile():
-    return render_template("profile.html")
+    if current_user.is_authenticated:
+        return render_template("profile.html")
+    return redirect('/')
 
 
 @app.route('/logout')
@@ -138,6 +140,8 @@ def check_password(password):
 @login_required
 def add_items():
     global count_items
+    if current_user.id not in [1, 2, 3]:
+        return redirect('/')
     form = ItemsForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
@@ -166,6 +170,8 @@ def add_items():
 @app.route('/items/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_items(id):
+    if current_user.id not in [1, 2, 3]:
+        return redirect('/')
     form = EditForm()
     if request.method == 'GET':
         sessions = db_session.create_session()
@@ -206,6 +212,8 @@ def index():
 @app.route('/add_quests', methods=['GET', 'POST'])
 @login_required
 def add_quest():
+    if current_user.id not in [1, 2, 3]:
+        return redirect('/')
     form = QuestsForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()

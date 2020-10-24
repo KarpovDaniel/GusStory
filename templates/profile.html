@@ -16,7 +16,7 @@
                     <div class="prokrutka" style="border-radius: 10px; width: auto; height: 150px;">
                         <p class="card-text">{{current_user.name}}</p>
                     </div>
-                    {% if current_user.id in [1, 2] %}
+                    {% if current_user.is_authenticated %}
                     <a class="btn btn-success mt-1 " href="/logout"> Выйти </a>
                     {% endif %}
                 </div>
