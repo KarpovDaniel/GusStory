@@ -34,6 +34,13 @@ font-weight: normal;
 line-height: 48px;
 margin: 0;
 }
+h2 { color: #000;
+font-family: ‘Times New Roman’,
+serif; font-size: 45px;
+font-weight: normal;
+line-height: 48px;
+margin: 0;
+}
 h3 { color: #7c795d;
 font-family: ‘Trocchi’,
 serif; font-size: 35px;

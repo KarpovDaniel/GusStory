@@ -4,7 +4,7 @@
 <h1>Авторизация</h1>
 <form action="" method="post">
     {{ form.hidden_tag() }}
-    <p>
+    <a>
         {{ form.login.label }} <br>
         {{ form.login(class="form-control", type="login") }} <br>
         {% for error in form.login.errors %}
@@ -12,8 +12,8 @@
         {{ error }}
     </div>
     {% endfor %}
-    </p>
-    <p>
+    </a>
+    <a>
         {{ form.password.label }} <br>
         {{ form.password(class="form-control", type="password") }} <br>
         {% for error in form.password.errors %}
@@ -21,9 +21,9 @@
         {{ error }}
     </div>
     {% endfor %}
-    </p>
-    <p> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
-    <p> {{ form.submit(type="submit", class="btn btn-primary") }} </p>
+    </a>
+    <a> {{ form.remember_me() }} {{ form.remember_me.label }} </a>
+    <a> {{ form.submit(type="submit", class="btn btn-primary") }} </a>
     <div> {{ message }}</div>
 </form>
 {% endblock %}
