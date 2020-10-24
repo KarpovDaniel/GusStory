@@ -1,5 +1,5 @@
 import os
-
+import datetime
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -83,7 +83,22 @@ def logout():
 
 
 def reformat(s):
-    return '\n'.join(s.split('\n'))
+    s = s.split('-')
+    print(s)
+    k = 0
+    string = ''
+    month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
+             'декабря']
+    for x in s[::-1]:
+        if k == 0:
+            string += x + ' '
+        elif k == 1:
+            string += month[int(x)] + ' '
+        else:
+            string += x + ' ' + 'года'
+        k += 1
+        print(string)
+    return string
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -108,6 +123,7 @@ def register():
         user = users.User()
         user.login = form.login.data.lower()
         user.name = form.name.data
+        user.created_date = reformat(str(datetime.datetime.now())[:-16])
         user.surname = form.surname.data
         user.set_password(form.password.data)
         sessions.add(user)
