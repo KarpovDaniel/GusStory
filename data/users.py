@@ -1,5 +1,3 @@
-import datetime
-
 import sqlalchemy
 from flask_login import UserMixin
 from sqlalchemy_serializer import SerializerMixin
@@ -17,6 +15,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     login = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.String)
+    completed = sqlalchemy.Column(sqlalchemy.String)
 
     def __repr__(self):
         return f'{self.id}, {self.name}, {self.login}'

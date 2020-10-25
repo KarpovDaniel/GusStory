@@ -10,13 +10,15 @@
                 <h5 align="center"> Зарегистрирован на сайте: {{current_user.created_date}}</h5>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-12">
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body">
-                    <h2 class="card-title" align="center">{{current_user.name}}</h2>
-                    <div class="prokrutka" style="border-radius: 10px; width: auto; height: 150px;">
-                        <p class="card-text">{{current_user.name}}</p>
-                    </div>
+                    <h2 class="card-title" align="center">Пройденные квесты</h2>
+                    <ul class="list-group list-group-flush">
+                        {% for quest in current_user.completed.split(';') %}
+                        <li class="list-group-item">{{quest}}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
         </div>
