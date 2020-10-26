@@ -13,11 +13,18 @@
         <div class="col-sm-12">
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body">
-                    <h2 class="card-title" align="center">Пройденные квесты</h2>
+                    <h2 class="card-title" align="center">Квесты</h2>
                     <ul class="list-group list-group-flush">
-                        {% for quest in current_user.completed.split(';') %}
-                        <li class="list-group-item">{{quest}}</li>
+                        {% if current_user.not_completed != None %}
+                        {% for quest in current_user.not_completed.split(';') %}
+                        <li style="color: red" class="list-group-item">{{quest}}</li>
                         {% endfor %}
+                        {% endif %}
+                        {% if current_user.completed != None %}
+                        {% for quest in current_user.completed.split(';') %}
+                        <li style="color: green" class="list-group-item">{{quest}}</li>
+                        {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
             </div>

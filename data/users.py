@@ -16,6 +16,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.String)
     completed = sqlalchemy.Column(sqlalchemy.String)
+    not_completed = sqlalchemy.Column(sqlalchemy.String)
 
     def __repr__(self):
         return f'{self.id}, {self.name}, {self.login}'
