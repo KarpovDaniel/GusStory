@@ -235,6 +235,11 @@ def add_quest():
         sessions = db_session.create_session()
         quest = quests.Quests()
         quest.name = form.name.data
+        for user in sessions.query(users.User):
+            if user.not_completed is None:
+                user.not_completed = quest.name + ';'
+            else:
+                user.not_completed += quest.name + ';'
         quest.points = form.points.data
         sessions.add(quest)
         sessions.commit()
