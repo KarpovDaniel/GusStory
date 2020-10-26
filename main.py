@@ -93,7 +93,7 @@ def reformat(s):
         if k == 0:
             string += x + ' '
         elif k == 1:
-            string += month[int(x)] + ' '
+            string += month[int(x) - 1] + ' '
         else:
             string += x + ' ' + 'года'
         k += 1
@@ -126,6 +126,7 @@ def register():
         user.created_date = reformat(str(datetime.datetime.now())[:-16])
         user.surname = form.surname.data
         user.set_password(form.password.data)
+        user.not_completed = ';'.join(map(lambda x: x.name, sessions.query(quests.Quests)))
         sessions.add(user)
         sessions.commit()
         return redirect('/login')
@@ -237,9 +238,9 @@ def add_quest():
         quest.name = form.name.data
         for user in sessions.query(users.User):
             if user.not_completed is None:
-                user.not_completed = quest.name + ';'
+                user.not_completed = quest.name
             else:
-                user.not_completed += quest.name + ';'
+                user.not_completed += ';' + quest.name
         quest.points = form.points.data
         sessions.add(quest)
         sessions.commit()

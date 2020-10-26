@@ -16,12 +16,12 @@
                     <h2 class="card-title" align="center">Квесты</h2>
                     <ul class="list-group list-group-flush">
                         {% if current_user.not_completed != None %}
-                        {% for quest in current_user.not_completed.strip(';').split(';') %}
+                        {% for quest in current_user.not_completed.split(';') %}
                         <li style="color: red" class="list-group-item">{{quest}}</li>
                         {% endfor %}
                         {% endif %}
                         {% if current_user.completed != None %}
-                        {% for quest in current_user.completed.strip(';').split(';') %}
+                        {% for quest in current_user.completed.split(';') %}
                         <li style="color: green" class="list-group-item">{{quest}}</li>
                         {% endfor %}
                         {% endif %}
