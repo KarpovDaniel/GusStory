@@ -29,8 +29,8 @@
                 <a class="btn btn-dark" href="/register"> Зарегистрироваться </a>
             </div>
             {% else %}
-            <a class="btn btn-dark" href="/profile">
-                <h4 style="color: #ffffff"> {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
+            <a class="navbar-brand nav-link" href="/profile">
+                <h4 style="color: #ffffff;"> {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
             </a>
             {% endif %}
         </div>
