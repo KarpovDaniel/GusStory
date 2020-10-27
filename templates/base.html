@@ -22,16 +22,15 @@
             <a class="mr-auto"></a>
             <a class="btn btn-dark" href="/"> Карта </a>
             <a class="btn btn-dark" href="/"> Новости </a>
-            <a class="btn btn-dark" href="/quests"> Квесты </a>
+            <a class="btn btn-dark mr-4" href="/quests"> Квесты </a>
             {% if not current_user.is_authenticated %}
             <div>
-                <a class="btn btn-dark" href="/login"> Войти </a>
-                <a class="btn btn-dark" href="/register"> Зарегистрироваться </a>
+                <a class="btn btn-light" href="/login"> Войти </a>
+                <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
             </div>
             {% else %}
-            <a class="navbar-brand nav-link" href="/profile">
-                <h4 style="color: #ffffff;"> {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
-            </a>
+            <a class="navbar-brand nav-link mt-2" href="/profile"><h4 style="color:
+                #ffffff;">{{current_user.name[0]}}{{current_user.surname[0]}}</h4></a>
             {% endif %}
         </div>
     </nav>
