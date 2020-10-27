@@ -24,8 +24,10 @@
             <a class="btn btn-dark" href="/"> Новости </a>
             <a class="btn btn-dark" href="/quests"> Квесты </a>
             {% if not current_user.is_authenticated %}
-            <a class="btn btn-dark" href="/login"> Войти </a>
-            <a class="btn btn-dark" href="/register"> Зарегистрироваться </a>
+            <div>
+                <a class="btn btn-dark" href="/login"> Войти </a>
+                <a class="btn btn-dark" href="/register"> Зарегистрироваться </a>
+            </div>
             {% else %}
             <a class="btn btn-dark" href="/profile">
                 <h4 style="color: #ffffff"> {{current_user.name[0]}}{{current_user.surname[0]}} </h4>
