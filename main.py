@@ -261,6 +261,7 @@ def about_item(id):
     item = sessions.query(items.Items).get(id)
     return render_template("single_item.html", item=item)
 
+
 def news_theft():
     NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
     NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
@@ -274,6 +275,7 @@ def news_theft():
     clean_news("Culture")
     clean_news("Travel")
     clean_news("Vladimir")
+
 
 def news_theft_add_to_db(nowosty, theme):
     session = db_session.create_session()
@@ -290,6 +292,7 @@ def news_theft_add_to_db(nowosty, theme):
         session.commit()
     session.commit()
     session.close()
+
 
 def clean_news(theme):
     sessions = db_session.create_session()
