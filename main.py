@@ -262,6 +262,13 @@ def about_item(id):
     return render_template("single_item.html", item=item)
 
 
+@app.route("/news")
+def view_news():
+    session = db_session.create_session()
+    new_list = session.query(news.News)
+
+
+
 def news_theft():
     NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
     NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
@@ -279,17 +286,19 @@ def news_theft():
 
 def news_theft_add_to_db(nowosty, theme):
     session = db_session.create_session()
-    for new in nowosty:
-        new_to_db = news.News()
-        new_to_db.title = new["title"]
-        try:
-            new_to_db.content = new["summary"]
-        except:
-            new_to_db.content = new["yandex_full-text"]
-        new_to_db.theme = theme
-        new_to_db.date = datetime.datetime.now()
-        session.add(new_to_db)
-        session.commit()
+    for new in nowosty[:10]:
+        if session.query(news.News).filter(news.News.title == new["title"]) is None:
+            print(-1)
+            new_to_db = news.News()
+            new_to_db.title = new["title"]
+            try:
+                new_to_db.content = new["summary"]
+            except:
+                new_to_db.content = new["yandex_full-text"]
+            new_to_db.theme = theme
+            new_to_db.date = datetime.datetime.now()
+            session.add(new_to_db)
+            session.commit()
     session.commit()
     session.close()
 
@@ -299,13 +308,12 @@ def clean_news(theme):
     news_item = sessions.query(news.News).filter(news.News.theme == theme)
     len_new = news_item.count()
     count = 0
-    for new in news_item:
+    for new in news_item[::-1]:
         if len_new - count > 10:
             sessions.delete(new)
             count += 1
     sessions.commit()
     sessions.close()
-    pass
 
 
 def main():
