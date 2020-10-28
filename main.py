@@ -5,8 +5,8 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired
-
-from data import db_session, items, users, quests
+import feedparser
+from data import db_session, items, users, quests, news
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
@@ -261,6 +261,49 @@ def about_item(id):
     item = sessions.query(items.Items).get(id)
     return render_template("single_item.html", item=item)
 
+def news_theft():
+    NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
+    NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
+    NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
+    NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
+    news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
+    news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
+    news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
+    news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
+    clean_news("tourism33")
+    clean_news("Culture")
+    clean_news("Travel")
+    clean_news("Vladimir")
+
+def news_theft_add_to_db(nowosty, theme):
+    session = db_session.create_session()
+    for new in nowosty:
+        new_to_db = news.News()
+        new_to_db.title = new["title"]
+        try:
+            new_to_db.content = new["summary"]
+        except:
+            new_to_db.content = new["yandex_full-text"]
+        new_to_db.theme = theme
+        new_to_db.date = datetime.datetime.now()
+        session.add(new_to_db)
+        session.commit()
+    session.commit()
+    session.close()
+
+def clean_news(theme):
+    sessions = db_session.create_session()
+    news_item = sessions.query(news.News).filter(news.News.theme == theme)
+    len_new = news_item.count()
+    count = 0
+    for new in news_item:
+        if len_new - count > 10:
+            sessions.delete(new)
+            count += 1
+    sessions.commit()
+    sessions.close()
+    pass
+
 
 def main():
     global count_items
@@ -271,4 +314,5 @@ def main():
 
 
 if __name__ == '__main__':
+    news_theft()
     main()
