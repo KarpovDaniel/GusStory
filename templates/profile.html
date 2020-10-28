@@ -17,14 +17,34 @@
                     <ul class="list-group list-group-flush">
                         {% if current_user.not_completed != None %}
                         {% for quest in current_user.not_completed.split(';') %}
-                        <li class="list-group-item"><h6>{{quest}}</h6><h6 align="right" style="color: red;" >
-                            Не пройдено &#10060;</h6></li>
+                        <li class="list-group-item">
+                            <table class="mt-2" width="100%" cellpadding="0">
+                                <tr>
+                                    <th>
+                                        <h6>{{quest}}</h6>
+                                    </th>
+                                    <th>
+                                        <h6 align="right">Не пройдено &#10060;</h6>
+                                    </th>
+                                </tr>
+                            </table>
+                        </li>
                         {% endfor %}
                         {% endif %}
                         {% if current_user.completed != None %}
                         {% for quest in current_user.completed.split(';') %}
-                        <li class="list-group-item"><h6>{{quest}}</h6><h6  style="color: green" align="right">
-                            Пройдено &#10004; </h6></li>
+                        <li class="list-group-item">
+                            <table class="mt-2" width="100%" cellpadding="0">
+                                <tr>
+                                    <th>
+                                        <h6>{{quest}}</h6>
+                                    </th>
+                                    <th>
+                                        <h6 align="right">Пройдено &#10004;</h6>
+                                    </th>
+                                </tr>
+                            </table>
+                        </li>
                         {% endfor %}
                         {% endif %}
                     </ul>
