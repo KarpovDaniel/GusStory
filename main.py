@@ -265,8 +265,8 @@ def about_item(id):
 @app.route("/news")
 def view_news():
     session = db_session.create_session()
-    new_list = session.query(news.News)
-
+    news_list = session.query(news.News)
+    return render_template("news_item.html", new_list=news_list)
 
 
 def news_theft():
@@ -287,7 +287,7 @@ def news_theft():
 def news_theft_add_to_db(nowosty, theme):
     session = db_session.create_session()
     for new in nowosty[:10]:
-        if session.query(news.News).filter(news.News.title == new["title"]) is None:
+        if session.query(news.News).filter(news.News.title == new["title"]).count() == 0:
             print(-1)
             new_to_db = news.News()
             new_to_db.title = new["title"]
@@ -314,6 +314,13 @@ def clean_news(theme):
             count += 1
     sessions.commit()
     sessions.close()
+
+
+@app.route('/news_item/<int:id>', methods=['GET', 'POST'])
+def about_news(id):
+    sessions = db_session.create_session()
+    new = sessions.query(news.News).get(id)
+    return render_template("item_news.html", new=new)
 
 
 def main():
