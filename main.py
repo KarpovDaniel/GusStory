@@ -332,5 +332,5 @@ def main():
 
 
 if __name__ == '__main__':
-    news_theft()
+    #news_theft()
     main()
