@@ -316,7 +316,7 @@ def clean_news(theme):
     sessions.close()
 
 
-@app.route('/news_item/<int:id>', methods=['GET', 'POST'])
+@app.route('/news_item/<int:id>')
 def about_news(id):
     sessions = db_session.create_session()
     new = sessions.query(news.News).get(id)
