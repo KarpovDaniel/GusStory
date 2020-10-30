@@ -45,3 +45,12 @@ margin: 0;
 b {
 font-size: 22px;
 }
+.carousel {
+width: 50%;
+float:left;
+}
+@media (orientation: portrait) {
+    .carousel {
+        width: 100%;
+    }
+}
