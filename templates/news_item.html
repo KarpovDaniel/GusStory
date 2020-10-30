@@ -10,7 +10,7 @@
                     <ul class="list-group list-group-flush">
                         {% for new in new_list %}
                         <li class="list-group-item">
-                            <a style="color: #000;" href="news_item/{{new.id}}">{{new.title}} </a>
+                            <a style="color: #000;" href="news_item/{{new.id}}">{{new.content}} </a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -18,8 +18,5 @@
             </div>
         </div>
     </div>
-    {% if current_user.is_authenticated %}
-    <a class="btn btn-dark mt-1 " href="/logout"> Выйти </a>
-    {% endif %}
 </div>
 {% endblock %}
