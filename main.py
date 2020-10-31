@@ -269,19 +269,36 @@ def view_news():
     return render_template("news_item.html", new_list=news_list)
 
 
+@app.route("/maps")
+def maps():
+    return render_template("maps.html")
+
+
 def news_theft():
-    NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
-    NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
-    NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
-    NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
-    news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
-    news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
-    news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
-    news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
-    clean_news("tourism33")
-    clean_news("Culture")
-    clean_news("Travel")
-    clean_news("Vladimir")
+    try:
+        NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
+        news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
+        clean_news("tourism33")
+    except:
+        pass
+    try:
+        NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
+        news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
+        clean_news("Culture")
+    except:
+        pass
+    try:
+        NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
+        news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
+        clean_news("Travel")
+    except:
+        pass
+    try:
+        NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
+        news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
+        clean_news("Vladimir")
+    except:
+        pass
 
 
 def news_theft_add_to_db(nowosty, theme):
