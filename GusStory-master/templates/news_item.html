@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container; mt-4">
+    <div class="card" style="border-radius: 10px;">
+        <div class="card-title"><h1 align="center">Новости</h1></div>
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                {% for new in new_list %}
+                <li class="list-group-item">
+                    <a style="color: #000;" href="news_item/{{new.id}}">{{new.title}} </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

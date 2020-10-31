@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container; mt-4">
+    <div class="row">
+        {% for quest in quests %}
+        <div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title" align="center">{{quest.name}}</h5>
+                    <div style="height: 200px;">
+                        <ul>
+                            {% for point in quest.points.split('\n')%}
+                            <li>{{point}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
