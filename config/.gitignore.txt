@@ -1,1 +1,1 @@
-/GusStory-master
+../GusStory-master
