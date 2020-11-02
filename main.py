@@ -14,6 +14,8 @@ db_session.global_init("db/blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
+i = 0
+name = 0
 
 
 @login_manager.user_loader
@@ -233,13 +235,16 @@ def index():
 @app.route('/add_quests', methods=['GET', 'POST'])
 @login_required
 def add_quest():
+    global i, name
     if current_user.id not in [1, 2, 3]:
         return redirect('/')
     form = QuestsForm()
-    if form.validate_on_submit():
+    if form.ok.data:
+        i = form.kol_vo.data
         sessions = db_session.create_session()
         quest = quests.Quests()
         quest.name = form.name.data
+        name = form.name.data
         for user in sessions.query(users.User):
             if user.not_completed is None:
                 user.not_completed = quest.name
@@ -248,8 +253,20 @@ def add_quest():
         quest.points = form.points.data
         sessions.add(quest)
         sessions.commit()
-        return redirect('/')
-    return render_template('add_quests.html', title='Добавление квеста', form=form)
+        return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1)
+    if form.submit.data:
+        sessions = db_session.create_session()
+        i -= 1
+        print(name)
+        quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
+        quest.questions += ";;" + form.questions.data
+        quest.ansver += ";;" + form.ansvers.data
+        sessions.commit()
+        if i == 0:
+            return redirect('/')
+        else:
+            return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1)
+    return render_template('add_quests.html', title='Добавление квеста', form=form, flag=0)
 
 
 @app.route('/quests')

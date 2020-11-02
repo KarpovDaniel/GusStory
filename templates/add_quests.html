@@ -1,30 +1,30 @@
 {% extends "base.html" %}
 
 {% block main %}
-<script type="text/javascript">
-    function myFunction(){
-        alert("You button was pressed");
-    };
-</script>
+<script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
+        charset="utf-8"></script>
 {% endblock %}
 
 {% block content %}
 <h1>{{ title }}</h1>
-<form action="" method="post" enctype="multipart/form-data">
-    <a>
-        {{ form.name.label }} <br>
-        {{ form.name(class="form-control") }} <br>
-    </a>
-    <a>
-        {{ form.points.label }} <br>
-        {{ form.points(class="form-control") }} <br>
-    </a>
-    <a>
-        {{ form.kol_vo.label }} <br>
-        {{ form.kol_vo(class="form-control") }} <br>
-    </a>
-    <a>{{ form.ok(type="submit", class="btn btn-primary") }}</a><br>
-    <input id="button" type="submit" name="button" onclick="myFunction();" value="enter"/>
+<form method="post" enctype="multipart/form-data">
+    {% if flag == 0 %}
+        <a>
+            {{ form.name.label }} <br>
+            {{ form.name(class="form-control") }} <br>
+        </a>
+        <a>
+            {{ form.points.label }} <br>
+            {{ form.points(class="form-control") }} <br>
+        </a>
+        <a>
+            {{ form.kol_vo.label }} <br>
+            {{ form.kol_vo(class="form-control") }} <br>
+        </a>
+        <a>{{ form.ok(type="submit", class="btn btn-primary") }}</a>
+
+    {% else %}
         <a>
             {{ form.questions.label }} <br>
             {{ form.questions(class="form-control") }} <br>
@@ -35,5 +35,6 @@
         </a>
         <a>{{ form.submit(type="submit", class="btn btn-primary") }}</a>
         <div> {{ message }}</div>
+    {% endif %}
 </form>
 {% endblock %}
