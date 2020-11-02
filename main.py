@@ -3,7 +3,7 @@ import datetime
 from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
 import feedparser
 from data import db_session, items, users, quests, news
@@ -54,6 +54,10 @@ class EditForm(FlaskForm):
 class QuestsForm(FlaskForm):
     name = StringField('Название квеста', validators=[DataRequired()])
     points = TextAreaField('Описание квеста')
+    kol_vo = IntegerField("Количество вопросов")
+    ok = SubmitField("Ок")
+    questions = TextAreaField('Вопрос')
+    ansvers = TextAreaField('Ответ')
     submit = SubmitField('Применить')
 
 
@@ -253,6 +257,13 @@ def gus_quests():
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests)
     return render_template("quests.html", quests=quest)
+
+
+@app.route("/quest/<int:id>")
+def gus_quest_item(id):
+    sessions = db_session.create_session()
+    quest = sessions.query(quests.Quests).get(id)
+    return render_template("quest_item.html", quest=quest)
 
 
 @app.route('/about_item/<int:id>', methods=['GET', 'POST'])

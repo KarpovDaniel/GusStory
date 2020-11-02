@@ -12,6 +12,7 @@
                             {% for point in quest.points.split('\n')%}
                             <li>{{point}}</li>
                             {% endfor %}
+                            <a class="btn btn-dark" href="/quest/{{quest.id}}">Начать</a>
                         </ul>
                     </div>
                 </div>
@@ -19,5 +20,8 @@
         </div>
         {% endfor %}
     </div>
+    {% if current_user.id in [1, 2, 3] %}
+        <a class="btn btn-warning" href="/add_quests">Добавить квест</a>
+    {% endif %}
 </div>
 {% endblock %}
