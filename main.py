@@ -266,7 +266,7 @@ def add_quest():
         form.questions.data = ""
         form.ansvers.data = ""
         if i == 0:
-            return redirect('/')
+            return redirect('/quests')
         else:
             return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
     return render_template('add_quests.html', title='Добавление квеста', form=form, flag=0)
@@ -299,12 +299,12 @@ def erase_quest(id):
         try:
             st = user.completed
             st2 = user.not_completed
-            number = st.find(quest.title)
-            number2 = st2.find(quest.title)
+            number = str(st).find(str(quest.name))
+            number2 = str(st2).find(str(quest.name))
             if number != -1:
-                user.completed = st[:number] + st[number + len(quest.title):]
+                user.completed = st[:number - 1] + st[number + len(str(quest.name)):]
             if number2 != -1:
-                user.not_completed = st2[:number2] + st2[number2 + len(quest.title):]
+                user.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
         except:
             pass
         sessions.commit()
