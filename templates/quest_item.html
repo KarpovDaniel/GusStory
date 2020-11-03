@@ -6,9 +6,9 @@
             <div class="card-body">
                 <h5 class="card-title">О квесте</h5>
                 <p>Вы решили выполнить квест с id: {{quest.id}}</p>
-                <p>Вопросы:</p>>
+                <p>Вопросы:</p>
                 <ol>
-                    {% for question in quest.questions.split(";;")%}
+                    {% for question in quest.questions.split(";;")[1:]%}
                     <li>{{question}}</li>
                     {% endfor %}
                 </ol>

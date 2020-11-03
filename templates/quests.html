@@ -12,7 +12,9 @@
                             {% for point in quest.points.split('\n')%}
                             <li>{{point}}</li>
                             {% endfor %}
-                            <a class="btn btn-dark" href="/quest/{{quest.id}}">Начать</a>
+                            {% if current_user.is_authenticated %}
+                                <a class="btn btn-dark" href="/quest/{{quest.id}}">Начать</a>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
