@@ -52,8 +52,16 @@ b {
     float: left;
 }
 
+#map {
+    height: calc(100vh - 175px);
+}
+
 @media (orientation: portrait) {
     .carousel {
         width: 100%;
+    }
+
+    #map {
+        height: calc(100vh - 225px);
     }
 }
