@@ -320,12 +320,12 @@ def about_item(id):
     return render_template("single_item.html", item=item)
 
 
-@app.route("/news")
+"""@app.route("/news")
 def view_news():
     session = db_session.create_session()
     news_list = session.query(news.News)
     return render_template("news_item.html", new_list=news_list)
-
+"""
 
 @app.route("/maps")
 def maps():
