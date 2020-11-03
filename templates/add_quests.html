@@ -25,6 +25,7 @@
         <a>{{ form.ok(type="submit", class="btn btn-primary") }}</a>
 
     {% else %}
+        <a>Осталось вопросов: {{i}}</a><br>
         <a>
             {{ form.questions.label }} <br>
             {{ form.questions(class="form-control") }} <br>

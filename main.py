@@ -253,7 +253,8 @@ def add_quest():
         quest.points = form.points.data
         sessions.add(quest)
         sessions.commit()
-        return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1)
+        form.name.data = name
+        return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
     if form.submit.data:
         sessions = db_session.create_session()
         i -= 1
@@ -262,10 +263,12 @@ def add_quest():
         quest.questions += ";;" + form.questions.data
         quest.ansver += ";;" + form.ansvers.data
         sessions.commit()
+        form.questions.data = ""
+        form.ansvers.data = ""
         if i == 0:
             return redirect('/')
         else:
-            return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1)
+            return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
     return render_template('add_quests.html', title='Добавление квеста', form=form, flag=0)
 
 
@@ -277,10 +280,37 @@ def gus_quests():
 
 
 @app.route("/quest/<int:id>")
+@login_required
 def gus_quest_item(id):
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests).get(id)
     return render_template("quest_item.html", quest=quest)
+
+
+@app.route("/erase_quest/<int:id>")
+@login_required
+def erase_quest(id):
+    if not current_user.id in [1, 2, 3]:
+        return redirect("/")
+    sessions = db_session.create_session()
+    quest = sessions.query(quests.Quests).get(id)
+    usery = sessions.query(users.User)
+    for user in usery:
+        try:
+            st = user.completed
+            st2 = user.not_completed
+            number = st.find(quest.title)
+            number2 = st2.find(quest.title)
+            if number != -1:
+                user.completed = st[:number] + st[number + len(quest.title):]
+            if number2 != -1:
+                user.not_completed = st2[:number2] + st2[number2 + len(quest.title):]
+        except:
+            pass
+        sessions.commit()
+    sessions.delete(quest)
+    sessions.commit()
+    return redirect("/quests")
 
 
 @app.route('/about_item/<int:id>', methods=['GET', 'POST'])
