@@ -15,8 +15,8 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     login = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.String)
-    completed = sqlalchemy.Column(sqlalchemy.String)
-    not_completed = sqlalchemy.Column(sqlalchemy.String)
+    completed = sqlalchemy.Column(sqlalchemy.String, default="")
+    not_completed = sqlalchemy.Column(sqlalchemy.String, default="")
     quest_ansver = sqlalchemy.Column(sqlalchemy.TEXT, default="")
 
     def __repr__(self):
