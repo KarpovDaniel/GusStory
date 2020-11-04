@@ -63,6 +63,11 @@ class QuestsForm(FlaskForm):
     submit = SubmitField('Применить')
 
 
+class AnsverForm(FlaskForm):
+    ansver = TextAreaField("Ответ")
+    submit = SubmitField("Ответить")
+
+
 class LengthError(Exception):
     error = 'Пароль должен от 8 до 15 символов!'
 
@@ -279,12 +284,97 @@ def gus_quests():
     return render_template("quests.html", quests=quest)
 
 
-@app.route("/quest/<int:id>")
+@app.route("/quest/<int:id>", methods=["GET", "POST"])
 @login_required
 def gus_quest_item(id):
     sessions = db_session.create_session()
+    form = AnsverForm()
     quest = sessions.query(quests.Quests).get(id)
-    return render_template("quest_item.html", quest=quest)
+    user = sessions.query(users.User).get(current_user.id)
+    ansver_list = current_user.quest_ansver.split("$$")
+    print(9)
+    print(current_user.quest_ansver)
+    f = 0
+    if request.method == "POST":
+        print(1)
+        for i in range(len(ansver_list)):
+            ans = ansver_list[i].split("%%")
+            if ans[0] == quest.name:
+                print(3)
+                ans[-1] = str(form.ansver.data)
+                if i == 0:
+                    ansver_list = ["%%".join(ans)] + ansver_list[i + 1:]
+                elif i == len(ansver_list) - 1:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans)]
+                else:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans)] + ansver_list[i + 1:]
+                user.quest_ansver = "$$".join(ansver_list)
+                sessions.commit()
+                break
+    user = sessions.query(users.User).get(current_user.id)
+    print(2)
+    vopros = ""
+    number = 0
+    otvet = ""
+    verno = 0
+    ansver_list = user.quest_ansver.split("$$")
+    for i in range(len(ansver_list)):
+        ans = ansver_list[i].split("%%")
+        if ans[0] == quest.name:
+            f = 1
+            number = len(ans) - 1
+            vopros = quest.questions.split(";;")[number]
+            tru_ans = quest.ansver.split(";;")[number]
+            otvet = ans[number]
+            print(6, otvet, number, vopros)
+            if tru_ans == otvet:
+                form.ansver.data = ""
+                if number == len(quest.questions.split(";;")) - 1:
+                    if quest.name not in user.completed.split(";"):
+                        user.completed = ";".join(user.completed.split(";") + [quest.name])
+                        not_com = user.not_completed.split(";")
+                        num = -1
+                        print(not_com)
+                        for j in range(len(not_com)):
+                            print(not_com[j], quest.name, not_com[j] == quest.name, 9999999)
+                            if not_com[j] == quest.name:
+                                num = j
+                                break
+                        print(num, 66666666)
+                        if num != -1:
+                            if num == 0:
+                                user.not_completed = ";".join(not_com[num + 1:])
+                            elif num == len(not_com) - 1:
+                                user.not_completed = ";".join(not_com[:num])
+                            else:
+                                user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
+                        sessions.commit()
+                    return render_template("quest_item.html", quest=quest, message="Vin")
+                verno = 1
+                number += 1
+                vopros = quest.questions.split(";;")[number]
+                otvet = ""
+                if i != 0:
+                    ansver_list = ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
+                elif i == len(ansver_list) - 1:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"]
+                else:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
+                user.quest_ansver = "$$".join(ansver_list)
+                sessions.commit()
+            break
+    if f == 0:
+        print(4)
+        if user.quest_ansver == "":
+            user.quest_ansver = quest.name + "%%"
+        else:
+            user.quest_ansver = user.quest_ansver + "$$" + quest.name + "%%"
+        sessions.commit()
+        number = 1
+        vopros = quest.questions.split(";;")[number]
+        otvet = ""
+        verno = 1
+    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=vopros, otv=otvet, ver=verno)
 
 
 @app.route("/erase_quest/<int:id>")
