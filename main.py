@@ -64,7 +64,7 @@ class QuestsForm(FlaskForm):
 
 
 class AnsverForm(FlaskForm):
-    ansver = TextAreaField("Ответ")
+    ansver = StringField("Ответ")
     submit = SubmitField("Ответить")
 
 
