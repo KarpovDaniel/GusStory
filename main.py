@@ -326,21 +326,18 @@ def gus_quest_item(id):
             vopros = quest.questions.split(";;")[number]
             tru_ans = quest.ansver.split(";;")[number]
             otvet = ans[number]
-            print(6, otvet, number, vopros)
-            if tru_ans == otvet:
+            if tru_ans.lower() == otvet.lower():
                 form.ansver.data = ""
                 if number == len(quest.questions.split(";;")) - 1:
                     if quest.name not in user.completed.split(";"):
                         user.completed = ";".join(user.completed.split(";") + [quest.name])
                         not_com = user.not_completed.split(";")
                         num = -1
-                        print(not_com)
                         for j in range(len(not_com)):
                             print(not_com[j], quest.name, not_com[j] == quest.name, 9999999)
                             if not_com[j] == quest.name:
                                 num = j
                                 break
-                        print(num, 66666666)
                         if num != -1:
                             if num == 0:
                                 user.not_completed = ";".join(not_com[num + 1:])
