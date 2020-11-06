@@ -137,7 +137,7 @@ def register():
         user.created_date = reformat(str(datetime.datetime.now())[:-16])
         user.surname = form.surname.data
         user.set_password(form.password.data)
-        user.not_completed = ';'.join(map(lambda x: x.name, sessions.query(quests.Quests)))
+        user.not_completed = ';'.join(map(lambda x: str(x.name), sessions.query(quests.Quests)))
         sessions.add(user)
         sessions.commit()
         return redirect('/login')

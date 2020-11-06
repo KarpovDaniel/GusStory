@@ -31,7 +31,7 @@
                         </li>
                         {% endfor %}
                         {% endif %}
-                        {% if current_user.completed != None and current_user.completed != ""%}
+                        {% if current_user.completed != None and current_user.completed != "" %}
                         {% for quest in current_user.completed.split(';') %}
                         <li class="list-group-item">
                             <table class="mt-2" width="100%" cellpadding="0">
