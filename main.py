@@ -16,6 +16,7 @@ login_manager.init_app(app)
 count_items = 0
 i = 0
 name = 0
+print(len(""))
 
 
 @login_manager.user_loader

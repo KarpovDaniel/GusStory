@@ -13,7 +13,7 @@ function init() {
             },
             properties: {
                 hintContent: "Музей Хрусталя им. Мальцовых",
-                balloonContentHeader: "Музей Хрусталя им. Мальцовых",
+                balloonContentHeader: "<a href='about_item/1' style='color:#000'>Музей Хрусталя им. Мальцовых</a>",
                 balloonContentBody: "ул. Калинина, 2А",
             }
         },
