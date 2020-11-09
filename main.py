@@ -395,6 +395,23 @@ def erase_quest(id):
                 user.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
         except:
             pass
+        try:
+            ansver = user.quest_ansver.split("$$")
+            i = 0
+            while i < len(ansver):
+                if ansver[i].startswith(quest.name):
+                    if i == 0:
+                        ansver = ansver[i + 1:]
+                    elif i == len(ansver) - 1:
+                        ansver = ansver[:i]
+                    else:
+                        ansver = ansver[:i] + ansver[i + 1:]
+                    i -= 1
+                i += 1
+            user.quest_ansver = "$$".join(ansver)
+            sessions.commit()
+        except:
+            pass
         sessions.commit()
     sessions.delete(quest)
     sessions.commit()
