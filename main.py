@@ -60,12 +60,12 @@ class QuestsForm(FlaskForm):
     kol_vo = IntegerField("Количество вопросов")
     ok = SubmitField("Ок")
     questions = TextAreaField('Вопрос')
-    ansvers = TextAreaField('Ответ')
+    answers = TextAreaField('Ответ')
     submit = SubmitField('Применить')
 
 
-class AnsverForm(FlaskForm):
-    ansver = StringField("Ответ")
+class AnswerForm(FlaskForm):
+    answer = StringField("Ответ")
     submit = SubmitField("Ответить")
 
 
@@ -264,10 +264,10 @@ def add_quest():
         i -= 1
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
-        quest.ansver += ";;" + form.ansvers.data
+        quest.answer += ";;" + form.answers.data
         sessions.commit()
         form.questions.data = ""
-        form.ansvers.data = ""
+        form.answers.data = ""
         if i == 0:
             return redirect('/quests')
         else:
@@ -286,41 +286,41 @@ def gus_quests():
 @login_required
 def gus_quest_item(id):
     sessions = db_session.create_session()
-    form = AnsverForm()
+    form = AnswerForm()
     quest = sessions.query(quests.Quests).get(id)
     user = sessions.query(users.User).get(current_user.id)
-    ansver_list = current_user.quest_ansver.split("$$")
+    answer_list = current_user.quest_answer.split("$$")
     f = 0
     if request.method == "POST":
-        for i in range(len(ansver_list)):
-            ans = ansver_list[i].split("%%")
+        for i in range(len(answer_list)):
+            ans = answer_list[i].split("%%")
             if ans[0] == quest.name:
-                ans[-1] = str(form.ansver.data)
+                ans[-1] = str(form.answer.data)
                 if i == 0:
-                    ansver_list = ["%%".join(ans)] + ansver_list[i + 1:]
-                elif i == len(ansver_list) - 1:
-                    ansver_list = ansver_list[:i] + ["%%".join(ans)]
+                    answer_list = ["%%".join(ans)] + answer_list[i + 1:]
+                elif i == len(answer_list) - 1:
+                    answer_list = answer_list[:i] + ["%%".join(ans)]
                 else:
-                    ansver_list = ansver_list[:i] + ["%%".join(ans)] + ansver_list[i + 1:]
-                user.quest_ansver = "$$".join(ansver_list)
+                    answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
+                user.quest_answer = "$$".join(answer_list)
                 sessions.commit()
                 break
     user = sessions.query(users.User).get(current_user.id)
-    vopros = ""
+    question = ""
     number = 0
-    otvet = ""
-    verno = 0
-    ansver_list = user.quest_ansver.split("$$")
-    for i in range(len(ansver_list)):
-        ans = ansver_list[i].split("%%")
+    answer = ""
+    true = 0
+    answer_list = user.quest_answer.split("$$")
+    for i in range(len(answer_list)):
+        ans = answer_list[i].split("%%")
         if ans[0] == quest.name:
             f = 1
             number = len(ans) - 1
-            vopros = quest.questions.split(";;")[number]
-            tru_ans = quest.ansver.split(";;")[number]
-            otvet = ans[number]
-            if tru_ans.lower() == otvet.lower():
-                form.ansver.data = ""
+            question = quest.questions.split(";;")[number]
+            tru_ans = quest.answer.split(";;")[number]
+            answer = ans[number]
+            if tru_ans.lower() == answer.lower():
+                form.answer.data = ""
                 if number == len(quest.questions.split(";;")) - 1:
                     if quest.name not in user.completed.split(";"):
                         user.completed = ";".join(user.completed.split(";") + [quest.name])
@@ -338,31 +338,31 @@ def gus_quest_item(id):
                             else:
                                 user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
                         sessions.commit()
-                    return render_template("quest_item.html", quest=quest, message="Vin")
-                verno = 1
+                    return render_template("quest_item.html", quest=quest, message="win")
+                true = 1
                 number += 1
-                vopros = quest.questions.split(";;")[number]
-                otvet = ""
+                question = quest.questions.split(";;")[number]
+                answer = ""
                 if i != 0:
-                    ansver_list = ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
-                elif i == len(ansver_list) - 1:
-                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"]
+                    answer_list = ["%%".join(ans) + "%%"] + answer_list[i + 1:]
+                elif i == len(answer_list) - 1:
+                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"]
                 else:
-                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
-                user.quest_ansver = "$$".join(ansver_list)
+                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
+                user.quest_answer = "$$".join(answer_list)
                 sessions.commit()
             break
     if f == 0:
-        if user.quest_ansver == "":
-            user.quest_ansver = quest.name + "%%"
+        if user.quest_answer == "":
+            user.quest_answer = quest.name + "%%"
         else:
-            user.quest_ansver = user.quest_ansver + "$$" + quest.name + "%%"
+            user.quest_answer = user.quest_answer + "$$" + quest.name + "%%"
         sessions.commit()
         number = 1
-        vopros = quest.questions.split(";;")[number]
-        otvet = ""
-        verno = 1
-    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=vopros, otv=otvet, ver=verno)
+        question = quest.questions.split(";;")[number]
+        answer = ""
+        true = 1
+    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=question, otv=answer, ver=true)
 
 
 @app.route("/erase_quest/<int:id>")
@@ -386,19 +386,19 @@ def erase_quest(id):
         except:
             pass
         try:
-            ansver = user.quest_ansver.split("$$")
+            answer = user.quest_answer.split("$$")
             i = 0
-            while i < len(ansver):
-                if ansver[i].startswith(quest.name):
+            while i < len(answer):
+                if answer[i].startswith(quest.name):
                     if i == 0:
-                        ansver = ansver[i + 1:]
-                    elif i == len(ansver) - 1:
-                        ansver = ansver[:i]
+                        answer = answer[i + 1:]
+                    elif i == len(answer) - 1:
+                        answer = answer[:i]
                     else:
-                        ansver = ansver[:i] + ansver[i + 1:]
+                        answer = answer[:i] + answer[i + 1:]
                     i -= 1
                 i += 1
-            user.quest_ansver = "$$".join(ansver)
+            user.quest_answer = "$$".join(answer)
             sessions.commit()
         except:
             pass

@@ -17,7 +17,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.String)
     completed = sqlalchemy.Column(sqlalchemy.String, default="")
     not_completed = sqlalchemy.Column(sqlalchemy.String, default="")
-    quest_ansver = sqlalchemy.Column(sqlalchemy.TEXT, default="")
+    quest_answer = sqlalchemy.Column(sqlalchemy.TEXT, default="")
 
     def __repr__(self):
         return f'{self.id}, {self.name}, {self.login}'

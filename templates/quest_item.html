@@ -5,15 +5,15 @@
     <div class="row">
         <div class="card mb-4" style="width: 100%; border-radius: 10px;">
             <div class="card-body">
-                {% if message == "Vin"%}
-                    <p>Вы прошли наш кквкест с id: {{quest.id}}<br>Вы конечно молодец, но к сожалению вы долба...<br>Извините, но это так.</p>
+                {% if message == "win"%}
+                    <p>Вы прошли наш квест<br>Вы конечно молодец, но к сожалению вы долба...<br>Извините, но это так.</p>
                 {% else %}
                     <h5 class="card-title">О квесте</h5>
-                    <p>Вы решили выполнить квест с id: {{quest.id}}</p>
+                    <p>Вы решили выполнить квест</p>
                     <p>Вопрос номер {{num}}:</p><br>
                     <p>{{vopr}}</p><br>
                     <a>
-                        {{ form.ansver(class="form-control", type="ansver") }}
+                        {{ form.answer(class="form-control", type="answer") }}
                     </a>
                     {% if ver == 0 %}
                         <p>Ответ неверный</p>
