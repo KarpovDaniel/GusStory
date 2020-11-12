@@ -96,7 +96,6 @@ def logout():
 
 def reformat(s):
     s = s.split('-')
-    print(s)
     k = 0
     string = ''
     month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
@@ -109,7 +108,6 @@ def reformat(s):
         else:
             string += x + ' ' + 'года'
         k += 1
-        print(string)
     return string
 
 
@@ -264,7 +262,6 @@ def add_quest():
     if form.submit.data:
         sessions = db_session.create_session()
         i -= 1
-        print(name)
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
         quest.ansver += ";;" + form.ansvers.data
@@ -293,15 +290,11 @@ def gus_quest_item(id):
     quest = sessions.query(quests.Quests).get(id)
     user = sessions.query(users.User).get(current_user.id)
     ansver_list = current_user.quest_ansver.split("$$")
-    print(9)
-    print(current_user.quest_ansver)
     f = 0
     if request.method == "POST":
-        print(1)
         for i in range(len(ansver_list)):
             ans = ansver_list[i].split("%%")
             if ans[0] == quest.name:
-                print(3)
                 ans[-1] = str(form.ansver.data)
                 if i == 0:
                     ansver_list = ["%%".join(ans)] + ansver_list[i + 1:]
@@ -313,7 +306,6 @@ def gus_quest_item(id):
                 sessions.commit()
                 break
     user = sessions.query(users.User).get(current_user.id)
-    print(2)
     vopros = ""
     number = 0
     otvet = ""
@@ -335,7 +327,6 @@ def gus_quest_item(id):
                         not_com = user.not_completed.split(";")
                         num = -1
                         for j in range(len(not_com)):
-                            print(not_com[j], quest.name, not_com[j] == quest.name, 9999999)
                             if not_com[j] == quest.name:
                                 num = j
                                 break
@@ -362,7 +353,6 @@ def gus_quest_item(id):
                 sessions.commit()
             break
     if f == 0:
-        print(4)
         if user.quest_ansver == "":
             user.quest_ansver = quest.name + "%%"
         else:
@@ -468,7 +458,6 @@ def news_theft_add_to_db(nowosty, theme):
     session = db_session.create_session()
     for new in nowosty[:10]:
         if session.query(news.News).filter(news.News.title == new["title"]).count() == 0:
-            print(-1)
             new_to_db = news.News()
             new_to_db.title = new["title"]
             try:
