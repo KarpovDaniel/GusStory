@@ -10,27 +10,26 @@
         <div class="card-body">
             <form action="" method="post">
                 {{ form.hidden_tag() }}
-                <a>
-                    {{ form.login.label }} <br>
-                    {{ form.login(class="form-control", type="login") }} <br>
+                <p>
+                    {{ form.login.label }}
+                    {{ form.login(class="form-control", type="login") }}
                     {% for error in form.login.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
                     {% endfor %}
-                </a>
-                <a>
-                    {{ form.password.label }} <br>
-                    {{ form.password(class="form-control", type="password") }} <br>
+                </p>
+                <p>
+                    {{ form.password.label }}
+                    {{ form.password(class="form-control", type="password") }}
                     {% for error in form.password.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
                     {% endfor %}
-                </a>
-                <a> {{ form.remember_me() }} {{ form.remember_me.label }} </a>
-                <br>
-                <a> {{ form.submit(type="submit", class="btn btn-primary") }} </a>
+                </p>
+                <p> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
+                <p> {{ form.submit(type="submit", class="btn btn-primary") }} </p>
                 <div> {{ message }}</div>
             </form>
         </div>

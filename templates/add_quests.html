@@ -10,31 +10,31 @@
 <h1>{{ title }}</h1>
 <form method="post" enctype="multipart/form-data">
     {% if flag == 0 %}
-        <a>
+        <p>
             {{ form.name.label }} <br>
             {{ form.name(class="form-control") }} <br>
-        </a>
-        <a>
+        </p>
+        <p>
             {{ form.points.label }} <br>
             {{ form.points(class="form-control") }} <br>
-        </a>
-        <a>
+        </p>
+        <p>
             {{ form.kol_vo.label }} <br>
             {{ form.kol_vo(class="form-control") }} <br>
-        </a>
-        <a>{{ form.ok(type="submit", class="btn btn-primary") }}</a>
+        </p>
+        <p>{{ form.ok(type="submit", class="btn btn-primary") }}</p>
 
     {% else %}
-        <a>Осталось вопросов: {{i}}</a><br>
-        <a>
+        <p>Осталось вопросов: {{i}}</p><br>
+        <p>
             {{ form.questions.label }} <br>
             {{ form.questions(class="form-control") }} <br>
-        </a>
-        <a>
+        </p>
+        <p>
             {{ form.answers.label }} <br>
             {{ form.answers(class="form-control") }} <br>
-        </a>
-        <a>{{ form.submit(type="submit", class="btn btn-primary") }}</a>
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
         <div> {{ message }}</div>
     {% endif %}
 </form>

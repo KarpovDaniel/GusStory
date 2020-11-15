@@ -11,42 +11,42 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
                 {{ form.csrf_token }}
-                <a>
-                    {{ form.name.label }}<br>
-                    {{ form.name(class="form-control") }}<br>
-                </a>
-                <a>
-                    {{ form.surname.label }}<br>
-                    {{ form.surname(class="form-control") }}<br>
-                </a>
-                <a>
+                <p>
+                    {{ form.name.label }}
+                    {{ form.name(class="form-control") }}
+                </p>
+                <p>
+                    {{ form.surname.label }}
+                    {{ form.surname(class="form-control") }}
+                </p>
+                <p>
                     {{ form.login.label }}<br>
-                    {{ form.login(class="form-control", type="login") }}<br>
+                    {{ form.login(class="form-control", type="login") }}
                     {% for error in form.login.errors %}
-                </a>
-                <a class="alert alert-danger" role="alert">
+                </p>
+                <p class="alert alert-danger" role="alert">
                     {{ error }}
                     {% endfor %}
                     {% if email_error != "OK" %}
                     <a class="alert alert-danger" role="alert">{{ email_error }}</a>
                     {% endif %}
-                </a>
-                <a>
+                </p>
+                <p>
                     {{ form.password.label }}<br>
-                    {{ form.password(class="form-control", type="password") }}<br>
+                    {{ form.password(class="form-control", type="password") }}
                     {% if password_error != "OK" %}
-                    <div class="alert alert-danger" role="alert">{{ password_error }}</div>
-                    {% endif %}
-                </a>
+                <div class="alert alert-danger" role="alert">{{ password_error }}</div>
+                {% endif %}
+                </p>
 
-                <a>
+                <p>
                     {{ form.password_again.label }}<br>
-                    {{ form.password_again(class="form-control", type="password") }}<br>
+                    {{ form.password_again(class="form-control", type="password") }}
                     {% if again_password_error != "OK" %}
-                    <a class="alert alert-danger" role="alert">{{ again_password_error }}</a>
-                    {% endif %}
-                </a>
-                <a>{{ form.submit(type="submit", class="btn btn-outline-dark") }}</a>
+                <p class="alert alert-danger" role="alert">{{ again_password_error }}</p>
+                {% endif %}
+                </p>
+                <p>{{ form.submit(type="submit", class="btn btn-outline-dark") }}</p>
             </form>
         </div>
     </div>
