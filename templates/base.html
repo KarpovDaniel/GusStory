@@ -23,22 +23,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <a class="mr-auto"></a>
             <!--<a class="btn btn-dark mr-2 mt-1 mb-1" href="/news"> Новости </a>-->
-            <!--<a class="btn btn-dark mr-2 mt-1 mb-1" href="/maps"> Карта </a>-->
+            <a class="btn btn-dark mr-2 mt-1 mb-1" href="/maps"> Карта </a>
             <a class="btn btn-dark mr-2 mt-1 mb-1" href="/quests"> Квесты </a>
             {% if not current_user.is_authenticated %}
-            <div class="mt-1 mb-1">
-                <a class="btn btn-light mr-2" href="/login"> Войти </a>
-                <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
-            </div>
+                <div class="mt-1 mb-1">
+                    <a class="btn btn-light mr-2" href="/login"> Войти </a>
+                    <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
+                </div>
             {% else %}
-            <a class="btn btn-light" href="/profile"> Личный кабинет </a>
+                <a class="btn btn-light" href="/profile"> Личный кабинет </a>
             {% endif %}
         </div>
     </nav>
-    <div class="content container">
-        {% block content %}
-        {% endblock %}
-    </div>
+
+    {% block content %}
+    {% endblock %}
+
 </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" crossorigin="anonymous"
         integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"></script>

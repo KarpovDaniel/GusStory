@@ -1,5 +1,11 @@
+body {
+    margin: 0;
+}
 .content {
     flex: 1 0 auto;
+}
+* {
+  box-sizing: border-box;
 }
 
 h1 {
@@ -51,4 +57,9 @@ b {
     .carousel {
         width: 100%;
     }
+}
+.map {
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
