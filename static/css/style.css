@@ -1,11 +1,13 @@
 body {
     margin: 0;
 }
+
 .content {
     flex: 1 0 auto;
 }
+
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 h1 {
@@ -53,13 +55,20 @@ b {
     float: left;
 }
 
+.map_gus {
+    margin: 15px;
+    padding: 10px;
+    height: 93vh;
+}
+
 @media (orientation: portrait) {
     .carousel {
         width: 100%;
     }
-}
-.map {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+
+    .map_gus {
+        margin: 3px;
+        padding: 3px;
+        height: 88vh;
+    }
 }
