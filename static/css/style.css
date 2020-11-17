@@ -1,15 +1,3 @@
-body {
-    margin: 0;
-}
-
-.content {
-    flex: 1 0 auto;
-}
-
-* {
-    box-sizing: border-box;
-}
-
 h1 {
     color: #7c795d;
     font-family: ‘Trocchi’, serif;
@@ -56,9 +44,8 @@ b {
 }
 
 .map_gus {
-    margin: 15px;
-    padding: 10px;
-    height: 93vh;
+    margin: 10px;
+    height: 85vh;
 }
 
 @media (orientation: portrait) {
