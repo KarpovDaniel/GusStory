@@ -1,12 +1,12 @@
 ymaps.ready(init);
 
 function init() {
-    var myMap = new ymaps.Map("map", {
+    let myMap = new ymaps.Map("map", {
         center: [55.611813, 40.660774],
         zoom: 13
     });
 
-    var myGeoObject = new ymaps.GeoObject({
+    const myGeoObject = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.619820, 40.658117]
@@ -20,7 +20,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject0 = new ymaps.GeoObject({
+    const myGeoObject0 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.613656, 40.671539]
@@ -34,7 +34,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject1 = new ymaps.GeoObject({
+    const myGeoObject1 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.615304, 40.663793]
@@ -48,7 +48,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject2 = new ymaps.GeoObject({
+    const myGeoObject2 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.634348, 40.689810]
@@ -62,7 +62,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject3 = new ymaps.GeoObject({
+    const myGeoObject3 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.625530, 40.700490]
@@ -76,7 +76,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject4 = new ymaps.GeoObject({
+    const myGeoObject4 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.625530, 40.700490]
@@ -90,7 +90,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject5 = new ymaps.GeoObject({
+    const myGeoObject5 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.609868, 40.670896]
@@ -104,7 +104,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject6 = new ymaps.GeoObject({
+    const myGeoObject6 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.614639, 40.670134]
@@ -118,7 +118,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject7 = new ymaps.GeoObject({
+    const myGeoObject7 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.618883, 40.659677]
@@ -132,7 +132,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject8 = new ymaps.GeoObject({
+    const myGeoObject8 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.604197, 40.676754]
@@ -146,7 +146,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject9 = new ymaps.GeoObject({
+    const myGeoObject9 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.619020, 40.657013]
@@ -160,7 +160,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject10 = new ymaps.GeoObject({
+    const myGeoObject10 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.626131, 40.665206]
@@ -174,7 +174,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject11 = new ymaps.GeoObject({
+    const myGeoObject11 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.614927, 40.670335]
@@ -188,7 +188,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject12 = new ymaps.GeoObject({
+    const myGeoObject12 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.612599, 40.665880]
@@ -202,7 +202,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject13 = new ymaps.GeoObject({
+    const myGeoObject13 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.570552, 40.182595]
@@ -216,7 +216,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject14 = new ymaps.GeoObject({
+    const myGeoObject14 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.611645, 40.668197]
@@ -230,7 +230,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject15 = new ymaps.GeoObject({
+    const myGeoObject15 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.616437, 40.678321]
@@ -244,7 +244,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject16 = new ymaps.GeoObject({
+    const myGeoObject16 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.619949, 40.678899]
@@ -258,7 +258,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject17 = new ymaps.GeoObject({
+    const myGeoObject17 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.611034, 40.658133]
@@ -272,7 +272,7 @@ function init() {
         {
             strokeColor: "ff0000"
         });
-    var myGeoObject18 = new ymaps.GeoObject({
+    const myGeoObject18 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
                 coordinates: [55.617488, 40.678467]
