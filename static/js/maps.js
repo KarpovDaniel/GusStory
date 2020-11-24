@@ -1,7 +1,16 @@
-ymaps.ready(init);
+ymaps.ready(init, function () {
+    ymaps.geolocation.get().then(function (res) {
+        var mapContainer = $('#map'),
+            bounds = res.geoObjects.get(0).properties.get('boundedBy'),
+            mapState = ymaps.util.bounds.getCenterAndZoom(
+                bounds,
+                [mapContainer.width(), mapContainer.height()]
+            );
+        createMap(mapState);
+    });
+});
 
 function init() {
-    ymaps.geolocation.get();
     let myMap = new ymaps.Map("map", {
         center: [55.611813, 40.660774],
         zoom: 13
