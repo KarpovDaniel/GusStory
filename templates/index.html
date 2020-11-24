@@ -5,13 +5,13 @@
     <div class="row">
         {% for item in items %}
         <div class="col-sm-6">
-            <div class="card mb-4 ratio" style="width: 100%; border-radius: 10px;">
+            <div class="card mb-4" style="border-radius: 10px;">
                 <a href="about_item/{{ item.id }}">
                     <img class="card-img-top" onload="resize(this)" style="border-radius: 10px;" src={{item.photo}}>
                 </a>
                 <div class="card-body">
                     <a href="/about_item/{{item.id}}" style="color: #000;">
-                        <h5 align="center" class="card-title">{{item.title}}</h5></a>
+                        <h5 align="center" style="height: 35px;" class="card-title">{{item.title}}</h5></a>
                     {% if current_user.id in [1, 2, 3] %}
                     <a href="/items/{{item.id}}" class="btn btn-outline-dark">Изменить</a>
                     {% endif %}
