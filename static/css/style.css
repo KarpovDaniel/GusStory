@@ -41,6 +41,7 @@ b {
 .carousel {
     width: 50%;
     float: right;
+    margin-left: 10px;
 }
 
 .map_gus {
@@ -51,6 +52,7 @@ b {
 @media (orientation: portrait) {
     .carousel {
         width: 100%;
+        margin-left: 0;
     }
 
     .map_gus {
