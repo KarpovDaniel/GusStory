@@ -1,12 +1,13 @@
-import os
 import datetime
-from flask import Flask, render_template, redirect, request, abort
+import os
+
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
-import feedparser
-from data import db_session, items, users, quests, news
+
+from data import db_session, items, users, quests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
@@ -69,7 +70,7 @@ class AnswerForm(FlaskForm):
 
 
 class LengthError(Exception):
-    error = 'Пароль должен от 8 до 15 символов!'
+    error = 'Пароль должен содержать не менее 8 символов!'
 
 
 class LetterError(Exception):
@@ -155,7 +156,7 @@ def check_password(password):
             raise LetterError
         if flags[0] == 0:
             raise DigitError
-        if len(password) < 8 or len(password) > 15:
+        if len(password) < 8:
             raise LengthError
         return 'OK'
     except (LengthError, LetterError, DigitError) as ex:
@@ -178,10 +179,10 @@ def add_items():
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
         photo = request.files['file1']
-        photo.save('static/img/image' + str(count_items) + '.png')
-        item.photo = '/static/img/image' + str(count_items) + '.png'
+        photo.save('static/img/image' + str(count_items) + '.jpg')
+        item.photo = '/static/img/image' + str(count_items) + '.jpg'
         for x in f:
-            x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.png')
+            x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.jpg')
             item.image = 'static/images/item' + str(count_items + 1)
             count_photo += 1
         item.year = form.year.data
@@ -367,12 +368,12 @@ def gus_quest_item(id):
 @app.route("/erase_quest/<int:id>")
 @login_required
 def erase_quest(id):
-    if not current_user.id in [1, 2, 3]:
+    if current_user.id not in [1, 2, 3]:
         return redirect("/")
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests).get(id)
-    usery = sessions.query(users.User)
-    for user in usery:
+    list_users = sessions.query(users.User)
+    for user in list_users:
         try:
             st = user.completed
             st2 = user.not_completed
@@ -382,7 +383,7 @@ def erase_quest(id):
                 user.completed = st[:number - 1] + st[number + len(str(quest.name)):]
             if number2 != -1:
                 user.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
-        except:
+        except Exception:
             pass
         try:
             answer = user.quest_answer.split("$$")
@@ -399,7 +400,7 @@ def erase_quest(id):
                 i += 1
             user.quest_answer = "$$".join(answer)
             sessions.commit()
-        except:
+        except Exception:
             pass
         sessions.commit()
     sessions.delete(quest)
@@ -414,81 +415,9 @@ def about_item(id):
     return render_template("single_item.html", item=item)
 
 
-"""@app.route("/news")
-def view_news():
-    session = db_session.create_session()
-    news_list = session.query(news.News)
-    return render_template("news_item.html", new_list=news_list)
-"""
-
 @app.route("/maps")
 def maps():
     return render_template("maps.html")
-
-
-def news_theft():
-    try:
-        NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
-        news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
-        clean_news("tourism33")
-    except:
-        pass
-    try:
-        NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
-        news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
-        clean_news("Culture")
-    except:
-        pass
-    try:
-        NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
-        news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
-        clean_news("Travel")
-    except:
-        pass
-    try:
-        NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
-        news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
-        clean_news("Vladimir")
-    except:
-        pass
-
-
-def news_theft_add_to_db(nowosty, theme):
-    session = db_session.create_session()
-    for new in nowosty[:10]:
-        if session.query(news.News).filter(news.News.title == new["title"]).count() == 0:
-            new_to_db = news.News()
-            new_to_db.title = new["title"]
-            try:
-                new_to_db.content = new["summary"]
-            except:
-                new_to_db.content = new["yandex_full-text"]
-            new_to_db.theme = theme
-            new_to_db.date = datetime.datetime.now()
-            session.add(new_to_db)
-            session.commit()
-    session.commit()
-    session.close()
-
-
-def clean_news(theme):
-    sessions = db_session.create_session()
-    news_item = sessions.query(news.News).filter(news.News.theme == theme)
-    len_new = news_item.count()
-    count = 0
-    for new in news_item[::-1]:
-        if len_new - count > 10:
-            sessions.delete(new)
-            count += 1
-    sessions.commit()
-    sessions.close()
-
-
-@app.route('/news_item/<int:id>')
-def about_news(id):
-    sessions = db_session.create_session()
-    new = sessions.query(news.News).get(id)
-    return render_template("item_news.html", new=new)
 
 
 def main():
@@ -500,5 +429,4 @@ def main():
 
 
 if __name__ == '__main__':
-    #news_theft()
     main()
