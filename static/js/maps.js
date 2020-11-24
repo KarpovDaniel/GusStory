@@ -1,6 +1,7 @@
 ymaps.ready(init);
 
 function init() {
+    ymaps.geolocation.get();
     let myMap = new ymaps.Map("map", {
         center: [55.611813, 40.660774],
         zoom: 13
