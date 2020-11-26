@@ -180,10 +180,10 @@ def add_items():
         os.mkdir('static/images/item' + str(count_items + 1))
         count_photo = 0
         photo = request.files['file1']
-        photo.save('static/img/image' + str(count_items) + '.png')
-        item.photo = '/static/img/image' + str(count_items) + '.png'
+        photo.save('static/img/image' + str(count_items) + '.jpg')
+        item.photo = '/static/img/image' + str(count_items) + '.jpg'
         for x in f:
-            x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.png')
+            x.save('static/images/item' + str(count_items + 1) + '/image' + str(count_photo) + '.jpg')
             item.image = 'static/images/item' + str(count_items + 1)
             count_photo += 1
         item.year = form.year.data
