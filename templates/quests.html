@@ -7,7 +7,7 @@
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body" style="min-height: 250px">
                     <h5 class="card-title" align="center">{{quest.name}}</h5>
-                    <ul>
+                    <ul style="overflow-y: auto; height: 130px">
                         {% for point in quest.points.split('\n')%}
                         <li>{{point}}</li>
                         {% endfor %}

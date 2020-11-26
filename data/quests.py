@@ -13,4 +13,3 @@ class Quests(SqlAlchemyBase, SerializerMixin, UserMixin):
     points = sqlalchemy.Column(sqlalchemy.TEXT, nullable=True)
     questions = sqlalchemy.Column(sqlalchemy.TEXT, default="")
     answer = sqlalchemy.Column(sqlalchemy.TEXT, default="")
-
