@@ -1,13 +1,12 @@
-import datetime
 import os
-
-from flask import Flask, render_template, redirect, request
+import datetime
+from flask import Flask, render_template, redirect, request, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
-
-from data import db_session, items, users, quests
+import feedparser
+from data import db_session, items, users, quests, news
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
@@ -60,17 +59,17 @@ class QuestsForm(FlaskForm):
     kol_vo = IntegerField("Количество вопросов")
     ok = SubmitField("Ок")
     questions = TextAreaField('Вопрос')
-    answers = TextAreaField('Ответ')
+    ansvers = TextAreaField('Ответ')
     submit = SubmitField('Применить')
 
 
-class AnswerForm(FlaskForm):
-    answer = StringField("Ответ")
+class AnsverForm(FlaskForm):
+    ansver = StringField("Ответ")
     submit = SubmitField("Ответить")
 
 
 class LengthError(Exception):
-    error = 'Пароль должен содержать не менее 8 символов!'
+    error = 'Пароль должен от 8 до 15 символов!'
 
 
 class LetterError(Exception):
@@ -96,6 +95,7 @@ def logout():
 
 def reformat(s):
     s = s.split('-')
+    print(s)
     k = 0
     string = ''
     month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
@@ -108,6 +108,7 @@ def reformat(s):
         else:
             string += x + ' ' + 'года'
         k += 1
+        print(string)
     return string
 
 
@@ -156,7 +157,7 @@ def check_password(password):
             raise LetterError
         if flags[0] == 0:
             raise DigitError
-        if len(password) < 8:
+        if len(password) < 8 or len(password) > 15:
             raise LengthError
         return 'OK'
     except (LengthError, LetterError, DigitError) as ex:
@@ -262,12 +263,13 @@ def add_quest():
     if form.submit.data:
         sessions = db_session.create_session()
         i -= 1
+        print(name)
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
-        quest.answer += ";;" + form.answers.data
+        quest.ansver += ";;" + form.ansvers.data
         sessions.commit()
         form.questions.data = ""
-        form.answers.data = ""
+        form.ansvers.data = ""
         if i == 0:
             return redirect('/quests')
         else:
@@ -286,47 +288,53 @@ def gus_quests():
 @login_required
 def gus_quest_item(id):
     sessions = db_session.create_session()
-    form = AnswerForm()
+    form = AnsverForm()
     quest = sessions.query(quests.Quests).get(id)
     user = sessions.query(users.User).get(current_user.id)
-    answer_list = current_user.quest_answer.split("$$")
+    ansver_list = current_user.quest_ansver.split("$$")
+    print(9)
+    print(current_user.quest_ansver)
     f = 0
     if request.method == "POST":
-        for i in range(len(answer_list)):
-            ans = answer_list[i].split("%%")
+        print(1)
+        for i in range(len(ansver_list)):
+            ans = ansver_list[i].split("%%")
             if ans[0] == quest.name:
-                ans[-1] = str(form.answer.data)
+                print(3)
+                ans[-1] = str(form.ansver.data)
                 if i == 0:
-                    answer_list = ["%%".join(ans)] + answer_list[i + 1:]
-                elif i == len(answer_list) - 1:
-                    answer_list = answer_list[:i] + ["%%".join(ans)]
+                    ansver_list = ["%%".join(ans)] + ansver_list[i + 1:]
+                elif i == len(ansver_list) - 1:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans)]
                 else:
-                    answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
-                user.quest_answer = "$$".join(answer_list)
+                    ansver_list = ansver_list[:i] + ["%%".join(ans)] + ansver_list[i + 1:]
+                user.quest_ansver = "$$".join(ansver_list)
                 sessions.commit()
                 break
     user = sessions.query(users.User).get(current_user.id)
-    question = ""
+    print(2)
+    vopros = ""
     number = 0
-    answer = ""
-    true = 0
-    answer_list = user.quest_answer.split("$$")
-    for i in range(len(answer_list)):
-        ans = answer_list[i].split("%%")
+    otvet = ""
+    verno = 0
+    ansver_list = user.quest_ansver.split("$$")
+    for i in range(len(ansver_list)):
+        ans = ansver_list[i].split("%%")
         if ans[0] == quest.name:
             f = 1
             number = len(ans) - 1
-            question = quest.questions.split(";;")[number]
-            tru_ans = quest.answer.split(";;")[number]
-            answer = ans[number]
-            if tru_ans.lower() == answer.lower():
-                form.answer.data = ""
+            vopros = quest.questions.split(";;")[number]
+            tru_ans = quest.ansver.split(";;")[number]
+            otvet = ans[number]
+            if tru_ans.lower() == otvet.lower():
+                form.ansver.data = ""
                 if number == len(quest.questions.split(";;")) - 1:
                     if quest.name not in user.completed.split(";"):
                         user.completed = ";".join(user.completed.split(";") + [quest.name])
                         not_com = user.not_completed.split(";")
                         num = -1
                         for j in range(len(not_com)):
+                            print(not_com[j], quest.name, not_com[j] == quest.name, 9999999)
                             if not_com[j] == quest.name:
                                 num = j
                                 break
@@ -338,42 +346,43 @@ def gus_quest_item(id):
                             else:
                                 user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
                         sessions.commit()
-                    return render_template("quest_item.html", quest=quest, message="win")
-                true = 1
+                    return render_template("quest_item.html", quest=quest, message="Vin")
+                verno = 1
                 number += 1
-                question = quest.questions.split(";;")[number]
-                answer = ""
+                vopros = quest.questions.split(";;")[number]
+                otvet = ""
                 if i != 0:
-                    answer_list = ["%%".join(ans) + "%%"] + answer_list[i + 1:]
-                elif i == len(answer_list) - 1:
-                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"]
+                    ansver_list = ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
+                elif i == len(ansver_list) - 1:
+                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"]
                 else:
-                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
-                user.quest_answer = "$$".join(answer_list)
+                    ansver_list = ansver_list[:i] + ["%%".join(ans) + "%%"] + ansver_list[i + 1:]
+                user.quest_ansver = "$$".join(ansver_list)
                 sessions.commit()
             break
     if f == 0:
-        if user.quest_answer == "":
-            user.quest_answer = quest.name + "%%"
+        print(4)
+        if user.quest_ansver == "":
+            user.quest_ansver = quest.name + "%%"
         else:
-            user.quest_answer = user.quest_answer + "$$" + quest.name + "%%"
+            user.quest_ansver = user.quest_ansver + "$$" + quest.name + "%%"
         sessions.commit()
         number = 1
-        question = quest.questions.split(";;")[number]
-        answer = ""
-        true = 1
-    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=question, otv=answer, ver=true)
+        vopros = quest.questions.split(";;")[number]
+        otvet = ""
+        verno = 1
+    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=vopros, otv=otvet, ver=verno)
 
 
 @app.route("/erase_quest/<int:id>")
 @login_required
 def erase_quest(id):
-    if current_user.id not in [1, 2, 3]:
+    if not current_user.id in [1, 2, 3]:
         return redirect("/")
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests).get(id)
-    list_users = sessions.query(users.User)
-    for user in list_users:
+    usery = sessions.query(users.User)
+    for user in usery:
         try:
             st = user.completed
             st2 = user.not_completed
@@ -383,24 +392,24 @@ def erase_quest(id):
                 user.completed = st[:number - 1] + st[number + len(str(quest.name)):]
             if number2 != -1:
                 user.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
-        except Exception:
+        except:
             pass
         try:
-            answer = user.quest_answer.split("$$")
+            ansver = user.quest_ansver.split("$$")
             i = 0
-            while i < len(answer):
-                if answer[i].startswith(quest.name):
+            while i < len(ansver):
+                if ansver[i].startswith(quest.name):
                     if i == 0:
-                        answer = answer[i + 1:]
-                    elif i == len(answer) - 1:
-                        answer = answer[:i]
+                        ansver = ansver[i + 1:]
+                    elif i == len(ansver) - 1:
+                        ansver = ansver[:i]
                     else:
-                        answer = answer[:i] + answer[i + 1:]
+                        ansver = ansver[:i] + ansver[i + 1:]
                     i -= 1
                 i += 1
-            user.quest_answer = "$$".join(answer)
+            user.quest_ansver = "$$".join(ansver)
             sessions.commit()
-        except Exception:
+        except:
             pass
         sessions.commit()
     sessions.delete(quest)
@@ -415,9 +424,82 @@ def about_item(id):
     return render_template("single_item.html", item=item)
 
 
+"""@app.route("/news")
+def view_news():
+    session = db_session.create_session()
+    news_list = session.query(news.News)
+    return render_template("news_item.html", new_list=news_list)
+"""
+
 @app.route("/maps")
 def maps():
     return render_template("maps.html")
+
+
+def news_theft():
+    try:
+        NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
+        news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
+        clean_news("tourism33")
+    except:
+        pass
+    try:
+        NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
+        news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
+        clean_news("Culture")
+    except:
+        pass
+    try:
+        NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
+        news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
+        clean_news("Travel")
+    except:
+        pass
+    try:
+        NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
+        news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
+        clean_news("Vladimir")
+    except:
+        pass
+
+
+def news_theft_add_to_db(nowosty, theme):
+    session = db_session.create_session()
+    for new in nowosty[:10]:
+        if session.query(news.News).filter(news.News.title == new["title"]).count() == 0:
+            print(-1)
+            new_to_db = news.News()
+            new_to_db.title = new["title"]
+            try:
+                new_to_db.content = new["summary"]
+            except:
+                new_to_db.content = new["yandex_full-text"]
+            new_to_db.theme = theme
+            new_to_db.date = datetime.datetime.now()
+            session.add(new_to_db)
+            session.commit()
+    session.commit()
+    session.close()
+
+
+def clean_news(theme):
+    sessions = db_session.create_session()
+    news_item = sessions.query(news.News).filter(news.News.theme == theme)
+    len_new = news_item.count()
+    count = 0
+    for new in news_item[::-1]:
+        if len_new - count > 10:
+            sessions.delete(new)
+            count += 1
+    sessions.commit()
+    sessions.close()
+
+
+@app.route('/news_item/<int:id>')
+def about_news(id):
+    sessions = db_session.create_session()
+    new = sessions.query(news.News).get(id)
+    return render_template("item_news.html", new=new)
 
 
 def main():
@@ -429,4 +511,5 @@ def main():
 
 
 if __name__ == '__main__':
+    #news_theft()
     main()

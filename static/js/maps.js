@@ -26,8 +26,8 @@ function init() {
                 coordinates: [55.613656, 40.671539]
             },
             properties: {
-                hintContent: "Свято-Троицкий храм",
-                balloonContentHeader: "Свято-Троицкий храм",
+                hintContent: "Церковь Иоакима и Анны",
+                balloonContentHeader: "<a href='about_item/18' style='color:#000'>Церковь Иоакима и Анны</a>",
                 balloonContentBody: "ул. Люксембургская, 3",
             }
         },
@@ -40,37 +40,9 @@ function init() {
                 coordinates: [55.615304, 40.663793]
             },
             properties: {
-                hintContent: "Гусевской хрустальный заводм",
-                balloonContentHeader: "Гусевской хрустальный завод",
+                hintContent: "Гусевской хрустальный завод",
+                balloonContentHeader: "<a href='about_item/10' style='color:#000'>Гусевской хрустальный завод</a>",
                 balloonContentBody: "ул. Калинина, д.28",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject2 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.634348, 40.689810]
-            },
-            properties: {
-                hintContent: "ФГБУ Национальный парк Мещёра",
-                balloonContentHeader: "ФГБУ Национальный парк Мещёра",
-                balloonContentBody: "Интернациональная ул., 111",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject3 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.625530, 40.700490]
-            },
-            properties: {
-                hintContent: "парк Сказка",
-                balloonContentHeader: "парк Сказка",
-                balloonContentBody: "ул. Пролетарская",
             }
         },
         {
@@ -79,26 +51,12 @@ function init() {
     const myGeoObject4 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
-                coordinates: [55.625530, 40.700490]
+                coordinates: [55.618697, 40.650599]
             },
             properties: {
                 hintContent: "Железнодорожная станция Гусь-Хрустальный",
-                balloonContentHeader: "Железнодорожная станция Гусь-Хрустальный",
+                balloonContentHeader: "<a href='about_item/11' style='color:#000'>Железнодорожная станция Гусь-Хрустальный</a>",
                 balloonContentBody: "ул. Вокзальная ул., 1",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject5 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.609868, 40.670896]
-            },
-            properties: {
-                hintContent: "Стекольный рынок",
-                balloonContentHeader: "Стекольный рынок",
-                balloonContentBody: "ул. Рудницкой, 10",
             }
         },
         {
@@ -111,7 +69,7 @@ function init() {
             },
             properties: {
                 hintContent: "Торговые ряды",
-                balloonContentHeader: "Торговые ряды",
+                balloonContentHeader: "<a href='about_item/14' style='color:#000'>Торговые ряды</a>",
                 balloonContentBody: "ул. Старых Большевиков, д.7",
             }
         },
@@ -139,7 +97,7 @@ function init() {
             },
             properties: {
                 hintContent: "Часовня Св. Варвары",
-                balloonContentHeader: "Часовня Св. Варвары",
+                balloonContentHeader: "<a href='about_item/5' style='color:#000'>Часовня Св. Варвары</a>",
                 balloonContentBody: "ул. Пролетарская улица",
             }
         },
@@ -152,8 +110,8 @@ function init() {
                 coordinates: [55.619020, 40.657013]
             },
             properties: {
-                hintContent: "Администрация г. Гусь-Хрустальный",
-                balloonContentHeader: "Администрация г. Гусь-Хрустальный",
+                hintContent: "Богадельня",
+                balloonContentHeader: "<a href='about_item/6' style='color:#000'>Богадельня</a>",
                 balloonContentBody: "ул. Калинина, 1",
             }
         },
@@ -167,50 +125,8 @@ function init() {
             },
             properties: {
                 hintContent: "Городское озеро",
-                balloonContentHeader: "Городское озеро",
+                balloonContentHeader: "<a href='about_item/12' style='color:#000'>Городское озеро</a>",
                 balloonContentBody: "ул. Калинина",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject11 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.614927, 40.670335]
-            },
-            properties: {
-                hintContent: "Площадь свободы",
-                balloonContentHeader: "Площадь свободы",
-                balloonContentBody: "ул. Калинина",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject12 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.612599, 40.665880]
-            },
-            properties: {
-                hintContent: "Памятник гусю",
-                balloonContentHeader: "Памятник гусю",
-                balloonContentBody: "ул. Рудницкой, в районе 2-го дома",
-            }
-        },
-        {
-            strokeColor: "ff0000"
-        });
-    const myGeoObject13 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.570552, 40.182595]
-            },
-            properties: {
-                hintContent: "Музейный комплекс под открытым небом ФГБУ Национального парка Мещёра Русское подворье",
-                balloonContentHeader: "Музейный комплекс под открытым небом ФГБУ Национального парка Мещёра Русское подворье",
-                balloonContentBody: "Южная ул., 19, поселок Тасинский (Перхурово)",
             }
         },
         {
@@ -223,7 +139,7 @@ function init() {
             },
             properties: {
                 hintContent: "Гусевский текстильный комбинат",
-                balloonContentHeader: "Гусевский текстильный комбинат",
+                balloonContentHeader: "<a href='about_item/9' style='color:#000'>Гусевский текстильный комбинат</a>",
                 balloonContentBody: "ул. Рудницкой, 6",
             }
         },
@@ -237,7 +153,7 @@ function init() {
             },
             properties: {
                 hintContent: "Мальцовские дома",
-                balloonContentHeader: "Мальцовские дома",
+                balloonContentHeader: "<a href='about_item/8' style='color:#000'>Мальцовские дома</a>",
                 balloonContentBody: " ул. Октябрьская",
             }
         },
@@ -251,7 +167,7 @@ function init() {
             },
             properties: {
                 hintContent: "Православная гимназия",
-                balloonContentHeader: "Православная гимназия",
+                balloonContentHeader: "<a href='about_item/2' style='color:#000'>Православная гимназия</a>",
                 balloonContentBody: "Интернациональная ул., 52",
             }
         },
@@ -265,7 +181,7 @@ function init() {
             },
             properties: {
                 hintContent: "Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области",
-                balloonContentHeader: "Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области",
+                balloonContentHeader: "<a href='about_item/16' style='color:#000'>Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области</a>",
                 balloonContentBody: "ул. Васильева, 23",
             }
         },
@@ -275,18 +191,101 @@ function init() {
     const myGeoObject18 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
-                coordinates: [55.617488, 40.678467]
+                coordinates: [55.616965, 40.677815]
             },
             properties: {
-                hintContent: "Больничный городок",
-                balloonContentHeader: "Больничный городок",
+                hintContent: "Городская больница",
+                balloonContentHeader: "<a href='about_item/19' style='color:#000'>Городская больница</a>",
                 balloonContentBody: "Октябрьская ул., 39",
             }
         },
         {
             strokeColor: "ff0000"
         });
-
+    const myGeoObject2 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.614354, 40.670724]
+            },
+            properties: {
+                hintContent: "Памятник Комсомольцам",
+                balloonContentHeader: "<a href='about_item/3' style='color:#000'>Памятник Комсомольцам</a>",
+                balloonContentBody: "площадь Свободы",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
+    const myGeoObject3 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.617119, 40.664703]
+            },
+            properties: {
+                hintContent: "Узкоколейная железная дорога",
+                balloonContentHeader: "<a href='about_item/4' style='color:#000'>Узкоколейная железная дорога</a>",
+                balloonContentBody: "улица Калинина, 20",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
+    const myGeoObject5 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.617810, 40.664254]
+            },
+            properties: {
+                hintContent: "Завод &laquo;Стекловолокно&raquo;",
+                balloonContentHeader: "<a href='about_item/7' style='color:#000'>Завод &laquo;Стекловолокно&raquo;</a>",
+                balloonContentBody: "улица Калинина, 9",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
+    const myGeoObject11 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.621394, 40.643527]
+            },
+            properties: {
+                hintContent: "ДШИ",
+                balloonContentHeader: "<a href='about_item/13' style='color:#000'>ДШИ</a>",
+                balloonContentBody: "просп. 50 лет Советской Власти, 13",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
+    const myGeoObject12 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.619496, 40.658481]
+            },
+            properties: {
+                hintContent: "Памятник Акиму Мальцову",
+                balloonContentHeader: "<a href='about_item/15' style='color:#000'>Памятник Акиму Мальцову</a>",
+                balloonContentBody: "микрорайон Вокзал",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
+    const myGeoObject13 = new ymaps.GeoObject({
+            geometry: {
+                type: "Point",
+                coordinates: [55.615298, 40.670767]
+            },
+            properties: {
+                hintContent: "Памятник Корсакову",
+                balloonContentHeader: "<a href='about_item/17' style='color:#000'>Памятник Корсакову</a>",
+                balloonContentBody: "микрорайон Центр",
+            }
+        },
+        {
+            strokeColor: "ff0000"
+        });
     myMap.geoObjects.add(myGeoObject);
     myMap.geoObjects.add(myGeoObject0);
     myMap.geoObjects.add(myGeoObject1);
