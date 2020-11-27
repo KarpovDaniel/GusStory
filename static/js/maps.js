@@ -3,14 +3,9 @@ ymaps.ready(init);
 function init() {
     var geolocation = ymaps.geolocation;
     let myMap = new ymaps.Map("map", {
-        center: [55.611813, 40.660774],
-        zoom: 13,
-        controls: ['routeButtonControl']
+        center: [55.614813, 40.665764],
+        zoom: 14
     });
-
-    var control = myMap.controls.get('routeButtonControl');
-
-    control.routePanel.geolocate('from');
 
     const myGeoObject = new ymaps.GeoObject({
             geometry: {
@@ -316,8 +311,6 @@ function init() {
     geolocation.get({
         provider: 'browser'
     }).then(function (result) {
-        // Синим цветом пометим положение, полученное через браузер.
-        // Если браузер не поддерживает эту функциональность, метка не будет добавлена на карту.
         result.geoObjects.options.set('preset', 'islands#redCircleIcon');
         myMap.geoObjects.add(result.geoObjects);
     });

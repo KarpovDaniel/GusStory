@@ -313,20 +313,20 @@ def gus_quest_item(id):
                 break
     user = sessions.query(users.User).get(current_user.id)
     print(2)
-    vopros = ""
+    question = ""
     number = 0
-    otvet = ""
-    verno = 0
+    answer = ""
+    true = 0
     answer_list = user.quest_answer.split("$$")
     for i in range(len(answer_list)):
         ans = answer_list[i].split("%%")
         if ans[0] == quest.name:
             f = 1
             number = len(ans) - 1
-            vopros = quest.questions.split(";;")[number]
+            question = quest.questions.split(";;")[number]
             tru_ans = quest.answer.split(";;")[number]
-            otvet = ans[number]
-            if tru_ans.lower() == otvet.lower():
+            answer = ans[number]
+            if tru_ans.lower() == answer.lower():
                 form.answer.data = ""
                 if number == len(quest.questions.split(";;")) - 1:
                     if quest.name not in user.completed.split(";"):
@@ -346,11 +346,11 @@ def gus_quest_item(id):
                             else:
                                 user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
                         sessions.commit()
-                    return render_template("quest_item.html", quest=quest, message="Vin")
-                verno = 1
+                    return render_template("quest_item.html", quest=quest, message="win")
+                true = 1
                 number += 1
-                vopros = quest.questions.split(";;")[number]
-                otvet = ""
+                question = quest.questions.split(";;")[number]
+                answer = ""
                 if i != 0:
                     answer_list = ["%%".join(ans) + "%%"] + answer_list[i + 1:]
                 elif i == len(answer_list) - 1:
@@ -368,10 +368,10 @@ def gus_quest_item(id):
             user.quest_answer = user.quest_answer + "$$" + quest.name + "%%"
         sessions.commit()
         number = 1
-        vopros = quest.questions.split(";;")[number]
-        otvet = ""
-        verno = 1
-    return render_template("quest_item.html", form=form, quest=quest, num=number, vopr=vopros, otv=otvet, ver=verno)
+        question = quest.questions.split(";;")[number]
+        answer = ""
+        true = 1
+    return render_template("quest_item.html", form=form, quest=quest, num=number, vopr=question, otv=answer, ver=true)
 
 
 @app.route("/erase_quest/<int:id>")
