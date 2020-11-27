@@ -1,24 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-    <div class="container mt-4">
-        <div class="card mb-4" style="width: 100%; border-radius: 10px;">
-            <div class="card-body">
-                {% if message == "win" %}
-                <p>Вы прошли наш квест<br>Вы конечно молодец, но к сожалению вы долба...<br>Извините, но это так.</p>
-                {% else %}
-                <h2 class="card-title" align="center"> Квест </h2>
-                <h5 align="center">Вопрос {{num}}:</h5>
-                <h5 align="center">{{vopr}}</h5><br>
-                <a class="m-3"> {{ form.answer(class="form-control", type="answer") }} </a>
-                {% if ver == 0 %}
-                <p class="mb-4">Ответ неверный</p>
-                {% endif %}
-                <a>{{ form.submit(type="submit", class="btn btn-primary") }}</a><br><br>
-                {% endif %}
-                <a href="/quests">Вернуться к квестам</a>
+    <form method="post" enctype="multipart/form-data">
+        <div class="container mt-4">
+            <div class="card mb-4" style="width: 100%; border-radius: 10px;">
+                <div class="card-body">
+                    {% if message == "win" %}
+                        <p>Вы прошли наш квест<br>Вы конечно молодец, но к сожалению вы долба...<br>Извините, но это
+                            так.</p>
+                    {% else %}
+                        <h2 class="card-title" align="center"> Квест </h2>
+                        <h5 align="center">Вопрос {{ num }}:</h5>
+                        <h5 align="center">{{ vopr }}</h5><br>
+                        <a class="m-3"> {{ form.answer(class="form-control", type="answer") }} </a>
+                        {% if ver == 0 %}
+                            <p class="mb-4">Ответ неверный</p>
+                        {% else %} }}
+                            <p> </p>
+                        {% endif %}
+                        <a>{{ form.submit(type="submit", class="btn btn-primary") }}</a><br><br>
+                    {% endif %}
+                    <a href="/quests">Вернуться к квестам</a>
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 {% endblock %}
