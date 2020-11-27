@@ -371,7 +371,7 @@ def gus_quest_item(id):
         vopros = quest.questions.split(";;")[number]
         otvet = ""
         verno = 1
-    return render_template("quest_item.html", quest=quest, form=form, num=number, vopr=vopros, otv=otvet, ver=verno)
+    return render_template("quest_item.html", form=form, quest=quest, num=number, vopr=vopros, otv=otvet, ver=verno)
 
 
 @app.route("/erase_quest/<int:id>")

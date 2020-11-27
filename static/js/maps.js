@@ -1,6 +1,7 @@
 ymaps.ready(init);
 
 function init() {
+    var geolocation = ymaps.geolocation;
     let myMap = new ymaps.Map("map", {
         center: [55.611813, 40.660774],
         zoom: 13
@@ -83,7 +84,7 @@ function init() {
             },
             properties: {
                 hintContent: "Гусь-Хрустальный историко-художественный музей",
-                balloonContentHeader: "Гусь-Хрустальный историко-художественный музей",
+                balloonContentHeader: "<a href='about_item/20' style='color:#000'>Гусь-Хрустальный историко-художественный музей</a>",
                 balloonContentBody: "ул. Калинина, 2",
             }
         },
@@ -306,4 +307,13 @@ function init() {
     myMap.geoObjects.add(myGeoObject16);
     myMap.geoObjects.add(myGeoObject17);
     myMap.geoObjects.add(myGeoObject18);
+
+    geolocation.get({
+        provider: 'browser'
+    }).then(function (result) {
+        // Синим цветом пометим положение, полученное через браузер.
+        // Если браузер не поддерживает эту функциональность, метка не будет добавлена на карту.
+        result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+        myMap.geoObjects.add(result.geoObjects);
+    });
 }
