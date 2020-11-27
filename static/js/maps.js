@@ -4,8 +4,13 @@ function init() {
     var geolocation = ymaps.geolocation;
     let myMap = new ymaps.Map("map", {
         center: [55.611813, 40.660774],
-        zoom: 13
+        zoom: 13,
+        controls: ['routeButtonControl']
     });
+
+    var control = myMap.controls.get('routeButtonControl');
+
+    control.routePanel.geolocate('from');
 
     const myGeoObject = new ymaps.GeoObject({
             geometry: {
