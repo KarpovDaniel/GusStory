@@ -37,96 +37,30 @@ function init() {
         "Гусевской хрустальный завод",
         "<a href='about_item/10' style='color:#000'>Гусевской хрустальный завод</a>",
         "ул. Калинина, д.28");
-    const myGeoObject4 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.618697, 40.650599]
-            },
-            properties: {
-                hintContent: "Железнодорожная станция Гусь-Хрустальный",
-                balloonContentHeader: "<a href='about_item/11' style='color:#000'>Железнодорожная станция Гусь-Хрустальный</a>",
-                balloonContentBody: "ул. Вокзальная ул., 1",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject6 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.614639, 40.670134]
-            },
-            properties: {
-                hintContent: "Торговые ряды",
-                balloonContentHeader: "<a href='about_item/14' style='color:#000'>Торговые ряды</a>",
-                balloonContentBody: "ул. Старых Большевиков, д.7",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject7 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.618883, 40.659677]
-            },
-            properties: {
-                hintContent: "Гусь-Хрустальный историко-художественный музей",
-                balloonContentHeader: "<a href='about_item/20' style='color:#000'>Гусь-Хрустальный историко-художественный музей</a>",
-                balloonContentBody: "ул. Калинина, 2",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject8 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.604197, 40.676754]
-            },
-            properties: {
-                hintContent: "Часовня Св. Варвары",
-                balloonContentHeader: "<a href='about_item/5' style='color:#000'>Часовня Св. Варвары</a>",
-                balloonContentBody: "ул. Пролетарская улица",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject9 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.619020, 40.657013]
-            },
-            properties: {
-                hintContent: "Богадельня",
-                balloonContentHeader: "<a href='about_item/6' style='color:#000'>Богадельня</a>",
-                balloonContentBody: "ул. Калинина, 1",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject10 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.626131, 40.665206]
-            },
-            properties: {
-                hintContent: "Городское озеро",
-                balloonContentHeader: "<a href='about_item/12' style='color:#000'>Городское озеро</a>",
-                balloonContentBody: "ул. Калинина",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
+    constructor([55.618697, 40.650599],
+        "Железнодорожная станция Гусь-Хрустальный",
+        "<a href='about_item/11' style='color:#000'>Железнодорожная станция Гусь-Хрустальный</a>",
+        "ул. Вокзальная ул., 1");
+    constructor([55.614639, 40.670134],
+        "Торговые ряды",
+        "<a href='about_item/14' style='color:#000'>Торговые ряды</a>",
+        "ул. Старых Большевиков, д.7");
+    constructor([55.618883, 40.659677],
+        "Гусь-Хрустальный историко-художественный музей",
+        "<a href='about_item/20' style='color:#000'>Гусь-Хрустальный историко-художественный музей</a>",
+        "ул. Калинина, 2");
+    constructor([55.604197, 40.676754],
+        "Часовня Св. Варвары",
+        "<a href='about_item/5' style='color:#000'>Часовня Св. Варвары</a>",
+        "ул. Пролетарская улица");
+    constructor([55.619020, 40.657013],
+        "Богадельня",
+        "<a href='about_item/6' style='color:#000'>Богадельня</a>",
+        "ул. Калинина, 1");
+    constructor([55.626131, 40.665206],
+        "Городское озеро",
+        "<a href='about_item/12' style='color:#000'>Городское озеро</a>",
+        "ул. Калинина");
     const myGeoObject14 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
@@ -294,13 +228,7 @@ function init() {
         });
     myMap.geoObjects.add(myGeoObject2);
     myMap.geoObjects.add(myGeoObject3);
-    myMap.geoObjects.add(myGeoObject4);
     myMap.geoObjects.add(myGeoObject5);
-    myMap.geoObjects.add(myGeoObject6);
-    myMap.geoObjects.add(myGeoObject7);
-    myMap.geoObjects.add(myGeoObject8);
-    myMap.geoObjects.add(myGeoObject9);
-    myMap.geoObjects.add(myGeoObject10);
     myMap.geoObjects.add(myGeoObject11);
     myMap.geoObjects.add(myGeoObject12);
     myMap.geoObjects.add(myGeoObject13);
