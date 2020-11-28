@@ -15,11 +15,11 @@ function init() {
             properties: {
                 hintContent: "Музей Хрусталя им. Мальцовых",
                 balloonContentHeader: "<a href='about_item/1' style='color:#000'>Музей Хрусталя им. Мальцовых</a>",
-                balloonContentBody: "ул. Калинина, 2А",
+                balloonContentBody: "ул. Калинина, 2А"
             }
-        },
-        {
-            strokeColor: "ff0000"
+        }, {
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject0 = new ymaps.GeoObject({
             geometry: {
@@ -33,7 +33,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject1 = new ymaps.GeoObject({
             geometry: {
@@ -47,7 +48,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject4 = new ymaps.GeoObject({
             geometry: {
@@ -61,7 +63,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject6 = new ymaps.GeoObject({
             geometry: {
@@ -75,7 +78,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject7 = new ymaps.GeoObject({
             geometry: {
@@ -89,7 +93,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject8 = new ymaps.GeoObject({
             geometry: {
@@ -103,7 +108,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject9 = new ymaps.GeoObject({
             geometry: {
@@ -117,7 +123,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject10 = new ymaps.GeoObject({
             geometry: {
@@ -131,7 +138,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject14 = new ymaps.GeoObject({
             geometry: {
@@ -145,7 +153,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject15 = new ymaps.GeoObject({
             geometry: {
@@ -159,7 +168,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject16 = new ymaps.GeoObject({
             geometry: {
@@ -173,7 +183,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject17 = new ymaps.GeoObject({
             geometry: {
@@ -187,7 +198,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject18 = new ymaps.GeoObject({
             geometry: {
@@ -201,7 +213,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject2 = new ymaps.GeoObject({
             geometry: {
@@ -215,7 +228,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject3 = new ymaps.GeoObject({
             geometry: {
@@ -229,7 +243,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject5 = new ymaps.GeoObject({
             geometry: {
@@ -243,7 +258,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject11 = new ymaps.GeoObject({
             geometry: {
@@ -257,7 +273,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject12 = new ymaps.GeoObject({
             geometry: {
@@ -271,7 +288,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     const myGeoObject13 = new ymaps.GeoObject({
             geometry: {
@@ -285,7 +303,8 @@ function init() {
             }
         },
         {
-            strokeColor: "ff0000"
+            strokeColor: "ff0000",
+            preset: "islands#redLeisureCircleIcon"
         });
     myMap.geoObjects.add(myGeoObject);
     myMap.geoObjects.add(myGeoObject0);
