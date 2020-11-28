@@ -1,56 +1,42 @@
 ymaps.ready(init);
 
 function init() {
-    var geolocation = ymaps.geolocation;
-    let myMap = new ymaps.Map("map", {
+    const myMap = new ymaps.Map("map", {
         center: [55.614813, 40.665764],
         zoom: 14
     });
 
-    const myGeoObject = new ymaps.GeoObject({
+    function constructor(coord, content, content_h, content_b) {
+        const myGeoObject = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
-                coordinates: [55.619820, 40.658117]
+                coordinates: coord
             },
             properties: {
-                hintContent: "Музей Хрусталя им. Мальцовых",
-                balloonContentHeader: "<a href='about_item/1' style='color:#000'>Музей Хрусталя им. Мальцовых</a>",
-                balloonContentBody: "ул. Калинина, 2А"
+                hintContent: content,
+                balloonContentHeader: content_h,
+                balloonContentBody: content_b
             }
         }, {
             strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
+            preset: "islands#blueLeisureCircleIcon"
         });
-    const myGeoObject0 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.613656, 40.671539]
-            },
-            properties: {
-                hintContent: "Церковь Иоакима и Анны",
-                balloonContentHeader: "<a href='about_item/18' style='color:#000'>Церковь Иоакима и Анны</a>",
-                balloonContentBody: "ул. Люксембургская, 3",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject1 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.615304, 40.663793]
-            },
-            properties: {
-                hintContent: "Гусевской хрустальный завод",
-                balloonContentHeader: "<a href='about_item/10' style='color:#000'>Гусевской хрустальный завод</a>",
-                balloonContentBody: "ул. Калинина, д.28",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
+        myMap.geoObjects.add(myGeoObject);
+    }
+
+    const geolocation = ymaps.geolocation;
+    constructor([55.619820, 40.658117],
+        "Музей Хрусталя им. Мальцовых",
+        "<a href='about_item/1' style='color:#000'>Музей Хрусталя им. Мальцовых</a>",
+        "ул. Калинина, 2А");
+    constructor([55.613656, 40.671539],
+        "Церковь Иоакима и Анны",
+        "<a href='about_item/18' style='color:#000'>Церковь Иоакима и Анны</a>",
+        "ул. Люксембургская, 3");
+    constructor([55.615304, 40.663793],
+        "Гусевской хрустальный завод",
+        "<a href='about_item/10' style='color:#000'>Гусевской хрустальный завод</a>",
+        "ул. Калинина, д.28");
     const myGeoObject4 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
@@ -306,9 +292,6 @@ function init() {
             strokeColor: "ff0000",
             preset: "islands#redLeisureCircleIcon"
         });
-    myMap.geoObjects.add(myGeoObject);
-    myMap.geoObjects.add(myGeoObject0);
-    myMap.geoObjects.add(myGeoObject1);
     myMap.geoObjects.add(myGeoObject2);
     myMap.geoObjects.add(myGeoObject3);
     myMap.geoObjects.add(myGeoObject4);
