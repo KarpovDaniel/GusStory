@@ -5,7 +5,7 @@ function init() {
         center: [55.614813, 40.665764],
         controls: ['geolocationControl', 'routeButtonControl', 'typeSelector', 'fullscreenControl'],
         zoom: 14
-    });
+    }, {suppressMapOpenBlock: true});
 
     function constructor(coord, content, content_header, content_body, icon) {
         const myGeoObject = new ymaps.Placemark(
