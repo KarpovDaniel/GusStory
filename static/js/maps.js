@@ -56,7 +56,7 @@ function init() {
         "Богадельня",
         "<a href='about_item/6' style='color:#000'>Богадельня</a>",
         "ул. Калинина, 1",
-        "islands#blueChristianIcon");
+        "islands#blueGovernmentIcon");
     constructor([55.626131, 40.665206],
         "Городское озеро",
         "<a href='about_item/12' style='color:#000'>Городское озеро</a>",
@@ -81,7 +81,7 @@ function init() {
         "Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области",
         "<a href='about_item/16' style='color:#000'>Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области</a>",
         "ул. Васильева, 23",
-        "islands#blueInfoIcon");
+        "islands#blueGovernmentIcon");
     constructor([55.616965, 40.677815],
         "Городская больница",
         "<a href='about_item/19' style='color:#000'>Городская больница</a>",
