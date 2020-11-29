@@ -1,4 +1,4 @@
-ymymaps.ready(init);
+ymaps.ready(init);
 
 function init() {
     const myMap = new ymaps.Map("map", {
@@ -18,7 +18,6 @@ function init() {
                 balloonContentBody: content_b
             }
         }, {
-            strokeColor: "ff0000",
             preset: "islands#blueLeisureCircleIcon"
         });
         myMap.geoObjects.add(myGeoObject);
