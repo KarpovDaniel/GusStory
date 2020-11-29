@@ -1,8 +1,9 @@
 ymaps.ready(init);
 
 function init() {
-    const myMap = new ymaps.Map("map", {
+    const myMap = new ymaps.Map('map', {
         center: [55.614813, 40.665764],
+        controls: ['geolocationControl', 'routeButtonControl', 'typeSelector', 'fullscreenControl'],
         zoom: 14
     });
 
@@ -116,11 +117,7 @@ function init() {
         "<a href='about_item/17' style='color:#000'>Памятник Корсакову</a>",
         "микрорайон Центр",
         "islands#bluePersonIcon");
-    const geolocation = ymaps.geolocation;
-    geolocation.get({
-        provider: 'browser'
-    }).then(function (result) {
-        result.geoObjects.options.set('preset', 'islands#redCircleIcon');
+    ymaps.geolocation.get().then(function (result) {
         myMap.geoObjects.add(result.geoObjects);
     });
 }
