@@ -1,11 +1,13 @@
-import os
 import datetime
-from flask import Flask, render_template, redirect, request, abort
+import os
+
+import feedparser
+from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
-import feedparser
+
 from data import db_session, items, users, quests
 
 app = Flask(__name__)
@@ -281,12 +283,9 @@ def add_quest():
 def gus_quests():
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests)
-    try:
-        if current_user.id in [1, 2, 3]:
-            return render_template("quest.html", quests=quest)
-        else:
-            return render_template("coming_soon.html")
-    except:
+    if current_user.id in [1, 2, 3]:
+        return render_template("quest.html", quests=quest)
+    else:
         return render_template("coming_soon.html")
 
 
@@ -437,6 +436,7 @@ def view_news():
     return render_template("news_item.html", new_list=news_list)
 """
 
+
 @app.route("/maps")
 def maps():
     return render_template("maps.html")
@@ -517,5 +517,5 @@ def main():
 
 
 if __name__ == '__main__':
-    #news_theft()
+    # news_theft()
     main()

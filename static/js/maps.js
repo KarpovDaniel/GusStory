@@ -1,4 +1,4 @@
-ymaps.ready(init);
+ymymaps.ready(init);
 
 function init() {
     const myMap = new ymaps.Map("map", {
@@ -24,7 +24,6 @@ function init() {
         myMap.geoObjects.add(myGeoObject);
     }
 
-    const geolocation = ymaps.geolocation;
     constructor([55.619820, 40.658117],
         "Музей Хрусталя им. Мальцовых",
         "<a href='about_item/1' style='color:#000'>Музей Хрусталя им. Мальцовых</a>",
@@ -61,81 +60,26 @@ function init() {
         "Городское озеро",
         "<a href='about_item/12' style='color:#000'>Городское озеро</a>",
         "ул. Калинина");
-    const myGeoObject14 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.611645, 40.668197]
-            },
-            properties: {
-                hintContent: "Гусевский текстильный комбинат",
-                balloonContentHeader: "<a href='about_item/9' style='color:#000'>Гусевский текстильный комбинат</a>",
-                balloonContentBody: "ул. Рудницкой, 6",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject15 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.616437, 40.678321]
-            },
-            properties: {
-                hintContent: "Мальцовские дома",
-                balloonContentHeader: "<a href='about_item/8' style='color:#000'>Мальцовские дома</a>",
-                balloonContentBody: " ул. Октябрьская",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject16 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.619949, 40.678899]
-            },
-            properties: {
-                hintContent: "Православная гимназия",
-                balloonContentHeader: "<a href='about_item/2' style='color:#000'>Православная гимназия</a>",
-                balloonContentBody: "Интернациональная ул., 52",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject17 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.611034, 40.658133]
-            },
-            properties: {
-                hintContent: "Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области",
-                balloonContentHeader: "<a href='about_item/16' style='color:#000'>Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области</a>",
-                balloonContentBody: "ул. Васильева, 23",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
-    const myGeoObject18 = new ymaps.GeoObject({
-            geometry: {
-                type: "Point",
-                coordinates: [55.616965, 40.677815]
-            },
-            properties: {
-                hintContent: "Городская больница",
-                balloonContentHeader: "<a href='about_item/19' style='color:#000'>Городская больница</a>",
-                balloonContentBody: "Октябрьская ул., 39",
-            }
-        },
-        {
-            strokeColor: "ff0000",
-            preset: "islands#redLeisureCircleIcon"
-        });
+    constructor([55.611645, 40.668197],
+        "Гусевский текстильный комбинат",
+        "<a href='about_item/9' style='color:#000'>Гусевский текстильный комбинат</a>",
+        "ул. Рудницкой, 6");
+    constructor([55.616437, 40.678321],
+        "Мальцовские дома",
+        "<a href='about_item/8' style='color:#000'>Мальцовские дома</a>",
+        "ул. Октябрьская");
+    constructor([55.619949, 40.678899],
+        "Православная гимназия",
+        "<a href='about_item/2' style='color:#000'>Православная гимназия</a>",
+        "Интернациональная ул., 52");
+    constructor([55.611034, 40.658133],
+        "Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области",
+        "<a href='about_item/16' style='color:#000'>Военный комиссариат города Гусь-Хрустальный и Гусь-Хрустального района Владимирской области</a>",
+        "ул. Васильева, 23");
+    constructor([55.616965, 40.677815],
+        "Городская больница",
+        "<a href='about_item/19' style='color:#000'>Городская больница</a>",
+        "Октябрьская ул., 39");
     const myGeoObject2 = new ymaps.GeoObject({
             geometry: {
                 type: "Point",
@@ -232,12 +176,8 @@ function init() {
     myMap.geoObjects.add(myGeoObject11);
     myMap.geoObjects.add(myGeoObject12);
     myMap.geoObjects.add(myGeoObject13);
-    myMap.geoObjects.add(myGeoObject14);
-    myMap.geoObjects.add(myGeoObject15);
-    myMap.geoObjects.add(myGeoObject16);
-    myMap.geoObjects.add(myGeoObject17);
-    myMap.geoObjects.add(myGeoObject18);
 
+    const geolocation = ymaps.geolocation;
     geolocation.get({
         provider: 'browser'
     }).then(function (result) {
