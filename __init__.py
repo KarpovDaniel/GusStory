@@ -442,72 +442,6 @@ def maps():
     return render_template("maps.html")
 
 
-def news_theft():
-    try:
-        NewsFeedTourism33 = feedparser.parse("https://www.tourism33.ru/events/rss/")
-        news_theft_add_to_db(NewsFeedTourism33["entries"], "tourism33")
-        clean_news("tourism33")
-    except:
-        pass
-    try:
-        NewsFeedCulture = feedparser.parse("https://news.yandex.ru/culture.rss")
-        news_theft_add_to_db(NewsFeedCulture["entries"], "Culture")
-        clean_news("Culture")
-    except:
-        pass
-    try:
-        NewsFeedTravel = feedparser.parse("https://news.yandex.ru/travels.rss")
-        news_theft_add_to_db(NewsFeedTravel["entries"], "Travel")
-        clean_news("Travel")
-    except:
-        pass
-    try:
-        NewsFeedVladimir = feedparser.parse("https://news.yandex.ru/Vladimir/index.rss")
-        news_theft_add_to_db(NewsFeedVladimir["entries"], "Vladimir")
-        clean_news("Vladimir")
-    except:
-        pass
-
-
-def news_theft_add_to_db(nowosty, theme):
-    session = db_session.create_session()
-    for new in nowosty[:10]:
-        if session.query(news.News).filter(news.News.title == new["title"]).count() == 0:
-            print(-1)
-            new_to_db = news.News()
-            new_to_db.title = new["title"]
-            try:
-                new_to_db.content = new["summary"]
-            except:
-                new_to_db.content = new["yandex_full-text"]
-            new_to_db.theme = theme
-            new_to_db.date = datetime.datetime.now()
-            session.add(new_to_db)
-            session.commit()
-    session.commit()
-    session.close()
-
-
-def clean_news(theme):
-    sessions = db_session.create_session()
-    news_item = sessions.query(news.News).filter(news.News.theme == theme)
-    len_new = news_item.count()
-    count = 0
-    for new in news_item[::-1]:
-        if len_new - count > 10:
-            sessions.delete(new)
-            count += 1
-    sessions.commit()
-    sessions.close()
-
-
-@app.route('/news_item/<int:id>')
-def about_news(id):
-    sessions = db_session.create_session()
-    new = sessions.query(news.News).get(id)
-    return render_template("item_news.html", new=new)
-
-
 def main():
     global count_items
     sessions = db_session.create_session()
@@ -517,5 +451,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # news_theft()
     main()
