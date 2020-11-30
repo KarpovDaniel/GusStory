@@ -6,11 +6,11 @@
             <img class="card-img" style="width: 100%" src='/static/img/image-gusstory.jpg'>
         </div>
     </div>
-    <div>
+    <div class="container mt-4">
         <div class="row">
             {% for item in items %}
-                <div class="col-sm-4" style="padding: 25px;">
-                    <div class="card mb-4" style="border-radius: 10px;  ">
+                <div class="col-sm-6">
+                    <div class="card mb-4" style="color: gray; border-radius: 10px;">
                         <a href="about_item/{{ item.id }}">
                             <img class="card-img-top" style="border-radius: 10px;" src={{ item.photo }}>
                         </a>
