@@ -283,10 +283,7 @@ def add_quest():
 def gus_quests():
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests)
-    if current_user.id in [1, 2, 3]:
-        return render_template("quest.html", quests=quest)
-    else:
-        return render_template("coming_soon.html")
+    return render_template("quests.html", quests=quest)
 
 
 @app.route("/quest/<int:id>", methods=["GET", "POST"])
