@@ -3,7 +3,8 @@
 {% block content %}
     <div>
         <div style="width: 100%">
-            <img class="card-img replace-img" style="width: 100%" src='../static/img/image-gusstory.jpg'>
+            <img class="mobile-img" style="width: 100%" src='../static/img/fon_to_phone.JPEG'>
+            <img class="main-img" style="width: 100%" src='../static/img/image-gusstory.jpg'>
         </div>
     </div>
     <div class="container mt-4">
@@ -12,7 +13,7 @@
                 <div class="col-sm-6">
                     <div class="card mb-4" style="color: gray; border-radius: 10px;">
                         <a href="about_item/{{ item.id }}">
-                            <img class="card-img-top" style="border-radius: 10px;" src={{ item.photo }}>
+                            <img class="card-img-top" style="border-radius: 10px;" src='{{ item.photo }}'>
                         </a>
                         <div class="card-body">
                             <a href="/about_item/{{ item.id }}" style="color: #000;">
