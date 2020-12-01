@@ -1,7 +1,6 @@
 import datetime
 import os
 
-import feedparser
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
@@ -12,7 +11,7 @@ from data import db_session, items, users, quests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
-db_session.global_init("db/blogs.sqlite")
+db_session.global_init("../db/blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
