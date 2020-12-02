@@ -60,16 +60,3 @@ b {
         height: 88vh;
     }
 }
-
-@media (max-width: 600px){
-    .mobile-img {
-         display: block;
-    }
-    .main-img {
-        display: none;
-    }
-}
-
-.mobile-img {
-    display: none;
-}
