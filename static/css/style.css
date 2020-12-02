@@ -60,3 +60,10 @@ b {
         height: 88vh;
     }
 }
+
+.card {
+    text-decoration: none;
+}
+.card:hover {
+    text-decoration: none;
+}
