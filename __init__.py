@@ -50,6 +50,7 @@ class ItemsForm(FlaskForm):
 
 class EditForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
+    year = StringField('Год создания', validators=[DataRequired()])
     content = TextAreaField('Описание достопримечательности')
     submit = SubmitField('Применить')
 
@@ -206,11 +207,13 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
+        form.year.data = item.year
         form.content.data = item.content
     if form.validate_on_submit():
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
+        item.year = form.year.data
         item.content = form.content.data
         sessions.commit()
         return redirect('/')
@@ -428,6 +431,11 @@ def about_item(id):
 @app.route("/maps")
 def maps():
     return render_template("maps.html")
+
+
+@app.route("/about_project")
+def about_project():
+    return render_template("about_project.html")
 
 
 def main():
