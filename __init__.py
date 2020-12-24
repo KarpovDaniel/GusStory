@@ -86,7 +86,7 @@ class DigitError(Exception):
 def email(user_mail):
     smtp = SMTP('smtp.yandex.ru', 587)
     smtp.starttls()
-    smtp.login('gusstory@yandex.ru', '')
+    smtp.login('gusstory@yandex.ru', 'guschool2')
     smtp.sendmail('gusstory@yandex.ru', user_mail, 'текст письма')
     smtp.quit()
 
@@ -106,7 +106,6 @@ def logout():
 
 def reformat(s):
     s = s.split('-')
-    print(s)
     k = 0
     string = ''
     month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
