@@ -11,9 +11,9 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
                 <p>
-                    {{ form.login.label }}
-                    {{ form.login(class="form-control", type="login") }}
-                    {% for error in form.login.errors %}
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control", type="login") }}
+                    {% for error in form.email.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>

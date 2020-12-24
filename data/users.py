@@ -12,7 +12,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     name = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     surname = sqlalchemy.Column(sqlalchemy.String, nullable=True)
-    login = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
+    email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.String)
     completed = sqlalchemy.Column(sqlalchemy.String, default="")
@@ -20,7 +20,7 @@ class User(SqlAlchemyBase, UserMixin, SerializerMixin):
     quest_answer = sqlalchemy.Column(sqlalchemy.TEXT, default="")
 
     def __repr__(self):
-        return f'{self.id}, {self.name}, {self.login}'
+        return f'{self.id}, {self.name}, {self.email}'
 
     def set_password(self, password):
         self.password = generate_password_hash(password)
