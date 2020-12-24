@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
+from smtplib import SMTP
 
 from data import db_session, items, users, quests
 
@@ -80,6 +81,14 @@ class LetterError(Exception):
 
 class DigitError(Exception):
     error = 'В пароле должна быть хотя бы одна цифра!'
+
+
+def email(user_mail):
+    smtp = SMTP('smtp.yandex.ru', 587)
+    smtp.starttls()
+    smtp.login('gusstory@yandex.ru', '')
+    smtp.sendmail('gusstory@yandex.ru', user_mail, 'текст письма')
+    smtp.quit()
 
 
 @app.route('/profile')
