@@ -1,5 +1,6 @@
 import datetime
 import os
+from random import randint
 
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -16,6 +17,7 @@ db_session.global_init("db/blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
+code = 0
 i = 0
 name = 0
 
@@ -84,10 +86,12 @@ class DigitError(Exception):
 
 
 def email(user_mail):
+    global code
+    code = randint(100000, 1000000)
     smtp = SMTP('smtp.yandex.ru', 587)
     smtp.starttls()
-    smtp.login('gusstory@yandex.ru', 'guschool2')
-    smtp.sendmail('gusstory@yandex.ru', user_mail, 'текст письма')
+    smtp.login('gusstory@yandex.ru', 'gusschool2')
+    smtp.sendmail('gusstory@yandex.ru', user_mail, f'код подтверждения: {code}')
     smtp.quit()
 
 
