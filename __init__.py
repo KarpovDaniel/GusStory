@@ -46,6 +46,13 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться')
 
 
+class EditProfile(FlaskForm):
+    name = StringField('Имя', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    email = StringField('Электронная почта', validators=[DataRequired()])
+    submit = SubmitField('Применить')
+
+
 class ItemsForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
     content = TextAreaField('Описание достопримечательности')
@@ -114,6 +121,26 @@ def profile():
     if current_user.is_authenticated:
         return render_template("profile.html")
     return redirect('/')
+
+
+@app.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
+def edit_profile(user_id):
+    form = EditProfile()
+    if request.method == 'GET':
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).get(user_id)
+        form.name.data = user.name
+        form.surname.data = user.surname
+        form.email.data = user.email
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).get(user_id)
+        user.name = form.name.data
+        user.surname = form.surname.data
+        user.content = form.email.data
+        sessions.commit()
+        return redirect('/')
+    return render_template('edit_profile.html', title='Редактирование профиля', form=form)
 
 
 @app.route('/logout')
