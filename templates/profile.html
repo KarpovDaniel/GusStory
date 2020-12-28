@@ -1,53 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4">
-    <div class="card" style="width: 100%; border-radius: 10px;">
-        <div class="card-body">
-        <h2 align="center" class="card-title mb-4"> {{current_user.name}} {{current_user.surname}} </h2>
-        <h5 align="center"> Зарегистрирован на сайте: {{current_user.created_date}}</h5>
+    <div class="container mt-4">
+        <div class="card" style="width: 100%; border-radius: 10px;">
+            <div class="card-body">
+                <h2 align="center" class="card-title mb-4"> {{ current_user.name }} {{ current_user.surname }} </h2>
+                <h5 align="center"> Зарегистрирован на сайте: {{ current_user.created_date }}</h5>
+                <a href="/edit_profile/{{ current_user.id }}">
+                    <div class="btn btn-dark mt-4" style="width: 100%"> Редактировать профиль</div>
+                </a>
+
+            </div>
+        </div>
+        <div class="card mt-4 mb-4" style="width: 100%; border-radius: 10px;">
+            <div class="card-body">
+                <h2 class="card-title" align="center">Квесты</h2>
+                <ul class="list-group list-group-flush">
+                    {% if current_user.not_completed != None and current_user.not_completed != "" %}
+                        {% for quest in current_user.not_completed.strip(';').split(';') %}
+                            <li class="list-group-item">
+                                <table class="mt-2" width="100%" cellpadding="0">
+                                    <tr>
+                                        <th>
+                                            <h6>{{ quest }}</h6>
+                                        </th>
+                                        <th>
+                                            <h6 align="right">Не пройдено &#10060;</h6>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% if current_user.completed != None and current_user.completed != "" %}
+                        {% for quest in current_user.completed.strip(';').split(';') %}
+                            <li class="list-group-item">
+                                <table class="mt-2" width="100%" cellpadding="0">
+                                    <tr>
+                                        <th>
+                                            <h6>{{ quest }}</h6>
+                                        </th>
+                                        <th>
+                                            <h6 align="right">Пройдено &#10004;</h6>
+                                        </th>
+                                    </tr>
+                                </table>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <a href="/logout">
+                    <div class="btn btn-dark mt-4" style="width: 100%"> Выйти из профиля</div>
+                </a>
+            </div>
         </div>
     </div>
-    <div class="card mt-4 mb-4" style="width: 100%; border-radius: 10px;">
-        <div class="card-body">
-            <h2 class="card-title" align="center">Квесты</h2>
-            <ul class="list-group list-group-flush">
-                {% if current_user.not_completed != None and current_user.not_completed != "" %}
-                {% for quest in current_user.not_completed.strip(';').split(';') %}
-                <li class="list-group-item">
-                    <table class="mt-2" width="100%" cellpadding="0">
-                        <tr>
-                            <th>
-                                <h6>{{quest}}</h6>
-                            </th>
-                            <th>
-                                <h6 align="right">Не пройдено &#10060;</h6>
-                            </th>
-                        </tr>
-                    </table>
-                </li>
-                {% endfor %}
-                {% endif %}
-                {% if current_user.completed != None and current_user.completed != "" %}
-                {% for quest in current_user.completed.strip(';').split(';') %}
-                <li class="list-group-item">
-                    <table class="mt-2" width="100%" cellpadding="0">
-                        <tr>
-                            <th>
-                                <h6>{{quest}}</h6>
-                            </th>
-                            <th>
-                                <h6 align="right">Пройдено &#10004;</h6>
-                            </th>
-                        </tr>
-                    </table>
-                </li>
-                {% endfor %}
-                {% endif %}
-            </ul>
-            <a href="/edit_profile/{{ current_user.id }}"><div class="btn btn-warning mt-4" style="width: 100%"> Редактировать профиль </div></a>
-            <a href="/logout"><div class="btn btn-danger mt-4" style="width: 100%"> Выйти из профиля </div></a>
-        </div>
-    </div>
-</div>
 {% endblock %}

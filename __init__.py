@@ -21,7 +21,9 @@ login_manager.init_app(app)
 count_items = 0
 code = 0
 i = 0
+flag = 0
 name = 0
+mail_to = ''
 
 
 @login_manager.user_loader
@@ -102,6 +104,7 @@ class DigitError(Exception):
     error = 'В пароле должна быть хотя бы одна цифра!'
 
 
+
 def send_email(user_mail):
     global code
     code = randint(100000, 1000000)
@@ -111,7 +114,7 @@ def send_email(user_mail):
     msg['Subject'] = Header(subject_msg, 'utf-8')
     server = smtplib.SMTP('smtp.mail.ru: 25')
     server.starttls()
-    server.login('gusstory@mail.ru', 'gusschool2')
+    server.login('gusstory@mail.ru', 'recoverygus2')
     server.sendmail('gusstory@mail.ru', user_mail, msg.as_string())
     server.quit()
 
@@ -137,7 +140,7 @@ def edit_profile(user_id):
         user = sessions.query(users.User).get(user_id)
         user.name = form.name.data
         user.surname = form.surname.data
-        user.content = form.email.data
+        user.email = form.email.data
         sessions.commit()
         return redirect('/')
     return render_template('edit_profile.html', title='Редактирование профиля', form=form)
@@ -202,28 +205,38 @@ def register():
 
 @app.route('/recovery_password', methods=['GET', 'POST'])
 def recovery_password():
+    global mail_to, flag
     form = RecoveryForm()
     sessions = db_session.create_session()
     if request.method == 'POST':
         if not (form.repeat_new_password.data is None or form.repeat_new_password.data == ""):
-            if form.repeat_new_password.data == form.new_password.data:
-                user = sessions.query(users.User).filter(users.User.email == form.email.data.lower()).first()
-                user.set_password(form.password.data)
+            if form.repeat_new_password.data == form.new_password.data and flag == 2:
+                user = sessions.query(users.User).filter(users.User.email == mail_to).first()
+                user.set_password(form.new_password.data)
                 sessions.merge(user)
                 sessions.commit()
                 return redirect("/login")
-            else:
+            elif form.repeat_new_password.data != form.new_password.data and flag == 2:
+                result = check_password(form.new_password.data)
                 return render_template('password_recovery.html', form=form, type="password",
-                                       message="Пароли не совпадают")
-        elif form.kod.data == str(code):
-            print('code')
-            return render_template('password_recovery.html', form=form, type="password")
+                                       message=result)
         elif sessions.query(users.User).filter(users.User.email ==
-                                                 form.email.data.lower()).first():
+                                               form.email.data.lower()).first() and flag == 0:
             send_email(form.email.data.lower())
-            print('email')
-            return render_template('password_recovery.html', form=form, type="kod")
-    return render_template('password_recovery.html', form=form, type="email")
+            mail_to = form.email.data.lower()
+            flag = 1
+            return render_template('password_recovery.html', form=form, type="kod", message="OK")
+
+        elif sessions.query(users.User).filter(users.User.email ==
+                                               form.email.data.lower()).first() is None and flag == 0:
+            return render_template('password_recovery.html', form=form, type="email",
+                                   message="Пользователя с данной почтой не существует")
+        elif form.kod.data.strip() == str(code).strip() and flag == 1:
+            flag = 2
+            return render_template('password_recovery.html', form=form, type="password", message="OK")
+        elif form.kod.data.strip() != str(code).strip() and flag == 1:
+            return render_template('password_recovery.html', form=form, type="kod", message="Неверный код")
+    return render_template('password_recovery.html', form=form, type="email", message='OK')
 
 
 def check_password(password):
@@ -365,7 +378,7 @@ def gus_quests():
     sessions = db_session.create_session()
     admin = 0
     try:
-        if current_user.id not in [1, 2, 3]:
+        if current_user.id in [1, 2, 3]:
             admin = 1
     except:
         pass

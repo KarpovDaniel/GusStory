@@ -33,6 +33,15 @@ h5 {
     line-height: 48px;
     margin: 0;
 }
+h4 {
+    color: #000;
+    font-family: ‘Times New Roman’, serif;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 48px;
+    margin: 0;
+}
+
 
 b {
     font-size: 22px;
