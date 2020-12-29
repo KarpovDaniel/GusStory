@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <div class="card mb-4" style="width: 100%; border-radius: 10px;">
         <div class="card-title">
-            <h1 align="center">Регистрация</h1>
+            <h1 align="center"> Редактирование профиля </h1>
         </div>
         <div class="card-body">
             <form action="" method="post">
@@ -27,24 +27,6 @@
                 <p class="alert alert-danger" role="alert">
                     {{ error }}
                     {% endfor %}
-                    {% if email_error != "OK" %}
-                    <a class="alert alert-danger" role="alert">{{ email_error }}</a>
-                    {% endif %}
-                </p>
-                <p>
-                    {{ form.password.label }}<br>
-                    {{ form.password(class="form-control", type="password") }}
-                    {% if password_error != "OK" %}
-                <div class="alert alert-danger" role="alert">{{ password_error }}</div>
-                {% endif %}
-                </p>
-
-                <p>
-                    {{ form.password_again.label }}<br>
-                    {{ form.password_again(class="form-control", type="password") }}
-                    {% if again_password_error != "OK" %}
-                <p class="alert alert-danger" role="alert">{{ again_password_error }}</p>
-                {% endif %}
                 </p>
                 <p>{{ form.submit(type="submit", class="btn btn-outline-dark") }}</p>
             </form>

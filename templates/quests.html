@@ -1,17 +1,24 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
+    {% if admin == 0 %}
+    <div class= "row" align="center">
+            <div class= "card mb-4" style= "width: 100%; border-radius: 10px;">
+                <div class= "card-body" style= "min-height: 250px">
+                    <h5 class="card-title" style="margin: auto">Находится в разработке...&#x1F6E0;</h5>
+                </div>
+            </div>
+    </div>
+    {% else %}
     <div class="row">
         {% for quest in quests %}
-        <div class="col-xl-3 col-lg-4 col-sm-6 col-xs-12">
+        <div class="col-xl-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body" style="min-height: 250px">
-                    <h5 class="card-title" align="center">{{quest.name}}</h5>
-                    <ul style="overflow-y: auto; height: 130px">
-                        {% for point in quest.points.split('\n')%}
-                        <li>{{point}}</li>
-                        {% endfor %}
-                    </ul>
+                    <h2 class="card-title" align="center">{{quest.name}}</h2>
+                    <p class="rita_byaka" style="overflow-y: auto; height: 130px; font-size: 20px;">
+                        {{ quest.points }}
+                    </p>
                     {% if current_user.is_authenticated %}
                     <div align="center"><a href="/quest/{{quest.id}}"><div class="btn btn-success">Начать</div></a></div>
                     {% endif %}
@@ -25,6 +32,7 @@
     </div>
     {% if current_user.id in [1, 2, 3] %}
     <a class="btn btn-warning" href="/add_quests">Добавить квест</a>
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

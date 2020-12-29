@@ -11,9 +11,9 @@
             <form action="" method="post">
                 {{ form.hidden_tag() }}
                 <p>
-                    {{ form.login.label }}
-                    {{ form.login(class="form-control", type="login") }}
-                    {% for error in form.login.errors %}
+                    {{ form.email.label }}
+                    {{ form.email(class="form-control", type="login") }}
+                    {% for error in form.email.errors %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
@@ -31,6 +31,7 @@
                 <p> {{ form.remember_me() }} {{ form.remember_me.label }} </p>
                 <p> {{ form.submit(type="submit", class="btn btn-primary") }} </p>
                 <div> {{ message }}</div>
+                <a href="/recovery_password"><span>Забыли пароль?</span></a>
             </form>
         </div>
     </div>

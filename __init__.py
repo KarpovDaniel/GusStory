@@ -1,11 +1,15 @@
 import datetime
 import os
+from random import randint
+import smtplib
 
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
+from email.mime.text import MIMEText
+from email.header import Header
 
 from data import db_session, items, users, quests
 
@@ -15,8 +19,11 @@ db_session.global_init("db/blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
+code = 0
 i = 0
+flag = 0
 name = 0
+mail_to = ''
 
 
 @login_manager.user_loader
@@ -26,7 +33,7 @@ def load_user(user_id):
 
 
 class LoginForm(FlaskForm):
-    login = StringField("Логин", validators=[DataRequired()])
+    email = StringField("Электронная почта", validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
@@ -35,10 +42,17 @@ class LoginForm(FlaskForm):
 class RegisterForm(FlaskForm):
     name = StringField('Имя', validators=[DataRequired()])
     surname = StringField('Фамилия', validators=[DataRequired()])
-    login = StringField('Логин', validators=[DataRequired()])
+    email = StringField('Электронная почта', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_again = PasswordField('Повторите пароль', validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
+
+
+class EditProfile(FlaskForm):
+    name = StringField('Имя', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    email = StringField('Электронная почта', validators=[DataRequired()])
+    submit = SubmitField('Применить')
 
 
 class ItemsForm(FlaskForm):
@@ -50,6 +64,7 @@ class ItemsForm(FlaskForm):
 
 class EditForm(FlaskForm):
     title = StringField('Заголовок', validators=[DataRequired()])
+    year = StringField('Год создания', validators=[DataRequired()])
     content = TextAreaField('Описание достопримечательности')
     submit = SubmitField('Применить')
 
@@ -69,6 +84,14 @@ class AnswerForm(FlaskForm):
     submit = SubmitField("Ответить")
 
 
+class RecoveryForm(FlaskForm):
+    email = StringField("Введите почту", validators=[DataRequired()])
+    kod = StringField("Введите код", validators=[DataRequired()])
+    new_password = PasswordField("Введите новый пароль", validators=[DataRequired()])
+    repeat_new_password = PasswordField("Повторите новый пароль", validators=[DataRequired()])
+    submit = SubmitField("Отправить")
+
+
 class LengthError(Exception):
     error = 'Пароль должен от 8 до 15 символов!'
 
@@ -81,11 +104,46 @@ class DigitError(Exception):
     error = 'В пароле должна быть хотя бы одна цифра!'
 
 
+
+def send_email(user_mail):
+    global code
+    code = randint(100000, 1000000)
+    subject_msg = 'Восстановление пароля ГусьStory'
+    body = f'Ваш проверочный код: {code}'
+    msg = MIMEText(body, 'plain', 'utf-8')
+    msg['Subject'] = Header(subject_msg, 'utf-8')
+    server = smtplib.SMTP('smtp.mail.ru: 25')
+    server.starttls()
+    server.login('gusstory@mail.ru', 'recoverygus2')
+    server.sendmail('gusstory@mail.ru', user_mail, msg.as_string())
+    server.quit()
+
+
 @app.route('/profile')
 def profile():
     if current_user.is_authenticated:
         return render_template("profile.html")
     return redirect('/')
+
+
+@app.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
+def edit_profile(user_id):
+    form = EditProfile()
+    if request.method == 'GET':
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).get(user_id)
+        form.name.data = user.name
+        form.surname.data = user.surname
+        form.email.data = user.email
+    if form.validate_on_submit():
+        sessions = db_session.create_session()
+        user = sessions.query(users.User).get(user_id)
+        user.name = form.name.data
+        user.surname = form.surname.data
+        user.email = form.email.data
+        sessions.commit()
+        return redirect('/')
+    return render_template('edit_profile.html', title='Редактирование профиля', form=form)
 
 
 @app.route('/logout')
@@ -96,7 +154,6 @@ def logout():
 
 def reformat(s):
     s = s.split('-')
-    print(s)
     k = 0
     string = ''
     month = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября',
@@ -128,12 +185,12 @@ def register():
                                    form=form, email_error="OK", password_error="OK",
                                    again_password_error="Пароли не совпадают")
         sessions = db_session.create_session()
-        if sessions.query(users.User).filter(users.User.login == form.login.data).first():
+        if sessions.query(users.User).filter(users.User.email == form.email.data).first():
             return render_template('register.html', title='Регистрация', form=form,
                                    password_error="OK", again_password_error="OK",
                                    email_error="Такой пользователь уже есть")
         user = users.User()
-        user.login = form.login.data.lower()
+        user.email = form.email.data.lower()
         user.name = form.name.data
         user.created_date = reformat(str(datetime.datetime.now())[:-16])
         user.surname = form.surname.data
@@ -144,6 +201,42 @@ def register():
         return redirect('/login')
     return render_template('register.html', title='Регистрация', form=form, email_error="OK",
                            password_error="OK", again_password_error="OK")
+
+
+@app.route('/recovery_password', methods=['GET', 'POST'])
+def recovery_password():
+    global mail_to, flag
+    form = RecoveryForm()
+    sessions = db_session.create_session()
+    if request.method == 'POST':
+        if not (form.repeat_new_password.data is None or form.repeat_new_password.data == ""):
+            if form.repeat_new_password.data == form.new_password.data and flag == 2:
+                user = sessions.query(users.User).filter(users.User.email == mail_to).first()
+                user.set_password(form.new_password.data)
+                sessions.merge(user)
+                sessions.commit()
+                return redirect("/login")
+            elif form.repeat_new_password.data != form.new_password.data and flag == 2:
+                result = check_password(form.new_password.data)
+                return render_template('password_recovery.html', form=form, type="password",
+                                       message=result)
+        elif sessions.query(users.User).filter(users.User.email ==
+                                               form.email.data.lower()).first() and flag == 0:
+            send_email(form.email.data.lower())
+            mail_to = form.email.data.lower()
+            flag = 1
+            return render_template('password_recovery.html', form=form, type="kod", message="OK")
+
+        elif sessions.query(users.User).filter(users.User.email ==
+                                               form.email.data.lower()).first() is None and flag == 0:
+            return render_template('password_recovery.html', form=form, type="email",
+                                   message="Пользователя с данной почтой не существует")
+        elif form.kod.data.strip() == str(code).strip() and flag == 1:
+            flag = 2
+            return render_template('password_recovery.html', form=form, type="password", message="OK")
+        elif form.kod.data.strip() != str(code).strip() and flag == 1:
+            return render_template('password_recovery.html', form=form, type="kod", message="Неверный код")
+    return render_template('password_recovery.html', form=form, type="email", message='OK')
 
 
 def check_password(password):
@@ -206,11 +299,13 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
+        form.year.data = item.year
         form.content.data = item.content
     if form.validate_on_submit():
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
+        item.year = form.year.data
         item.content = form.content.data
         sessions.commit()
         return redirect('/')
@@ -222,8 +317,8 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         sessions = db_session.create_session()
-        user = sessions.query(users.User).filter(users.User.login ==
-                                                 form.login.data.lower()).first()
+        user = sessions.query(users.User).filter(users.User.email ==
+                                                 form.email.data.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect('/')
@@ -281,8 +376,9 @@ def add_quest():
 @app.route('/quests')
 def gus_quests():
     sessions = db_session.create_session()
+    admin = 1
     quest = sessions.query(quests.Quests)
-    return render_template("quests.html", quests=quest)
+    return render_template("quests.html", quests=quest, admin=admin)
 
 
 @app.route("/quest/<int:id>", methods=["GET", "POST"])
@@ -428,6 +524,11 @@ def about_item(id):
 @app.route("/maps")
 def maps():
     return render_template("maps.html")
+
+
+@app.route("/about_project")
+def about_project():
+    return render_template("about_project.html")
 
 
 def main():
