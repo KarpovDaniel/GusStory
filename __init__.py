@@ -299,7 +299,6 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
-        form.year.data = item.year
         form.content.data = item.content
     if form.validate_on_submit():
         sessions = db_session.create_session()
