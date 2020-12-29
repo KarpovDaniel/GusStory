@@ -104,7 +104,6 @@ class DigitError(Exception):
     error = 'В пароле должна быть хотя бы одна цифра!'
 
 
-
 def send_email(user_mail):
     global code
     code = randint(100000, 1000000)
@@ -299,6 +298,7 @@ def edit_items(id):
         sessions = db_session.create_session()
         item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
+        form.year.data = item.year
         form.content.data = item.content
     if form.validate_on_submit():
         sessions = db_session.create_session()
