@@ -15,7 +15,7 @@ from data import db_session, items, users, quests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
-db_session.global_init("db/blogs.sqlite")
+db_session.global_init("C:\\Users\\karpo\\PycharmProjects\\GusStory\\db\\blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
@@ -121,22 +121,20 @@ def send_email(user_mail):
 @app.route('/profile')
 def profile():
     if current_user.is_authenticated:
-        return render_template("profile.html")
+        return render_template("profile.html", profile=True)
     return redirect('/')
 
 
 @app.route('/edit_profile/<int:user_id>', methods=['GET', 'POST'])
 def edit_profile(user_id):
     form = EditProfile()
+    sessions = db_session.create_session()
+    user = sessions.query(users.User).get(user_id)
     if request.method == 'GET':
-        sessions = db_session.create_session()
-        user = sessions.query(users.User).get(user_id)
         form.name.data = user.name
         form.surname.data = user.surname
         form.email.data = user.email
     if form.validate_on_submit():
-        sessions = db_session.create_session()
-        user = sessions.query(users.User).get(user_id)
         user.name = form.name.data
         user.surname = form.surname.data
         user.email = form.email.data
@@ -288,21 +286,19 @@ def add_items():
     return render_template('items.html', title='Добавление товара', form=form)
 
 
-@app.route('/items/<int:id>', methods=['GET', 'POST'])
+@app.route('/items/<int:user_id>', methods=['GET', 'POST'])
 @login_required
-def edit_items(id):
+def edit_items(user_id):
     if current_user.id not in [1, 2, 3]:
         return redirect('/')
     form = EditForm()
+    sessions = db_session.create_session()
+    item = sessions.query(items.Items).filter(items.Items.id == user_id).first()
     if request.method == 'GET':
-        sessions = db_session.create_session()
-        item = sessions.query(items.Items).filter(items.Items.id == id).first()
         form.title.data = item.title
         form.year.data = item.year
         form.content.data = item.content
     if form.validate_on_submit():
-        sessions = db_session.create_session()
-        item = sessions.query(items.Items).filter(items.Items.id == id).first()
         item.title = form.title.data
         item.year = form.year.data
         item.content = form.content.data
@@ -327,8 +323,7 @@ def login():
 
 @app.route('/')
 def index():
-    sessions = db_session.create_session()
-    item = sessions.query(items.Items)
+    item = db_session.create_session().query(items.Items)
     return render_template("index.html", items=item)
 
 
@@ -339,9 +334,9 @@ def add_quest():
     if current_user.id not in [1, 2, 3]:
         return redirect('/')
     form = QuestsForm()
+    sessions = db_session.create_session()
     if form.ok.data:
         i = form.kol_vo.data
-        sessions = db_session.create_session()
         quest = quests.Quests()
         quest.name = form.name.data
         name = form.name.data
@@ -356,7 +351,6 @@ def add_quest():
         form.name.data = name
         return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
     if form.submit.data:
-        sessions = db_session.create_session()
         i -= 1
         print(name)
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
@@ -374,18 +368,16 @@ def add_quest():
 
 @app.route('/quests')
 def gus_quests():
-    sessions = db_session.create_session()
-    admin = 1
-    quest = sessions.query(quests.Quests)
-    return render_template("quests.html", quests=quest, admin=admin)
+    quest = db_session.create_session().query(quests.Quests)
+    return render_template("quests.html", quests=quest)
 
 
-@app.route("/quest/<int:id>", methods=["GET", "POST"])
+@app.route("/quest/<int:quest_id>", methods=["GET", "POST"])
 @login_required
-def gus_quest_item(id):
+def gus_quest_item(quest_id):
     sessions = db_session.create_session()
     form = AnswerForm()
-    quest = sessions.query(quests.Quests).get(id)
+    quest = sessions.query(quests.Quests).get(quest_id)
     user = sessions.query(users.User).get(current_user.id)
     answer_list = current_user.quest_answer.split("$$")
     print(9)
@@ -470,13 +462,13 @@ def gus_quest_item(id):
     return render_template("quest_item.html", form=form, quest=quest, num=number, vopr=question, otv=answer, ver=true)
 
 
-@app.route("/erase_quest/<int:id>")
+@app.route("/erase_quest/<int:quest_id>")
 @login_required
-def erase_quest(id):
-    if not current_user.id in [1, 2, 3]:
+def erase_quest(quest_id):
+    if current_user.id not in [1, 2, 3]:
         return redirect("/")
     sessions = db_session.create_session()
-    quest = sessions.query(quests.Quests).get(id)
+    quest = sessions.query(quests.Quests).get(quest_id)
     usery = sessions.query(users.User)
     for user in usery:
         try:
@@ -513,10 +505,9 @@ def erase_quest(id):
     return redirect("/quests")
 
 
-@app.route('/about_item/<int:id>', methods=['GET', 'POST'])
-def about_item(id):
-    sessions = db_session.create_session()
-    item = sessions.query(items.Items).get(id)
+@app.route('/about_item/<int:item_id>', methods=['GET', 'POST'])
+def about_item(item_id):
+    item = db_session.create_session().query(items.Items).get(item_id)
     return render_template("single_item.html", item=item)
 
 
