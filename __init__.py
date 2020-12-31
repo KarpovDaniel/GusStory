@@ -1,15 +1,15 @@
 import datetime
 import os
-from random import randint
 import smtplib
+from email.header import Header
+from email.mime.text import MIMEText
+from random import randint
 
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
 from wtforms.validators import DataRequired
-from email.mime.text import MIMEText
-from email.header import Header
 
 from data import db_session, items, users, quests
 
@@ -286,14 +286,14 @@ def add_items():
     return render_template('items.html', title='Добавление товара', form=form)
 
 
-@app.route('/items/<int:user_id>', methods=['GET', 'POST'])
+@app.route('/items/<int:item_id>', methods=['GET', 'POST'])
 @login_required
-def edit_items(user_id):
+def edit_items(item_id):
     if current_user.id not in [1, 2, 3]:
         return redirect('/')
     form = EditForm()
     sessions = db_session.create_session()
-    item = sessions.query(items.Items).filter(items.Items.id == user_id).first()
+    item = sessions.query(items.Items).get(item_id)
     if request.method == 'GET':
         form.title.data = item.title
         form.year.data = item.year
