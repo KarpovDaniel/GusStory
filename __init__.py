@@ -15,7 +15,7 @@ from data import db_session, items, users, quests
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'GusStory.ru'
-db_session.global_init("C:\\Users\\karpo\\PycharmProjects\\GusStory\\db\\blogs.sqlite")
+db_session.global_init("db/blogs.sqlite")
 login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
