@@ -1,41 +1,39 @@
 {% extends "base.html" %}
 
 {% block main %}
-<script type="text/javascript"
-        src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"
-        charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8"
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<form method="post" enctype="multipart/form-data">
-    {% if flag == 0 %}
-        <p>
-            {{ form.name.label }} <br>
-            {{ form.name(class="form-control") }} <br>
-        </p>
-        <p>
-            {{ form.points.label }} <br>
-            {{ form.points(class="form-control") }} <br>
-        </p>
-        <p>
-            {{ form.kol_vo.label }} <br>
-            {{ form.kol_vo(class="form-control") }} <br>
-        </p>
-        <p>{{ form.ok(type="submit", class="btn btn-primary") }}</p>
-
-    {% else %}
-        <p>Осталось вопросов: {{i}}</p><br>
-        <p>
-            {{ form.questions.label }} <br>
-            {{ form.questions(class="form-control") }} <br>
-        </p>
-        <p>
-            {{ form.answers.label }} <br>
-            {{ form.answers(class="form-control") }} <br>
-        </p>
-        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-        <div> {{ message }}</div>
-    {% endif %}
-</form>
+    <h1>{{ title }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% if flag == 0 %}
+            <p>
+                {{ form.name.label }} <br>
+                {{ form.name(class="form-control") }} <br>
+            </p>
+            <p>
+                {{ form.points.label }} <br>
+                {{ form.points(class="form-control") }} <br>
+            </p>
+            <p>
+                {{ form.kol_vo.label }} <br>
+                {{ form.kol_vo(class="form-control") }} <br>
+            </p>
+            <p>{{ form.ok(type="submit", class="btn btn-primary") }}</p>
+        {% else %}
+            <p>Осталось вопросов: {{ i }}</p><br>
+            <p>
+                {{ form.questions.label }} <br>
+                {{ form.questions(class="form-control") }} <br>
+            </p>
+            <p>
+                {{ form.answers.label }} <br>
+                {{ form.answers(class="form-control") }} <br>
+            </p>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            <div> {{ message }}</div>
+        {% endif %}
+    </form>
 {% endblock %}

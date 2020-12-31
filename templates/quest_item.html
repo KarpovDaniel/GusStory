@@ -13,8 +13,6 @@
                         <a class="m-3"> {{ form.answer(class="form-control", type="answer") }} </a>
                         {% if ver == 0 %}
                             <p class="mb-4">Ответ неверный</p>
-                        {% else %}
-                            <p> </p>
                         {% endif %}
                         <a>{{ form.submit(type="submit", class="btn btn-primary") }}</a><br><br>
                     {% endif %}

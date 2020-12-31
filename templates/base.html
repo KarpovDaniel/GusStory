@@ -31,12 +31,10 @@
                     <a class="btn btn-light mr-2" href="/login"> Войти </a>
                     <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
                 </div>
+            {% elif profile %}
+                <a class="btn btn-light" href="/logout"> Выйти из профиля </a>
             {% else %}
-                {% if profile %}
-                    <a class="btn btn-light" href="/logout"> Выйти из профиля </a>
-                {% else %}
-                    <a class="btn btn-light" href="/profile"> Личный кабинет </a>
-                {% endif %}
+                <a class="btn btn-light" href="/profile"> Личный кабинет </a>
             {% endif %}
         </div>
     </nav>

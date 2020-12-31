@@ -5,13 +5,14 @@
             <div class="card mb-4" style="width: 100%; border-radius: 10px;">
                 <div class="card-body" style="min-height: 250px">
                     <h2 class="card-title" align="center">{{ quest.name }}</h2>
-                    <p class="rita_byaka" style="overflow-y: auto; height: 130px; font-size: 20px;">
-                        {{ quest.points }}
-                    </p>
+                    <p class="rita_byaka"
+                       style="overflow-y: auto; height: 130px; font-size: 20px;"> {{ quest.points }} </p>
                     {% if current_user.is_authenticated %}
-                        <div align="center"><a href="/quest/{{ quest.id }}">
-                            <div class="btn btn-success">Начать</div>
-                        </a></div>
+                        <div align="center">
+                            <a href="/quest/{{ quest.id }}">
+                                <div class="btn btn-success">Начать</div>
+                            </a>
+                        </div>
                     {% endif %}
                     {% if current_user.id in [1, 3] %}
                         <a class="btn btn-danger" href="/erase_quest/{{ quest.id }}">Удалить квест</a>

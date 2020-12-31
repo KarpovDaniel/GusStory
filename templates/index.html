@@ -13,8 +13,7 @@
                         <div class="card bg-dark mb-4" style="border-radius: 10px;">
                             <img class="card-img-top" style="border-radius: 10px;" src='{{ item.photo }}'>
                             <div class="card-body">
-                                <h5 align="center" style="height: 35px; color: #FFF;"
-                                    class="card-title">{{ item.title }}</h5>
+                                <h5 align="center" style="height: 35px; color: #FFF;" class="card-title">{{ item.title }}</h5>
                                 {% if current_user.id in [1, 2, 3] %}
                                     <a href="/items/{{ item.id }}" class="btn btn-outline-dark">Изменить</a>
                                 {% endif %}
