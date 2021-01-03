@@ -200,7 +200,7 @@ def register():
                            password_error="OK", again_password_error="OK")
 
 
-@app.route('/recovery_password', methods=['GET', 'POST'])
+'''@app.route('/recovery_password', methods=['GET', 'POST'])
 def recovery_password():
     global mail_to, flag
     form = RecoveryForm()
@@ -234,7 +234,7 @@ def recovery_password():
         elif form.kod.data.strip() != str(code).strip() and flag == 1:
             return render_template('password_recovery.html', form=form, type="kod", message="Неверный код")
     return render_template('password_recovery.html', form=form, type="email", message='OK')
-
+'''
 
 def check_password(password):
     flags = [0, 0]
