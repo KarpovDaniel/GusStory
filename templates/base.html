@@ -40,9 +40,13 @@
                     <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
                 </p>
             {% elif profile %}
-                <a class="btn btn-light" href="/logout"> Выйти из профиля </a>
+                <p class="mt-1 mb-1">
+                    <a class="btn btn-light" href="/logout"> Выйти из профиля </a>
+                </p>
             {% else %}
-                <a class="btn btn-light" href="/profile"> Личный кабинет </a>
+                <p class="mt-1 mb-1">
+                    <a class="btn btn-light" href="/profile"> Личный кабинет </a>
+                </p>
             {% endif %}
         </div>
     </nav>
