@@ -21,16 +21,24 @@
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
             <a class="mr-auto"></a>
-            <a class="btn btn-dark mr-2 mt-1 mb-1" href="/about_project"> О проекте </a>
-            <a class="btn btn-dark mr-2 mt-1 mb-1" href="/maps"> Карта </a>
-            <a class="btn btn-dark mr-2 mt-1 mb-1" href="/quests"> Квесты </a>
+            <p class="mt-1 mb-1">
+                <a class="btn btn-dark mr-2 mt-1 mb-1" href="/about_project"> О проекте </a>
+            </p>
+            <p class="mt-1 mb-1">
+                <a class="btn btn-dark mr-2 mt-1 mb-1" href="/maps"> Карта </a>
+            </p>
+            <p class="mt-1 mb-1">
+                <a class="btn btn-dark mr-2 mt-1 mb-1" href="/quests"> Квесты </a>
+            </p>
             {% if not current_user.is_authenticated %}
-                <div class="mt-1 mb-1">
+                <p class="mt-1 mb-1">
                     <a class="btn btn-light mr-2" href="/login"> Войти </a>
+                </p>
+                <p class="mt-1 mb-1">
                     <a class="btn btn-light" href="/register"> Зарегистрироваться </a>
-                </div>
+                </p>
             {% elif profile %}
                 <a class="btn btn-light" href="/logout"> Выйти из профиля </a>
             {% else %}
