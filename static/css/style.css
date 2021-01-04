@@ -68,8 +68,13 @@ p .rita_byaka {
     height: 85vh;
 }
 
+.full {
+    width: 100%;
+}
+
 .mobile {
     display: none;
+    width: 100%;
 }
 
 @media (orientation: portrait) {
