@@ -20,7 +20,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 count_items = 0
 code = 0
-i = 0
+kol = 0
 flag = 0
 name = 0
 mail_to = ''
@@ -237,6 +237,7 @@ def recovery_password():
     return render_template('password_recovery.html', form=form, type="email", message='OK')
 '''
 
+
 def check_password(password):
     flags = [0, 0]
     for element in password:
@@ -332,13 +333,13 @@ def index():
 @app.route('/add_quests', methods=['GET', 'POST'])
 @login_required
 def add_quest():
-    global i, name
+    global kol, name
     if current_user.id not in [1, 2, 3]:
         return redirect('/')
     form = QuestsForm()
     sessions = db_session.create_session()
     if form.ok.data:
-        i = form.kol_vo.data
+        kol = form.kol_vo.data
         quest = quests.Quests()
         quest.name = form.name.data
         name = form.name.data
@@ -351,9 +352,9 @@ def add_quest():
         sessions.add(quest)
         sessions.commit()
         form.name.data = name
-        return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
+        return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=kol)
     if form.submit.data:
-        i -= 1
+        kol -= 1
         print(name)
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
@@ -362,10 +363,10 @@ def add_quest():
         sessions.commit()
         form.questions.data = ""
         form.answers.data = ""
-        if i == 0:
+        if kol == 0:
             return redirect('/quests')
         else:
-            return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=i)
+            return render_template('add_quests.html', title='Добавление квеста', form=form, flag=1, i=kol)
     return render_template('add_quests.html', title='Добавление квеста', form=form, flag=0)
 
 
@@ -476,21 +477,21 @@ def erase_quest(quest_id):
         return redirect("/")
     sessions = db_session.create_session()
     quest = sessions.query(quests.Quests).get(quest_id)
-    usery = sessions.query(users.User)
-    for user in usery:
+    user = sessions.query(users.User)
+    for el in user:
         try:
-            st = user.completed
-            st2 = user.not_completed
+            st = el.completed
+            st2 = el.not_completed
             number = str(st).find(str(quest.name))
             number2 = str(st2).find(str(quest.name))
             if number != -1:
-                user.completed = st[:number - 1] + st[number + len(str(quest.name)):]
+                el.completed = st[:number - 1] + st[number + len(str(quest.name)):]
             if number2 != -1:
-                user.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
-        except:
-            pass
+                el.not_completed = st2[:number2 - 1] + st2[number2 + len(str(quest.name)):]
+        except Exception:
+            print(Exception.__name__)
         try:
-            answer = user.quest_answer.split("$$")
+            answer = el.quest_answer.split("$$")
             i = 0
             while i < len(answer):
                 if answer[i].startswith(quest.name):
@@ -502,11 +503,11 @@ def erase_quest(quest_id):
                         answer = answer[:i] + answer[i + 1:]
                     i -= 1
                 i += 1
-            user.quest_answer = "$$".join(answer)
-            sessions.merge(user)
+            el.quest_answer = "$$".join(answer)
+            sessions.merge(el)
             sessions.commit()
-        except:
-            pass
+        except Exception:
+            print(Exception.__name__)
         sessions.commit()
     sessions.delete(quest)
     sessions.commit()
