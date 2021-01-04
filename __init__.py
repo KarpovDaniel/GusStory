@@ -138,6 +138,7 @@ def edit_profile(user_id):
         user.name = form.name.data
         user.surname = form.surname.data
         user.email = form.email.data
+        sessions.merge(user)
         sessions.commit()
         return redirect('/')
     return render_template('edit_profile.html', title='Редактирование профиля', form=form)
@@ -302,6 +303,7 @@ def edit_items(item_id):
         item.title = form.title.data
         item.year = form.year.data
         item.content = form.content.data
+        sessions.merge(item)
         sessions.commit()
         return redirect('/')
     return render_template('editor.html', title='Редактирование товара', form=form)
@@ -356,6 +358,7 @@ def add_quest():
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
         quest.answer += ";;" + form.answers.data
+        sessions.merge(quest)
         sessions.commit()
         form.questions.data = ""
         form.answers.data = ""
@@ -397,6 +400,7 @@ def gus_quest_item(quest_id):
                 else:
                     answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
                 user.quest_answer = "$$".join(answer_list)
+                sessions.merge(user)
                 sessions.commit()
                 break
     user = sessions.query(users.User).get(current_user.id)
@@ -433,6 +437,7 @@ def gus_quest_item(quest_id):
                                 user.not_completed = ";".join(not_com[:num])
                             else:
                                 user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
+                        sessions.merge(user)
                         sessions.commit()
                     return render_template("quest_item.html", quest=quest, message="win")
                 true = 1
@@ -446,6 +451,7 @@ def gus_quest_item(quest_id):
                 else:
                     answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
                 user.quest_answer = "$$".join(answer_list)
+                sessions.merge(user)
                 sessions.commit()
             break
     if f == 0:
@@ -454,6 +460,7 @@ def gus_quest_item(quest_id):
             user.quest_answer = quest.name + "%%"
         else:
             user.quest_answer = user.quest_answer + "$$" + quest.name + "%%"
+        sessions.merge(user)
         sessions.commit()
         number = 1
         question = quest.questions.split(";;")[number]
@@ -496,6 +503,7 @@ def erase_quest(quest_id):
                     i -= 1
                 i += 1
             user.quest_answer = "$$".join(answer)
+            sessions.merge(user)
             sessions.commit()
         except:
             pass
