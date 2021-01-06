@@ -8,7 +8,7 @@ from random import randint
 from flask import Flask, render_template, redirect, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField, IntegerField, RadioField
 from wtforms.validators import DataRequired
 
 from data import db_session, items, users, quests
@@ -75,12 +75,15 @@ class QuestsForm(FlaskForm):
     kol_vo = IntegerField("Количество вопросов")
     ok = SubmitField("Ок")
     questions = TextAreaField('Вопрос')
-    answers = TextAreaField('Ответ')
+    answer0 = TextAreaField('Правильный ответ')
+    answer1 = TextAreaField('Неправильный ответ 1')
+    answer2 = TextAreaField('Неправильный ответ 2')
+    answer3 = TextAreaField('Неправильный ответ 3')
     submit = SubmitField('Применить')
 
 
 class AnswerForm(FlaskForm):
-    answer = StringField("Ответ")
+    answer = RadioField()
     submit = SubmitField("Ответить")
 
 
@@ -358,7 +361,7 @@ def add_quest():
         print(name)
         quest = sessions.query(quests.Quests).filter(quests.Quests.name == name).first()
         quest.questions += ";;" + form.questions.data
-        quest.answer += ";;" + form.answers.data
+        quest.answer += ";;" + "^^".join((form.answer0.data, form.answer1.data, form.answer2.data, form.answer3.data))
         sessions.merge(quest)
         sessions.commit()
         form.questions.data = ""
@@ -384,31 +387,20 @@ def gus_quest_item(quest_id):
     quest = sessions.query(quests.Quests).get(quest_id)
     user = sessions.query(users.User).get(current_user.id)
     answer_list = current_user.quest_answer.split("$$")
-    print(9)
-    print(current_user.quest_answer)
     f = 0
     if request.method == "POST":
-        print(1)
         for i in range(len(answer_list)):
             ans = answer_list[i].split("%%")
             if ans[0] == quest.name:
-                print(3)
                 ans[-1] = str(form.answer.data)
-                if i == 0:
-                    answer_list = ["%%".join(ans)] + answer_list[i + 1:]
-                elif i == len(answer_list) - 1:
-                    answer_list = answer_list[:i] + ["%%".join(ans)]
-                else:
-                    answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
+                answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
                 user.quest_answer = "$$".join(answer_list)
                 sessions.merge(user)
                 sessions.commit()
                 break
     user = sessions.query(users.User).get(current_user.id)
-    print(2)
     question = ""
     number = 0
-    answer = ""
     true = 0
     answer_list = user.quest_answer.split("$$")
     for i in range(len(answer_list)):
@@ -417,46 +409,27 @@ def gus_quest_item(quest_id):
             f = 1
             number = len(ans) - 1
             question = quest.questions.split(";;")[number]
-            tru_ans = quest.answer.split(";;")[number]
+            tru_ans = quest.answer.split(";;")[number].split("^^")[0]
             answer = ans[number]
             if tru_ans.lower() == answer.lower():
-                form.answer.data = ""
                 if number == len(quest.questions.split(";;")) - 1:
                     if quest.name not in user.completed.split(";"):
+                        del answer_list[i]
+                        user.quest_answer = "$$".join(answer_list)
                         user.completed = ";".join(user.completed.split(";") + [quest.name])
-                        not_com = user.not_completed.split(";")
-                        num = -1
-                        for j in range(len(not_com)):
-                            print(not_com[j], quest.name, not_com[j] == quest.name, 9999999)
-                            if not_com[j] == quest.name:
-                                num = j
-                                break
-                        if num != -1:
-                            if num == 0:
-                                user.not_completed = ";".join(not_com[num + 1:])
-                            elif num == len(not_com) - 1:
-                                user.not_completed = ";".join(not_com[:num])
-                            else:
-                                user.not_completed = ";".join(not_com[:num] + not_com[num + 1:])
+                        user.not_completed = ";".join(filter(lambda s: s != quest.name, user.not_completed.split(";")))
                         sessions.merge(user)
                         sessions.commit()
-                    return render_template("quest_item.html", quest=quest, message="win")
+                    return render_template("win.html")
                 true = 1
                 number += 1
                 question = quest.questions.split(";;")[number]
-                answer = ""
-                if i != 0:
-                    answer_list = ["%%".join(ans) + "%%"] + answer_list[i + 1:]
-                elif i == len(answer_list) - 1:
-                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"]
-                else:
-                    answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
+                answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
                 user.quest_answer = "$$".join(answer_list)
                 sessions.merge(user)
                 sessions.commit()
             break
     if f == 0:
-        print(4)
         if user.quest_answer == "":
             user.quest_answer = quest.name + "%%"
         else:
@@ -465,9 +438,10 @@ def gus_quest_item(quest_id):
         sessions.commit()
         number = 1
         question = quest.questions.split(";;")[number]
-        answer = ""
         true = 1
-    return render_template("quest_item.html", form=form, quest=quest, num=number, vopr=question, otv=answer, ver=true)
+    tru_ans = quest.answer.split(";;")[number]
+    form.answer.choices = [tru_ans, '1', '2']
+    return render_template("quest_item.html", form=form, num=number, vopr=question, ver=true)
 
 
 @app.route("/erase_quest/<int:quest_id>")
