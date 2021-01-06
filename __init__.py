@@ -386,60 +386,45 @@ def gus_quest_item(quest_id):
     form = AnswerForm()
     quest = sessions.query(quests.Quests).get(quest_id)
     user = sessions.query(users.User).get(current_user.id)
-    answer_list = current_user.quest_answer.split("$$")
-    f = 0
-    if request.method == "POST":
-        for i in range(len(answer_list)):
-            ans = answer_list[i].split("%%")
-            if ans[0] == quest.name:
-                ans[-1] = str(form.answer.data)
-                answer_list = answer_list[:i] + ["%%".join(ans)] + answer_list[i + 1:]
-                user.quest_answer = "$$".join(answer_list)
-                sessions.merge(user)
-                sessions.commit()
-                break
-    user = sessions.query(users.User).get(current_user.id)
-    question = ""
-    number = 0
-    true = 0
     answer_list = user.quest_answer.split("$$")
-    for i in range(len(answer_list)):
-        ans = answer_list[i].split("%%")
-        if ans[0] == quest.name:
-            f = 1
-            number = len(ans) - 1
-            question = quest.questions.split(";;")[number]
-            tru_ans = quest.answer.split(";;")[number].split("^^")[0]
-            answer = ans[number]
-            if tru_ans.lower() == answer.lower():
-                if number == len(quest.questions.split(";;")) - 1:
-                    if quest.name not in user.completed.split(";"):
-                        del answer_list[i]
-                        user.quest_answer = "$$".join(answer_list)
-                        user.completed = ";".join(user.completed.split(";") + [quest.name])
-                        user.not_completed = ";".join(filter(lambda s: s != quest.name, user.not_completed.split(";")))
-                        sessions.merge(user)
-                        sessions.commit()
-                    return render_template("win.html")
-                true = 1
-                number += 1
-                question = quest.questions.split(";;")[number]
-                answer_list = answer_list[:i] + ["%%".join(ans) + "%%"] + answer_list[i + 1:]
-                user.quest_answer = "$$".join(answer_list)
-                sessions.merge(user)
-                sessions.commit()
-            break
-    if f == 0:
+    ans = list(filter(lambda el: el.split("%%")[0] == quest.name, answer_list))
+    if not ans:
         if user.quest_answer == "":
-            user.quest_answer = quest.name + "%%"
+            user.quest_answer = quest.name
         else:
-            user.quest_answer = user.quest_answer + "$$" + quest.name + "%%"
+            user.quest_answer = user.quest_answer + "$$" + quest.name
+        question = quest.questions.split(";;")[1]
+        tru_ans = quest.answer.split(";;")[1]
+        form.answer.choices = [tru_ans, '1', '2']
         sessions.merge(user)
         sessions.commit()
-        number = 1
-        question = quest.questions.split(";;")[number]
-        true = 1
+        return render_template("quest_item.html", form=form, num=1, vopr=question, ver=1)
+    answer_list.remove(ans[0])
+    ans = ans[0].split('%%')
+    if request.method == "POST":
+        ans.append(str(form.answer.data))
+    true = 0
+    number = len(ans) - 1
     tru_ans = quest.answer.split(";;")[number]
+    if tru_ans == ans[-1]:
+        if number == len(quest.questions.split(";;")) - 1:
+            if quest.name in user.not_completed.split(";"):
+                user.completed = ";".join(user.completed.split(";") + [quest.name])
+                user.not_completed = ";".join(filter(lambda s: s != quest.name, user.not_completed.split(";")))
+            user.quest_answer = "$$".join(answer_list)
+            sessions.merge(user)
+            sessions.commit()
+            return render_template("win.html")
+        true = 1
+        number += 1
+        tru_ans = quest.answer.split(";;")[number]
+    else:
+        ans = ans[:-1]
+    question = quest.questions.split(";;")[number]
+    answer_list.append("%%".join(ans))
+    user.quest_answer = "$$".join(answer_list)
+    sessions.merge(user)
+    sessions.commit()
     form.answer.choices = [tru_ans, '1', '2']
     return render_template("quest_item.html", form=form, num=number, vopr=question, ver=true)
 
